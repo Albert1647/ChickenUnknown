@@ -23,6 +23,10 @@ namespace ChickenUnknown
             _graphics.PreferredBackBufferWidth = (int)Singleton.Instance.Dimension.X;  // set this value to the desired width of your window
             _graphics.PreferredBackBufferHeight = (int)Singleton.Instance.Dimension.Y;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
+
+            _graphics.ToggleFullScreen();
+
+
             base.Initialize();
         }
 

@@ -10,11 +10,12 @@ namespace ChickenUnknown.Managers {
 		public enum GameScreenName {
 			MenuScreen,
 			GameScreen,
+			SettingScreen,
 		}
 		private _GameScreen CurrentGameScreen;
 		// Start Screen on Menu
 		public ScreenManager() {
-			CurrentGameScreen = new MenuScreen();
+			CurrentGameScreen = new SettingScreen();
 		}
 		// Switch Screen
 		public void LoadScreen(GameScreenName _ScreenName) {
@@ -24,6 +25,9 @@ namespace ChickenUnknown.Managers {
 					break;
 				case GameScreenName.GameScreen:
 					CurrentGameScreen = new GameScreen();
+					break;
+				case GameScreenName.SettingScreen:
+					CurrentGameScreen = new SettingScreen();
 					break;
 			}
 			CurrentGameScreen.LoadContent();

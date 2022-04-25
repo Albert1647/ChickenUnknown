@@ -8,10 +8,9 @@ namespace ChickenUnknown
     class Singleton
     {
 		// Game Resolution
-        public Vector2 Dimension = new Vector2(1280, 720);
+        public Vector2 Dimension = new Vector2(1920 , 1080);
 		public MouseState MousePrevious, MouseCurrent;
 		private Random random = new Random();
-		// Export Instance
         private static Singleton instance;
 		public static Singleton Instance
 		{
