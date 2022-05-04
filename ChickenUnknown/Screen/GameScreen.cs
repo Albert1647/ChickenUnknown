@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework.Audio;
 namespace ChickenUnknown.Screen {
     class GameScreen : _GameScreen {
 
+        private SpriteFont Arial;
+
         public void Initial() {
             // Instantiate gun on start GameScreen 
         }
@@ -19,17 +21,23 @@ namespace ChickenUnknown.Screen {
         public override void LoadContent() {
             // Load Resource
             base.LoadContent();
+            Arial = Content.Load<SpriteFont>("Arial");
+
             Initial();
         }
         public override void UnloadContent() {
             base.UnloadContent();
         }
         public override void Update(GameTime gameTime) {
-            // Update star
-        base.Update(gameTime);
-    }
+             base.Update(gameTime);
+             Singleton.Instance.MousePrevious = Singleton.Instance.MouseCurrent;
+             Singleton.Instance.MouseCurrent = Mouse.GetState();
+        }
         public override void Draw(SpriteBatch _spriteBatch) {
-
+            _spriteBatch.DrawString(Arial, "X = " + Singleton.Instance.MouseCurrent.X , new Vector2(0,0), Color.Black);
+            _spriteBatch.DrawString(Arial, "Y = " + Singleton.Instance.MouseCurrent.Y, new Vector2(0, 20), Color.Black);
+            _spriteBatch.DrawString(Arial, "Is Click " + IsClick(), new Vector2(0,40), Color.Black);
+            _spriteBatch.DrawString(Arial, "Is Dragging " + IsDragging(), new Vector2(0,60), Color.Black);
         }
 
         public bool MouseOnTexture(int StartX, int StartY, Texture2D texture){
@@ -40,6 +48,9 @@ namespace ChickenUnknown.Screen {
         }
         public bool IsClick(){
             return Singleton.Instance.MouseCurrent.LeftButton == ButtonState.Pressed && Singleton.Instance.MousePrevious.LeftButton == ButtonState.Released;
+        }
+        public bool IsDragging(){
+            return Singleton.Instance.MouseCurrent.LeftButton == ButtonState.Pressed;
         }
         public Vector2 CenterElementWithHeight(Texture2D element,int height){
             return new Vector2(Singleton.Instance.Dimension.X / 2 - (element.Width / 2) ,height );

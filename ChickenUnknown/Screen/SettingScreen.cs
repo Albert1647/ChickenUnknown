@@ -19,6 +19,7 @@ namespace ChickenUnknown.Screen {
 		public override void UnloadContent() {
 			base.UnloadContent();
 		}
+        
 		public override void Update(GameTime gameTime) {
             // Save Current Mouse Position
             Singleton.Instance.MousePrevious = Singleton.Instance.MouseCurrent;
