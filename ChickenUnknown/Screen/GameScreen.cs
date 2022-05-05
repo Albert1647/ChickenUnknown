@@ -13,6 +13,9 @@ namespace ChickenUnknown.Screen {
     class GameScreen : _GameScreen {
         private SpriteFont Arial;
         public Texture2D _rectTexture;
+        public Rectangle rect;
+
+        public float Timer = 0f;
         public void Initial() {
             // Instantiate gun on start GameScreen 
         }
@@ -20,11 +23,15 @@ namespace ChickenUnknown.Screen {
             // Load Resource
             base.LoadContent();
             Arial = Content.Load<SpriteFont>("Arial");
-            _rectTexture = new Texture2D(getGraphicDevice().GraphicsDevice, 100 ,100);
-             Color[] data = new Color[100*100];
+            var width = 1000;
+            var height = 20;
+            _rectTexture = new Texture2D(getGraphicDevice().GraphicsDevice, width, height);
+            Color[] data = new Color[width*height];
             for(int i=0; i < data.Length; ++i)
-                data[i] = Color.Chocolate;
+                data[i] = Color.Orange;
             _rectTexture.SetData(data);
+
+            rect = new Rectangle(0,0,100,100);
             Initial();
         }
         public override void UnloadContent() {
@@ -34,13 +41,16 @@ namespace ChickenUnknown.Screen {
              base.Update(gameTime);
              Singleton.Instance.MousePrevious = Singleton.Instance.MouseCurrent;
              Singleton.Instance.MouseCurrent = Mouse.GetState();
+             Timer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+             rect = new Rectangle(0,0,100 + (int)Timer * 5,100);
         }
         public override void Draw(SpriteBatch _spriteBatch) {
             _spriteBatch.DrawString(Arial, "X = " + Singleton.Instance.MouseCurrent.X , new Vector2(0,0), Color.Black);
             _spriteBatch.DrawString(Arial, "Y = " + Singleton.Instance.MouseCurrent.Y, new Vector2(0, 20), Color.Black);
             _spriteBatch.DrawString(Arial, "Is Click " + IsClick(), new Vector2(0,40), Color.Black);
             _spriteBatch.DrawString(Arial, "Is Dragging " + IsDragging(), new Vector2(0,60), Color.Black);
-            _spriteBatch.Draw(_rectTexture, new Vector2(100, 100) ,null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            _spriteBatch.DrawString(Arial, "Timer " + Timer, new Vector2(0,80), Color.Black);
+            _spriteBatch.Draw(_rectTexture, new Vector2(100, 100) ,rect, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
 
         public GraphicsDeviceManager getGraphicDevice(){
