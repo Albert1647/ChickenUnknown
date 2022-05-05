@@ -11,18 +11,20 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace ChickenUnknown.Screen {
     class GameScreen : _GameScreen {
-
         private SpriteFont Arial;
-
+        public Texture2D _rectTexture;
         public void Initial() {
             // Instantiate gun on start GameScreen 
         }
-
         public override void LoadContent() {
             // Load Resource
             base.LoadContent();
             Arial = Content.Load<SpriteFont>("Arial");
-
+            _rectTexture = new Texture2D(getGraphicDevice().GraphicsDevice, 100 ,100);
+             Color[] data = new Color[100*100];
+            for(int i=0; i < data.Length; ++i)
+                data[i] = Color.Chocolate;
+            _rectTexture.SetData(data);
             Initial();
         }
         public override void UnloadContent() {
@@ -38,8 +40,12 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Arial, "Y = " + Singleton.Instance.MouseCurrent.Y, new Vector2(0, 20), Color.Black);
             _spriteBatch.DrawString(Arial, "Is Click " + IsClick(), new Vector2(0,40), Color.Black);
             _spriteBatch.DrawString(Arial, "Is Dragging " + IsDragging(), new Vector2(0,60), Color.Black);
+            _spriteBatch.Draw(_rectTexture, new Vector2(100, 100) ,null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
 
+        public GraphicsDeviceManager getGraphicDevice(){
+            return Singleton.Instance.gdm;
+        }
         public bool MouseOnTexture(int StartX, int StartY, Texture2D texture){
             return (Singleton.Instance.MouseCurrent.X > StartX && Singleton.Instance.MouseCurrent.Y > StartY) && (Singleton.Instance.MouseCurrent.X < StartX + texture.Width && Singleton.Instance.MouseCurrent.Y < StartY + texture.Height);
         }

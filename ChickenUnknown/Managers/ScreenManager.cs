@@ -12,7 +12,6 @@ namespace ChickenUnknown.Managers {
 			GameScreen,
 			SettingScreen,
 		}
-
 		private _GameScreen CurrentGameScreen;
 		// Start Screen on Menu
 		public ScreenManager() {

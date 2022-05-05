@@ -9,10 +9,10 @@ namespace ChickenUnknown
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
         public Main()
         {
             _graphics = new GraphicsDeviceManager(this);
+            Singleton.Instance.gdm = _graphics;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
