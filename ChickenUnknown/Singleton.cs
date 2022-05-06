@@ -13,6 +13,8 @@ namespace ChickenUnknown
 		public MouseState MousePrevious, MouseCurrent;
 		private Random random = new Random();
 		public GraphicsDeviceManager gdm;
+		public bool gamePaused = false;
+        public KeyboardState currentKB, previousKB;
         private static Singleton instance;
 		public static Singleton Instance
 		{
