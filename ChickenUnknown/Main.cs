@@ -9,6 +9,9 @@ namespace ChickenUnknown
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        bool gamePaused = false;
+        KeyboardState currentKB, previousKB;
+
         public Main()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -42,8 +45,20 @@ namespace ChickenUnknown
 
         protected override void Update(GameTime gameTime)
         {
+            previousKB = currentKB;
+            currentKB = Keyboard.GetState();
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            if (currentKB.IsKeyUp(Keys.P) && previousKB.IsKeyDown(Keys.P)) {
+                gamePaused = !gamePaused;
+            }
+            if (gamePaused) {
+                return;
+            }
+            //do update stuff here
+
             // Update logic base on CurrentScreen
             ScreenManager.Instance.Update(gameTime);
 
