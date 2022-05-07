@@ -12,7 +12,8 @@ using Microsoft.Xna.Framework.Audio;
 namespace ChickenUnknown.Screen {
     class GameScreen : _GameScreen {
         private SpriteFont Arial;
-        public Texture2D _rectTexture, ChickenTexture, IndicatorTexture;
+        public Texture2D _rectTexture, ChickenTexture, IndicatorTexture,   
+                        Draft_bg, Draft_chicken, Draft_barricade, Draft_slingshot, Draft_wall;
         public Rectangle rect;
         private Chicken chicken;
         public float Timer = 0f;
@@ -30,6 +31,12 @@ namespace ChickenUnknown.Screen {
             // Load Resource
             base.LoadContent();
             Arial = Content.Load<SpriteFont>("Arial");
+            Draft_bg = Content.Load<Texture2D>("GameScreen/draft_bg");
+            Draft_chicken = Content.Load<Texture2D>("GameScreen/draft_chicken");
+            Draft_barricade = Content.Load<Texture2D>("GameScreen/draft_barricade");
+            Draft_slingshot = Content.Load<Texture2D>("GameScreen/draft_slingshot");
+            Draft_wall = Content.Load<Texture2D>("GameScreen/draft_wall");
+            
             var width = 1000;
             var height = 20;
             _rectTexture = new Texture2D(getGraphicDevice().GraphicsDevice, width, height);
@@ -65,11 +72,17 @@ namespace ChickenUnknown.Screen {
                 TimeSpan.Seconds);
         }
         public override void Draw(SpriteBatch _spriteBatch) {
+            _spriteBatch.Draw(Draft_bg, CenterElementWithHeight(Draft_bg,0) , Color.White);
+            _spriteBatch.Draw(Draft_wall, new Rectangle(96, UI.FLOOR_Y-378, Draft_wall.Width, Draft_wall.Height), Color.White);
+            _spriteBatch.Draw(Draft_barricade, new Rectangle(288, UI.FLOOR_Y-108, Draft_barricade.Width, Draft_barricade.Height), Color.White);
+            _spriteBatch.Draw(Draft_slingshot, new Rectangle(119, UI.FLOOR_Y-378-216, Draft_slingshot.Width, Draft_slingshot.Height), Color.White);
+            
+            
             _spriteBatch.DrawString(Arial, "X = " + Singleton.Instance.MouseCurrent.X , new Vector2(0,0), Color.Black);
             _spriteBatch.DrawString(Arial, "Y = " + Singleton.Instance.MouseCurrent.Y, new Vector2(0, 20), Color.Black);
             _spriteBatch.DrawString(Arial, "Is Click " + IsClick(), new Vector2(0,40), Color.Black);
             _spriteBatch.DrawString(Arial, "Is Dragging " + IsDragging(), new Vector2(0,60), Color.Black);
-            _spriteBatch.DrawString(Arial, "Time : " + answerTime, new Vector2(0,80), Color.Black);
+            _spriteBatch.DrawString(Arial, "Time : " + answerTime, new Vector2(915,50), Color.Black);
             _spriteBatch.Draw(_rectTexture, new Vector2(100, 100) ,rect, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             _spriteBatch.DrawString(Arial, "Level : " + Level, new Vector2(0,200), Color.Black);
             _spriteBatch.DrawString(Arial, "Exp : " + Singleton.Instance.Exp, new Vector2(0,220), Color.Black);
