@@ -12,14 +12,19 @@ using Microsoft.Xna.Framework.Audio;
 namespace ChickenUnknown.Screen {
     class GameScreen : _GameScreen {
         private SpriteFont Arial;
-        public Texture2D _rectTexture;
+        public Texture2D _rectTexture, ChickenTexture, IndicatorTexture;
         public Rectangle rect;
+        private Chicken chicken;
+
         public float Timer = 0f;
         public TimeSpan TimeSpan;
         string answerTime;
 
         public void Initial() {
             // Instantiate gun on start GameScreen 
+            // chicken = new Chicken(ChickenTexture, IndicatorTexture){
+            //     pos = new Vector2(Singleton.Instance.Dimension.X / 2 - GunTexture.Width / 2, 700 - GunTexture.Height),
+            // };
         }
         public override void LoadContent() {
             // Load Resource
