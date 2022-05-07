@@ -14,8 +14,10 @@ namespace ChickenUnknown.Screen {
         private SpriteFont Arial;
         public Texture2D _rectTexture;
         public Rectangle rect;
-
         public float Timer = 0f;
+        public TimeSpan TimeSpan;
+        string answerTime;
+
         public void Initial() {
             // Instantiate gun on start GameScreen 
         }
@@ -41,15 +43,21 @@ namespace ChickenUnknown.Screen {
              base.Update(gameTime);
              Singleton.Instance.MousePrevious = Singleton.Instance.MouseCurrent;
              Singleton.Instance.MouseCurrent = Mouse.GetState();
-             Timer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
              rect = new Rectangle(0,0,100 + (int)Timer * 5,100);
+             //Time
+             Timer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+             TimeSpan = TimeSpan.FromSeconds(Timer);
+             answerTime = string.Format("{0:D2}:{1:D2}:{2:D2}", //for example if you want Millisec => "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms"  ,t.Milliseconds
+                TimeSpan.Hours, 
+                TimeSpan.Minutes, 
+                TimeSpan.Seconds);
         }
         public override void Draw(SpriteBatch _spriteBatch) {
             _spriteBatch.DrawString(Arial, "X = " + Singleton.Instance.MouseCurrent.X , new Vector2(0,0), Color.Black);
             _spriteBatch.DrawString(Arial, "Y = " + Singleton.Instance.MouseCurrent.Y, new Vector2(0, 20), Color.Black);
             _spriteBatch.DrawString(Arial, "Is Click " + IsClick(), new Vector2(0,40), Color.Black);
             _spriteBatch.DrawString(Arial, "Is Dragging " + IsDragging(), new Vector2(0,60), Color.Black);
-            _spriteBatch.DrawString(Arial, "Timer " + Timer, new Vector2(0,80), Color.Black);
+            _spriteBatch.DrawString(Arial, "Time : " + answerTime, new Vector2(0,80), Color.Black);
             _spriteBatch.Draw(_rectTexture, new Vector2(100, 100) ,rect, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
 
