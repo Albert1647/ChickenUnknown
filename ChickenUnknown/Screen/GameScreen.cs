@@ -52,8 +52,7 @@ namespace ChickenUnknown.Screen {
              //Time
              Timer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
              TimeSpan = TimeSpan.FromSeconds(Timer);
-             answerTime = string.Format("{0:D2}:{1:D2}:{2:D2}", //for example if you want Millisec => "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms"  ,t.Milliseconds
-                TimeSpan.Hours, 
+             answerTime = string.Format("{0:D2}:{1:D2}", //for example if you want Millisec => "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms"  ,t.Milliseconds
                 TimeSpan.Minutes, 
                 TimeSpan.Seconds);
         }
