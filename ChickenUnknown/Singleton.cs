@@ -16,8 +16,10 @@ namespace ChickenUnknown
 		public GraphicsDeviceManager gdm;
 		public bool gamePaused = false;
         public KeyboardState currentKB, previousKB;
+		public float Exp = 0, MaxExp = 150;
         private static Singleton instance;
 		public static Singleton Instance
+
 		{
 			get
 			{
