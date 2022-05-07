@@ -12,6 +12,7 @@ namespace ChickenUnknown
         public Vector2 Dimension = new Vector2(1920 , 1080);
 		public MouseState MousePrevious, MouseCurrent;
 		private Random random = new Random();
+		public bool IsShooting;
 		public GraphicsDeviceManager gdm;
 		public bool gamePaused = false;
         public KeyboardState currentKB, previousKB;
