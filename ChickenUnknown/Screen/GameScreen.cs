@@ -21,8 +21,7 @@ namespace ChickenUnknown.Screen {
         public float Timer = 0f;
         public TimeSpan TimeSpan;
         string answerTime;
-        private int MaxWidth = 300, IncreaseWidth, Level = 0;
-        public bool lvlup = false;
+        public bool lvlup = false; 
         public string[] allPower = {"scale","quantity","cooldown","damage"};
         public string[] canSelectPower = {};
         public String power_random_one , power_random_two , power_random_three,
@@ -119,7 +118,7 @@ namespace ChickenUnknown.Screen {
             if (Singleton.Instance.currentKB.IsKeyUp(Keys.O) && Singleton.Instance.previousKB.IsKeyDown(Keys.O)) {                
                 Singleton.Instance.Exp += 50; 
             }
-            ExpBarRect.Width = (int)(((float)(Singleton.Instance.Exp/Singleton.Instance.MaxExp))*MaxWidth);
+            ExpBarRect.Width = (int)(((float)(Singleton.Instance.Exp/Singleton.Instance.MaxExp))* MaxWidth);
             if (ExpBarRect.Width > MaxWidth) {
                 ExpBarRect.Width = 0;
                 Level += 1;
@@ -184,7 +183,7 @@ namespace ChickenUnknown.Screen {
         public GraphicsDeviceManager getGraphicDevice(){
             return Singleton.Instance.gdm;
         }
-
+        // Center Origin -> to rotatable
         public Vector2 getCenterOrigin(Texture2D texture){
             return new Vector2(texture.Width/2, texture.Height/2);
         }
@@ -197,9 +196,11 @@ namespace ChickenUnknown.Screen {
         public bool MouseOnTexture(int StartX, int StartY, Texture2D texture){
             return (Singleton.Instance.MouseCurrent.X > StartX && Singleton.Instance.MouseCurrent.Y > StartY) && (Singleton.Instance.MouseCurrent.X < StartX + texture.Width && Singleton.Instance.MouseCurrent.Y < StartY + texture.Height);
         }
+
          public bool MouseOnElement(int x1, int x2, int y1, int y2){
             return (Singleton.Instance.MouseCurrent.X > x1 && Singleton.Instance.MouseCurrent.Y > y1) && (Singleton.Instance.MouseCurrent.X < x2 && Singleton.Instance.MouseCurrent.Y < y2);
         }
+
         public bool IsClick(){
             return Singleton.Instance.MouseCurrent.LeftButton == ButtonState.Pressed && Singleton.Instance.MousePrevious.LeftButton == ButtonState.Released;
         }
