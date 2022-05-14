@@ -58,7 +58,7 @@ namespace ChickenUnknown.GameObjects {
 			} else if (Singleton.Instance.IsAiming && !MouseIsOnStretchAreaTexture()) {
 				_spriteBatch.Draw(ChickenTexture, new Vector2(OldChickenPos.X, OldChickenPos.Y) ,null, Color.White, OldAimAngle, getCenterOrigin(ChickenTexture), 1f, isUpsideDown() ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
 			} 
-				drawLog(_spriteBatch,  font);
+			drawLog(_spriteBatch,  font);
 		}
 		public void drawLog(SpriteBatch _spriteBatch, SpriteFont font){
 			_spriteBatch.DrawString(font, "IsAiming = " + Singleton.Instance.IsAiming, new Vector2(0,80), Color.Green);
@@ -127,5 +127,4 @@ namespace ChickenUnknown.GameObjects {
 			return (int)Math.Sqrt(Math.Pow(mousePos.X - stretchAreaCenterPos.X, 2) + Math.Pow(mousePos.Y - stretchAreaCenterPos.Y, 2));
 		}
     }
-
 }
