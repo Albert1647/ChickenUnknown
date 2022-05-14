@@ -13,6 +13,7 @@ namespace ChickenUnknown
 		public MouseState MousePrevious, MouseCurrent;
 		private Random random = new Random();
 		public bool IsShooting;
+		public bool IsAiming;
 		public GraphicsDeviceManager gdm;
 		public bool gamePaused = false;
         public KeyboardState currentKB, previousKB;

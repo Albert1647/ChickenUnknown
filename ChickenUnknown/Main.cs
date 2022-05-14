@@ -26,7 +26,7 @@ namespace ChickenUnknown
             _graphics.PreferredBackBufferHeight = (int)Singleton.Instance.Dimension.Y;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
 
-            _graphics.ToggleFullScreen();
+            // _graphics.ToggleFullScreen();
 
 
             base.Initialize();
@@ -49,14 +49,6 @@ namespace ChickenUnknown
             
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            if (Singleton.Instance.currentKB.IsKeyUp(Keys.P) && Singleton.Instance.previousKB.IsKeyDown(Keys.P)) {
-                Singleton.Instance.gamePaused = !Singleton.Instance.gamePaused;
-            }
-            if (Singleton.Instance.gamePaused) {
-                return;
-            }
-            //do update stuff here
 
             // Update logic base on CurrentScreen
             ScreenManager.Instance.Update(gameTime);

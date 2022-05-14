@@ -12,12 +12,12 @@ using Microsoft.Xna.Framework.Audio;
 namespace ChickenUnknown.Screen {
     class GameScreen : _GameScreen {
         private SpriteFont Arial;
-        public Texture2D _rectTexture, ChickenTexture, IndicatorTexture,   
-                        Draft_bg, Draft_chicken, Draft_barricade, Draft_slingshot, Draft_wall;
-        public Rectangle rect;
+        public Texture2D ExpBarRectangle, SwingTexture, ChickenTexture, StretchAreaTexture,
+                        bg, barricade, slingshot, wall;
+        public Rectangle ExpBarRect;
         private Chicken chicken;
         private Swing swing;
-        private Zombie zombie;
+        // private Zombie zombie;
         public float Timer = 0f;
         public TimeSpan TimeSpan;
         string answerTime;
@@ -28,32 +28,26 @@ namespace ChickenUnknown.Screen {
         public String power_random_one , power_random_two , power_random_three,
                         selectPower;
         
+        private int MaxWidth = 300, Level = 0;
 
         public void Initial() {
-            // Instantiate gun on start GameScreen 
-            // chicken = new Chicken(ChickenTexture, IndicatorTexture){
-            //     pos = new Vector2(Singleton.Instance.Dimension.X / 2 - GunTexture.Width / 2, 700 - GunTexture.Height),
-            // };
+            swing = new Swing(SwingTexture, ChickenTexture, StretchAreaTexture) {
+                
+            };
         }
         public override void LoadContent() {
             // Load Resource
             base.LoadContent();
             Arial = Content.Load<SpriteFont>("Arial");
-            Draft_bg = Content.Load<Texture2D>("GameScreen/draft_bg");
-            Draft_chicken = Content.Load<Texture2D>("GameScreen/draft_chicken");
-            Draft_barricade = Content.Load<Texture2D>("GameScreen/draft_barricade");
-            Draft_slingshot = Content.Load<Texture2D>("GameScreen/draft_slingshot");
-            Draft_wall = Content.Load<Texture2D>("GameScreen/draft_wall");
-            
-            var width = 1000;
-            var height = 20;
-            _rectTexture = new Texture2D(getGraphicDevice().GraphicsDevice, width, height);
-            Color[] data = new Color[width*height];
-            for(int i=0; i < data.Length; ++i)
-                data[i] = Color.Orange;
-            _rectTexture.SetData(data);
 
-            rect = new Rectangle(0,0,100,100);
+            StretchAreaTexture = Content.Load<Texture2D>("GameScreen/draft_slingshot_stretcharea");
+            ChickenTexture = Content.Load<Texture2D>("GameScreen/draft_chicken");
+            SwingTexture = Content.Load<Texture2D>("GameScreen/draft_slingshot");
+
+            bg = Content.Load<Texture2D>("GameScreen/draft_bg");
+            barricade = Content.Load<Texture2D>("GameScreen/draft_barricade");
+            wall = Content.Load<Texture2D>("GameScreen/draft_wall");
+            setExpBar();
             Initial();
         }
         public override void UnloadContent() {
@@ -61,9 +55,9 @@ namespace ChickenUnknown.Screen {
         }
         public override void Update(GameTime gameTime) {
              base.Update(gameTime);
-             getMouseInput();
-            //  swing.Update(gameTime);
-            //  chicken.Update(gameTime);
+             getMouseInput();   
+             
+             swing.Update(gameTime);
             //  zombie.Update(gameTime);
             updateExpBar(gameTime);
             updateDisplayTime();
@@ -81,20 +75,18 @@ namespace ChickenUnknown.Screen {
                 selectPower = power_random_three;
                 updatePower(selectPower);
             }
+
+             updateExpBar(gameTime);
+             updateDisplayTime();
+             
         }
         public override void Draw(SpriteBatch _spriteBatch) {
-            _spriteBatch.Draw(Draft_bg, CenterElementWithHeight(Draft_bg,0) , Color.White);
-            _spriteBatch.Draw(Draft_wall, new Rectangle(96, UI.FLOOR_Y-378, Draft_wall.Width, Draft_wall.Height), Color.White);
-            _spriteBatch.Draw(Draft_barricade, new Rectangle(288, UI.FLOOR_Y-108, Draft_barricade.Width, Draft_barricade.Height), Color.White);
-            _spriteBatch.Draw(Draft_slingshot, new Rectangle(119, UI.FLOOR_Y-378-216, Draft_slingshot.Width, Draft_slingshot.Height), Color.White);
-            
-            _spriteBatch.Draw(_rectTexture, new Vector2(100, 100) ,rect, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            drawElement(_spriteBatch);
             drawLog(_spriteBatch);
+            swing.Draw(_spriteBatch, Arial);
+            //  zombie.Update(gameTime);
         }
 
-        public GraphicsDeviceManager getGraphicDevice(){
-            return Singleton.Instance.gdm;
-        }
         public void drawLog(SpriteBatch _spriteBatch){
             _spriteBatch.DrawString(Arial, "X = " + Singleton.Instance.MouseCurrent.X , new Vector2(0,0), Color.Black);
             _spriteBatch.DrawString(Arial, "Y = " + Singleton.Instance.MouseCurrent.Y, new Vector2(0, 20), Color.Black);
@@ -105,12 +97,16 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Arial, "Exp : " + Singleton.Instance.Exp, new Vector2(0,220), Color.Black);
             _spriteBatch.DrawString(Arial, "MaxWidth : " + MaxWidth, new Vector2(0,240), Color.Black);
             _spriteBatch.DrawString(Arial, "MaxExp : " +Singleton.Instance.MaxExp , new Vector2(0,260), Color.Black);
-            _spriteBatch.DrawString(Arial, "RectWidth : " +rect.Width , new Vector2(0,280), Color.Black);
+            _spriteBatch.DrawString(Arial, "RectWidth : " +ExpBarRect.Width , new Vector2(0,280), Color.Black);
             _spriteBatch.DrawString(Arial, "KUY : " +(float)(Singleton.Instance.Exp/Singleton.Instance.MaxExp)*MaxWidth , new Vector2(0,300), Color.Black);
         }
-        public void getMouseInput(){
-            Singleton.Instance.MousePrevious = Singleton.Instance.MouseCurrent;
-            Singleton.Instance.MouseCurrent = Mouse.GetState();
+
+        public void drawElement(SpriteBatch _spriteBatch){
+            _spriteBatch.Draw(bg, CenterElementWithHeight(bg,0) , Color.White);
+            _spriteBatch.Draw(wall, new Rectangle(96, UI.FLOOR_Y-378, wall.Width, wall.Height), Color.White);
+            _spriteBatch.Draw(barricade, new Rectangle(288, UI.FLOOR_Y-108, barricade.Width, barricade.Height), Color.White);
+            _spriteBatch.Draw(SwingTexture, new Rectangle(119, UI.FLOOR_Y-378-216, SwingTexture.Width, SwingTexture.Height), Color.White);
+            _spriteBatch.Draw(ExpBarRectangle, new Vector2(100, 100) ,ExpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
         public void updateDisplayTime(){
             TimeSpan = TimeSpan.FromSeconds(Timer);
@@ -120,14 +116,14 @@ namespace ChickenUnknown.Screen {
         }
         public void updateExpBar(GameTime gameTime){
             Timer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-             if (Singleton.Instance.currentKB.IsKeyUp(Keys.O) && Singleton.Instance.previousKB.IsKeyDown(Keys.O)) {                
-                 Singleton.Instance.Exp += 50; 
-             }
-             rect.Width = (int)(((float)(Singleton.Instance.Exp/Singleton.Instance.MaxExp))*MaxWidth);
-             if (rect.Width > MaxWidth) {
-                 rect.Width = 0;
-                 Level += 1;
-                 Singleton.Instance.Exp = 0;
+            if (Singleton.Instance.currentKB.IsKeyUp(Keys.O) && Singleton.Instance.previousKB.IsKeyDown(Keys.O)) {                
+                Singleton.Instance.Exp += 50; 
+            }
+            ExpBarRect.Width = (int)(((float)(Singleton.Instance.Exp/Singleton.Instance.MaxExp))*MaxWidth);
+            if (ExpBarRect.Width > MaxWidth) {
+                ExpBarRect.Width = 0;
+                Level += 1;
+                Singleton.Instance.Exp = 0;
             }
         }
         public void updatePower(String power){
@@ -174,6 +170,30 @@ namespace ChickenUnknown.Screen {
                 power_random_three = canSelectPower[2];
              }
         }
+        public void setExpBar(){
+            var width = 1000;
+            var height = 20;
+            ExpBarRectangle = new Texture2D(getGraphicDevice().GraphicsDevice, width, height);
+            Color[] data = new Color[width*height];
+            for(int i=0; i < data.Length; ++i)
+                data[i] = Color.Orange;
+            ExpBarRectangle.SetData(data);
+            ExpBarRect = new Rectangle(0,0,100,100);
+        }
+        
+        public GraphicsDeviceManager getGraphicDevice(){
+            return Singleton.Instance.gdm;
+        }
+
+        public Vector2 getCenterOrigin(Texture2D texture){
+            return new Vector2(texture.Width/2, texture.Height/2);
+        }
+
+        public void getMouseInput(){
+            Singleton.Instance.MousePrevious = Singleton.Instance.MouseCurrent;
+            Singleton.Instance.MouseCurrent = Mouse.GetState();
+        }
+        
         public bool MouseOnTexture(int StartX, int StartY, Texture2D texture){
             return (Singleton.Instance.MouseCurrent.X > StartX && Singleton.Instance.MouseCurrent.Y > StartY) && (Singleton.Instance.MouseCurrent.X < StartX + texture.Width && Singleton.Instance.MouseCurrent.Y < StartY + texture.Height);
         }

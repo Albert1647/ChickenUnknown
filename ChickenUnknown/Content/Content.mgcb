@@ -68,6 +68,18 @@
 /processorParam:TextureFormat=Color
 /build:GameScreen/draft_slingshot.png
 
+#begin GameScreen/draft_slingshot_stretcharea.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GameScreen/draft_slingshot_stretcharea.png
+
 #begin GameScreen/draft_wall.png
 /importer:TextureImporter
 /processor:TextureProcessor
