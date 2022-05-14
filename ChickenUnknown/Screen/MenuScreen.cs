@@ -9,11 +9,20 @@ using Microsoft.Xna.Framework.Media;
 
 namespace ChickenUnknown.Screen {
 	class MenuScreen : _GameScreen {
+        private SpriteFont Arial;
+        private Texture2D StartButton, StartHover, CollectionButton, CollectionHover;
+        private bool MouseOnStartButton, MouseOnCollectionButton, HoverStart, HoverCollection;
+
         public void Initial() {
 
 		}
 		public override void LoadContent() {
 			base.LoadContent();
+            Arial = Content.Load<SpriteFont>("Arial");
+            StartButton = Content.Load<Texture2D>("MenuScreen/start_button");
+            StartHover = Content.Load<Texture2D>("MenuScreen/start_button_hover");
+            CollectionButton = Content.Load<Texture2D>("MenuScreen/collection_button");
+            CollectionHover = Content.Load<Texture2D>("MenuScreen/collection_button_hover");
             Initial();
 		}
 		public override void UnloadContent() {
@@ -23,9 +32,54 @@ namespace ChickenUnknown.Screen {
             // Save Current Mouse Position
             Singleton.Instance.MousePrevious = Singleton.Instance.MouseCurrent;
             Singleton.Instance.MouseCurrent = Mouse.GetState();
+
+           	// Check mouse on UI
+            if(MouseOnElement(760, 760+400, 510,510+60)){
+                MouseOnStartButton = true;
+                if(HoverStart == false){
+                    HoverStart = true;
+                }
+                if(IsClick()){
+                    ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.GameScreen);
+                }
+            } else {
+                MouseOnStartButton = false;
+                HoverStart = false;
+            }
+            if(MouseOnElement(760, 760+400, 600,600+60)){
+                MouseOnCollectionButton = true;
+                if (HoverCollection == false)
+                {
+                    HoverCollection = true;
+                }
+                if (IsClick()){
+                    ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.SettingScreen);
+                }
+            } else {
+                MouseOnCollectionButton = false;
+                HoverCollection = false;
+            }
+
 			base.Update(gameTime);
 		}
 		public override void Draw(SpriteBatch _spriteBatch) {
+            
+            // Swap Texture If mouseHover 
+            if(MouseOnStartButton) {
+                _spriteBatch.Draw(StartHover, CenterElementWithHeight(StartHover,510) , Color.White);
+            }
+            else {
+                _spriteBatch.Draw(StartButton, CenterElementWithHeight(StartButton,510) , Color.White);
+            }
+            if(MouseOnCollectionButton) {
+                _spriteBatch.Draw(CollectionHover, CenterElementWithHeight(CollectionHover,600) , Color.White);
+            }
+            else {
+                _spriteBatch.Draw(CollectionButton, CenterElementWithHeight(CollectionButton,600) , Color.White);
+            }
+            _spriteBatch.DrawString(Arial, "X = " + Singleton.Instance.MouseCurrent.X , new Vector2(0,0), Color.Black);
+            _spriteBatch.DrawString(Arial, "Y = " + Singleton.Instance.MouseCurrent.Y, new Vector2(0, 20), Color.Black);
+            _spriteBatch.DrawString(Arial, "Is Click " + IsClick(), new Vector2(0,40), Color.Black);
 
 		}
         
