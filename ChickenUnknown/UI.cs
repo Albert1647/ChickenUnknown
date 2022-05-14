@@ -10,5 +10,12 @@ namespace ChickenUnknown
     {
 		public const int SCREENWIDTH = 300;
 		public const int SCREENHEIGHT = 300;
+		public const int FLOOR_Y = 1026;
+		public const int HOUSE_X = 1026;
+		public const int SLINGSHOT_X = 1026;
+		public const int BARRICADE_X = 1026;
+
+
+		
 	}
 }
