@@ -16,7 +16,6 @@ namespace ChickenUnknown.GameObjects {
 		public Swing(Texture2D swingTexture, Texture2D indicatorTexture, Texture2D chickenTexture) : base(swingTexture){
             SwingTexture = swingTexture;
             IndicatorTexture = indicatorTexture;
-
 		}
 		
 		public virtual void Update(GameTime gameTime) {
@@ -26,16 +25,22 @@ namespace ChickenUnknown.GameObjects {
 				// calculate gun aim angle
 				aimAngle = (float)Math.Atan2((pos.Y + _texture.Height / 2) - Singleton.Instance.MouseCurrent.Y, (pos.X + _texture.Width / 2) - Singleton.Instance.MouseCurrent.X);
 				// shooting
-				if (!Singleton.Instance.IsShooting && IsClick()) {
+				if (!Singleton.Instance.IsShooting && IsDragging()) {
 
 				}
 			}
 		}
 		public virtual void Draw(SpriteBatch spriteBatch) {
-
+			
 		}
         public bool IsClick(){
             return Singleton.Instance.MouseCurrent.LeftButton == ButtonState.Pressed && Singleton.Instance.MousePrevious.LeftButton == ButtonState.Released;
+        }
+		public bool IsDragging(){
+            return Singleton.Instance.MouseCurrent.LeftButton == ButtonState.Pressed;
+        }
+		public bool IsMouseUp(){
+            return Singleton.Instance.MouseCurrent.LeftButton == ButtonState.Pressed;
         }
 
 		public bool IsShootable(){
