@@ -22,6 +22,12 @@ namespace ChickenUnknown.Screen {
         public TimeSpan TimeSpan;
         string answerTime;
         private int MaxWidth = 300, IncreaseWidth, Level = 0;
+        public bool lvlup = false;
+        public string[] allPower = {"scale","quantity","cooldown","damage"};
+        public string[] canSelectPower = {};
+        public String power_random_one , power_random_two , power_random_three,
+                        selectPower;
+        
 
         public void Initial() {
             // Instantiate gun on start GameScreen 
@@ -59,9 +65,22 @@ namespace ChickenUnknown.Screen {
             //  swing.Update(gameTime);
             //  chicken.Update(gameTime);
             //  zombie.Update(gameTime);
-             updateExpBar(gameTime);
-             updateDisplayTime();
-             
+            updateExpBar(gameTime);
+            updateDisplayTime();
+            
+            //LvLUp_random_power
+            LvLUp_random_power();
+            //select power
+            if(MouseOnElement(387, 387+253, 758,758+92)){
+                selectPower = power_random_one;
+                updatePower(selectPower);
+            }else if(MouseOnElement(833, 833+253, 758,758+92)){
+                selectPower = power_random_two;
+                updatePower(selectPower);
+            }else if(MouseOnElement(1282, 1282+253, 758,758+92)){
+                selectPower = power_random_three;
+                updatePower(selectPower);
+            }
         }
         public override void Draw(SpriteBatch _spriteBatch) {
             _spriteBatch.Draw(Draft_bg, CenterElementWithHeight(Draft_bg,0) , Color.White);
@@ -110,6 +129,50 @@ namespace ChickenUnknown.Screen {
                  Level += 1;
                  Singleton.Instance.Exp = 0;
             }
+        }
+        public void updatePower(String power){
+            switch (power) {
+                case "scale":
+                    Singleton.Instance.scale =+ 1;
+                    break;
+                case "quantity":
+                    Singleton.Instance.quantity =+ 1;
+                    break;
+                case "cooldown":
+                    Singleton.Instance.cooldown =+ 1;
+                    break;
+                case "damage":
+                    Singleton.Instance.damage =+ 1;
+                    break;
+            }
+        }
+        public void LvLUp_random_power(){
+             //random
+             if(lvlup){
+                Random rand = new Random();
+                
+                int [] temp = {};
+                int index;
+                bool uniqueValue = true;
+
+                for (int i = 0; i < 3;) {
+                    index = rand.Next(allPower.Length);
+                    //unique value
+                    if(temp[0] != index && temp[1] != index){
+                        uniqueValue = true;
+                    }
+                    //store power
+                    if(uniqueValue = true){
+                        canSelectPower[i] = allPower[index];
+                        temp[i] = index;
+                        i++;
+                        uniqueValue = false;
+                    }
+                }
+                power_random_one = canSelectPower[0];
+                power_random_two = canSelectPower[1];
+                power_random_three = canSelectPower[2];
+             }
         }
         public bool MouseOnTexture(int StartX, int StartY, Texture2D texture){
             return (Singleton.Instance.MouseCurrent.X > StartX && Singleton.Instance.MouseCurrent.Y > StartY) && (Singleton.Instance.MouseCurrent.X < StartX + texture.Width && Singleton.Instance.MouseCurrent.Y < StartY + texture.Height);
