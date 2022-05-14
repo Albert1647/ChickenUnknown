@@ -15,7 +15,7 @@ namespace ChickenUnknown.Managers {
 		private _GameScreen CurrentGameScreen;
 		// Start Screen on Menu
 		public ScreenManager() {
-			CurrentGameScreen = new GameScreen();
+			CurrentGameScreen = new MenuScreen();
 		}
 		// Switch Screen
 		public void LoadScreen(GameScreenName _ScreenName) {
