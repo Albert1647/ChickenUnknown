@@ -10,13 +10,14 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 
 namespace ChickenUnknown.Screen {
-    class GameScreen : _GameScreen {
+    class PlayScreen : IGameScreen {
         private SpriteFont Arial;
-        public Texture2D ExpBarRectangle, SwingTexture, ChickenTexture, StretchAreaTexture,
+        public Texture2D ExpBarRectangle, SwingTexture, ChickenTexture, StretchAreaTexture, ZombieTexture,
                         bg, barricade, slingshot, wall;
         public Rectangle ExpBarRect;
         private Chicken chicken;
         private Swing swing;
+        private Zombie zombie;
         // private Zombie zombie;
         public float Timer = 0f;
         public TimeSpan TimeSpan;
@@ -33,36 +34,40 @@ namespace ChickenUnknown.Screen {
             swing = new Swing(SwingTexture, ChickenTexture, StretchAreaTexture) {
                 
             };
+            zombie = new Zombie(ZombieTexture) {
+                
+            };
         }
         public override void LoadContent() {
             // Load Resource
             base.LoadContent();
             Arial = Content.Load<SpriteFont>("Arial");
 
-            StretchAreaTexture = Content.Load<Texture2D>("GameScreen/draft_slingshot_stretcharea");
-            ChickenTexture = Content.Load<Texture2D>("GameScreen/draft_chicken");
-            SwingTexture = Content.Load<Texture2D>("GameScreen/draft_slingshot");
+            SwingTexture = Content.Load<Texture2D>("PlayScreen/draft_slingshot");
+            StretchAreaTexture = Content.Load<Texture2D>("PlayScreen/draft_slingshot_stretcharea");
+            ChickenTexture = Content.Load<Texture2D>("PlayScreen/draft_chicken");
+            ZombieTexture = Content.Load<Texture2D>("PlayScreen/draft_zombie_nm");
 
-            bg = Content.Load<Texture2D>("GameScreen/draft_bg");
-            barricade = Content.Load<Texture2D>("GameScreen/draft_barricade");
-            wall = Content.Load<Texture2D>("GameScreen/draft_wall");
-            setExpBar();
+            bg = Content.Load<Texture2D>("PlayScreen/draft_bg");
+            barricade = Content.Load<Texture2D>("PlayScreen/draft_barricade");
+            wall = Content.Load<Texture2D>("PlayScreen/draft_wall");
+            SetExpbar();
             Initial();
         }
         public override void UnloadContent() {
             base.UnloadContent();
         }
         public override void Update(GameTime gameTime) {
-             base.Update(gameTime);
-             getMouseInput();   
+            base.Update(gameTime);
+            GetMouseInput();   
              
-             swing.Update(gameTime);
+            swing.Update(gameTime);
             //  zombie.Update(gameTime);
-            updateExpBar(gameTime);
-            updateDisplayTime();
+            UpdateExpBar(gameTime);
+            UpdateDisplayTime();
             
-            //LvLUp_random_power
-            LvLUp_random_power();
+            //LevelupRandomPower
+            LevelupRandomPower();
             //select power
             if(MouseOnElement(387, 387+253, 758,758+92)){
                 selectPower = power_random_one;
@@ -75,18 +80,18 @@ namespace ChickenUnknown.Screen {
                 updatePower(selectPower);
             }
 
-             updateExpBar(gameTime);
-             updateDisplayTime();
+            UpdateExpBar(gameTime);
+            UpdateDisplayTime();
              
         }
         public override void Draw(SpriteBatch _spriteBatch) {
-            drawElement(_spriteBatch);
-            drawLog(_spriteBatch);
+            DrawGameElement(_spriteBatch);
+            DrawLog(_spriteBatch);
             swing.Draw(_spriteBatch, Arial);
             //  zombie.Update(gameTime);
         }
 
-        public void drawLog(SpriteBatch _spriteBatch){
+        public void DrawLog(SpriteBatch _spriteBatch){
             _spriteBatch.DrawString(Arial, "X = " + Singleton.Instance.MouseCurrent.X , new Vector2(0,0), Color.Black);
             _spriteBatch.DrawString(Arial, "Y = " + Singleton.Instance.MouseCurrent.Y, new Vector2(0, 20), Color.Black);
             _spriteBatch.DrawString(Arial, "Is Click " + IsClick(), new Vector2(0,40), Color.Black);
@@ -100,20 +105,20 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Arial, "KUY : " +(float)(Singleton.Instance.Exp/Singleton.Instance.MaxExp)*MaxWidth , new Vector2(0,300), Color.Black);
         }
 
-        public void drawElement(SpriteBatch _spriteBatch){
+        public void DrawGameElement(SpriteBatch _spriteBatch){
             _spriteBatch.Draw(bg, CenterElementWithHeight(bg,0) , Color.White);
             _spriteBatch.Draw(wall, new Rectangle(96, UI.FLOOR_Y-378, wall.Width, wall.Height), Color.White);
             _spriteBatch.Draw(barricade, new Rectangle(288, UI.FLOOR_Y-108, barricade.Width, barricade.Height), Color.White);
             _spriteBatch.Draw(SwingTexture, new Rectangle(119, UI.FLOOR_Y-378-216, SwingTexture.Width, SwingTexture.Height), Color.White);
             _spriteBatch.Draw(ExpBarRectangle, new Vector2(100, 100) ,ExpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
-        public void updateDisplayTime(){
+        public void UpdateDisplayTime(){
             TimeSpan = TimeSpan.FromSeconds(Timer);
             answerTime = string.Format("{0:D2}:{1:D2}", //for example if you want Millisec => "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms"  ,t.Milliseconds
                 TimeSpan.Minutes, 
                 TimeSpan.Seconds);
         }
-        public void updateExpBar(GameTime gameTime){
+        public void UpdateExpBar(GameTime gameTime){
             Timer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
             if (Singleton.Instance.currentKB.IsKeyUp(Keys.O) && Singleton.Instance.previousKB.IsKeyDown(Keys.O)) {                
                 Singleton.Instance.Exp += 50; 
@@ -141,7 +146,7 @@ namespace ChickenUnknown.Screen {
                     break;
             }
         }
-        public void LvLUp_random_power(){
+        public void LevelupRandomPower(){
              //random
              if(lvlup){
                 Random rand = new Random();
@@ -169,10 +174,10 @@ namespace ChickenUnknown.Screen {
                 power_random_three = canSelectPower[2];
              }
         }
-        public void setExpBar(){
+        public void SetExpbar(){
             var width = 1000;
             var height = 20;
-            ExpBarRectangle = new Texture2D(getGraphicDevice().GraphicsDevice, width, height);
+            ExpBarRectangle = new Texture2D(GetGraphicsDeviceManager().GraphicsDevice, width, height);
             Color[] data = new Color[width*height];
             for(int i=0; i < data.Length; ++i)
                 data[i] = Color.Orange;
@@ -180,15 +185,15 @@ namespace ChickenUnknown.Screen {
             ExpBarRect = new Rectangle(0,0,100,100);
         }
         
-        public GraphicsDeviceManager getGraphicDevice(){
+        public GraphicsDeviceManager GetGraphicsDeviceManager(){
             return Singleton.Instance.gdm;
         }
         // Center Origin -> to rotatable
-        public Vector2 getCenterOrigin(Texture2D texture){
+        public Vector2 GetCenterOrigin(Texture2D texture){
             return new Vector2(texture.Width/2, texture.Height/2);
         }
 
-        public void getMouseInput(){
+        public void GetMouseInput(){
             Singleton.Instance.MousePrevious = Singleton.Instance.MouseCurrent;
             Singleton.Instance.MouseCurrent = Mouse.GetState();
         }

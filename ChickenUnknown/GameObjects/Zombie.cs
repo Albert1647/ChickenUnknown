@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 
 namespace ChickenUnknown.GameObjects {
-    	class Zombie : _GameObject {
-		public Zombie(Texture2D ChickenTexture, Texture2D IndicatorTexture) : base(ChickenTexture){
+    	class Zombie : IGameObject {
+		public Zombie(Texture2D ZombieTexture) : base(ZombieTexture){
 			
 		}
 		

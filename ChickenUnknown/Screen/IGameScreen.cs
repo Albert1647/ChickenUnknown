@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ChickenUnknown.Managers;
 
 namespace ChickenUnknown.Screen {
-	class _GameScreen {
+	class IGameScreen {
 
 		protected ContentManager Content;
 

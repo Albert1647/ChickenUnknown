@@ -8,16 +8,13 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 
 namespace ChickenUnknown.Screen {
-	class SettingScreen : _GameScreen {
+	class SettingScreen : IGameScreen {
         public void Initial() {
 
 		}
 		public override void LoadContent() {
 			base.LoadContent();
-        Initial();
-		}
-		public override void UnloadContent() {
-			base.UnloadContent();
+            Initial();
 		}
         
 		public override void Update(GameTime gameTime) {

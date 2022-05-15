@@ -12,7 +12,7 @@ namespace ChickenUnknown.Managers {
 			GameScreen,
 			SettingScreen,
 		}
-		private _GameScreen CurrentGameScreen;
+		private IGameScreen CurrentGameScreen;
 		// Start Screen on Menu
 		public ScreenManager() {
 			CurrentGameScreen = new MenuScreen();
@@ -24,7 +24,7 @@ namespace ChickenUnknown.Managers {
 					CurrentGameScreen = new MenuScreen();
 					break;
 				case GameScreenName.GameScreen:
-					CurrentGameScreen = new GameScreen();
+					CurrentGameScreen = new PlayScreen();
 					break;
 				case GameScreenName.SettingScreen:
 					CurrentGameScreen = new SettingScreen();

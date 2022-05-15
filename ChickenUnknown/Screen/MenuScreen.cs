@@ -8,10 +8,18 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 
 namespace ChickenUnknown.Screen {
-	class MenuScreen : _GameScreen {
+	class MenuScreen : IGameScreen {
         private SpriteFont Arial;
         private Texture2D StartButton, StartHover, CollectionButton, CollectionHover;
         private bool MouseOnStartButton, MouseOnCollectionButton, HoverStart, HoverCollection;
+
+        private enum GameState{
+            PLAYING, WINNING, LOSING
+        }
+        
+        private enum PlayingState{
+            PLAYING, LEVELUP, GACHA
+        }
 
         public void Initial() {
 
