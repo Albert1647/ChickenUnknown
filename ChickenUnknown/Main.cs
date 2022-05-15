@@ -24,11 +24,9 @@ namespace ChickenUnknown
             // Apply Game resolution
             Singleton.Instance._graphics.PreferredBackBufferWidth = (int)Singleton.Instance.Dimension.X;  // set this value to the desired width of your window
             Singleton.Instance._graphics.PreferredBackBufferHeight = (int)Singleton.Instance.Dimension.Y;   // set this value to the desired height of your window
-            Singleton.Instance._graphics.IsFullScreen=false;
             Singleton.Instance._graphics.ApplyChanges();
 
             // _graphics.ToggleFullScreen();
-
 
             base.Initialize();
         }

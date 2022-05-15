@@ -27,6 +27,9 @@ namespace ChickenUnknown.GameObjects {
 		public override void Update(GameTime gameTime) {
             if ((IsShootable() && IsMouseDown()) || Singleton.Instance.IsAiming) {
 				aimAngle = (float)Math.Atan2(Singleton.Instance.MouseCurrent.Y - CENTER_OF_SWING.Y, Singleton.Instance.MouseCurrent.X - CENTER_OF_SWING.X);
+				if(!Singleton.Instance.IsAiming){
+					// play sound here : Start aim
+				}
 				if (Singleton.Instance.NumOfChicken > 0) {
 					Singleton.Instance.IsAiming = true;
 					if(IsMouseUp()){
@@ -62,6 +65,9 @@ namespace ChickenUnknown.GameObjects {
 			}
 			for(int i = 0; i < Singleton.Instance.ChickenList.Count ; i++){
 				Singleton.Instance.ChickenList[i].Draw(_spriteBatch, font);
+			}
+			for(int i = 0; i < Singleton.Instance.NumOfChicken; i++){
+				_spriteBatch.Draw(ChickenTexture, new Vector2(130,650+(i * ChickenTexture.Height + 20)) ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f, SpriteEffects.None, 0);
 			}
 			DrawLog(_spriteBatch,  font);
 		}
