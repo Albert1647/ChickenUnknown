@@ -9,8 +9,7 @@ using System.Diagnostics;
 
 namespace ChickenUnknown.GameObjects {
     	class Swing : IGameObject {
-        private Texture2D SwingTexture, StretchAreaTexture, ChickenTexture;
-		private Chicken chicken; 
+        private Texture2D StretchAreaTexture, ChickenTexture;
 		private Vector2 OldChickenPos; 
 		private float OldAimAngle;
         private float aimAngle;
@@ -28,35 +27,30 @@ namespace ChickenUnknown.GameObjects {
 		public override void Update(GameTime gameTime) {
             if ((IsShootable() && IsMouseDown()) || Singleton.Instance.IsAiming) {
 				aimAngle = (float)Math.Atan2(Singleton.Instance.MouseCurrent.Y - CENTER_OF_SWING.Y, Singleton.Instance.MouseCurrent.X - CENTER_OF_SWING.X);
-				if (!Singleton.Instance.IsShooting) {
+				if (Singleton.Instance.NumOfChicken > 0) {
 					Singleton.Instance.IsAiming = true;
 					if(IsMouseUp()){
 						Singleton.Instance.IsAiming = false;
-						// var pos = new Vector2(OldChickenPos.X, OldChickenPos.Y);
-						// var angle = OldAimAngle + MathHelper.Pi;
-						// var rotation = OldAimAngle;
-						// var Speed = (int)(MAXSPEED * (GetMouseStretchDistance() >= StretchAreaTexture.Width/2 ? StretchAreaTexture.Width/2 : GetMouseStretchDistance()) / (StretchAreaTexture.Width/2));
-						chicken = new Chicken(ChickenTexture) {
+						var chicken = new Chicken(ChickenTexture) {
 							pos = new Vector2(OldChickenPos.X, OldChickenPos.Y),
 							Angle = OldAimAngle + MathHelper.Pi,
 							rotation = OldAimAngle,
 							Speed = (int)(MAXSPEED * (GetMouseStretchDistance() >= StretchAreaTexture.Width/2 ? StretchAreaTexture.Width/2 : GetMouseStretchDistance()) / (StretchAreaTexture.Width/2)),
 							IsActive = true,
 						};
-
-						Singleton.Instance.IsShooting = true;
+						Singleton.Instance.ChickenList.Add(chicken);
 						Singleton.Instance.NumOfChicken -= 1;
 					}
 				}
 			}
-						if (Singleton.Instance.IsShooting){
-				// if shooting update logic in star
-				chicken.Update(gameTime);
+			// if shooting update logic in star
+			for(int i = 0; i < Singleton.Instance.ChickenList.Count ; i++){
+				Singleton.Instance.ChickenList[i].Update(gameTime);
 			}
 		}
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
 			_spriteBatch.Draw(StretchAreaTexture, CENTER_OF_SWING ,null, Color.White, 0f, GetCenterOrigin(StretchAreaTexture), 1f, SpriteEffects.None, 0);
-			if(!Singleton.Instance.IsShooting){
+			if(Singleton.Instance.NumOfChicken > 0){
 				if(!Singleton.Instance.IsAiming){
 					_spriteBatch.Draw(ChickenTexture, CENTER_OF_SWING ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f, SpriteEffects.None, 0);
 				} else if(Singleton.Instance.IsAiming && MouseIsOnStretchAreaTexture()){
@@ -65,10 +59,10 @@ namespace ChickenUnknown.GameObjects {
 				} else if (Singleton.Instance.IsAiming && !MouseIsOnStretchAreaTexture()) {
 					_spriteBatch.Draw(ChickenTexture, new Vector2(OldChickenPos.X, OldChickenPos.Y) ,null, Color.White, OldAimAngle, GetCenterOrigin(ChickenTexture), 1f, IsUpsideDown() ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
 				}
-			} else {
-				chicken.Draw(_spriteBatch, font);
 			}
-
+			for(int i = 0; i < Singleton.Instance.ChickenList.Count ; i++){
+				Singleton.Instance.ChickenList[i].Draw(_spriteBatch, font);
+			}
 			DrawLog(_spriteBatch,  font);
 		}
 		public void DrawLog(SpriteBatch _spriteBatch, SpriteFont font){
@@ -78,6 +72,7 @@ namespace ChickenUnknown.GameObjects {
             _spriteBatch.DrawString(font, "Mouse on Kai ? = " + IsShootable(), new Vector2(0,160), Color.Green);
             _spriteBatch.DrawString(font, "AimAngle ? = " + OldAimAngle + MathHelper.Pi, new Vector2(0,300), Color.Green);
             _spriteBatch.DrawString(font, "Mouse In Chicken Area = " + GetMouseOnChickenDistance(), new Vector2(0,340), Color.Green);
+            _spriteBatch.DrawString(font, "Chicken Count = " + Singleton.Instance.ChickenList.Count, new Vector2(0,380), Color.Green);
 		}
         public bool IsClick(){
             return Singleton.Instance.MouseCurrent.LeftButton == ButtonState.Pressed && Singleton.Instance.MousePrevious.LeftButton == ButtonState.Released;

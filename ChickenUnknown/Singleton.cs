@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using ChickenUnknown.GameObjects;
 using System;
 
 namespace ChickenUnknown
@@ -25,6 +26,7 @@ namespace ChickenUnknown
 		public int damage = 5;
 		public int NumOfChicken = 3;
 		public float Exp = 0, MaxExp = 150;
+		public List<Chicken> ChickenList = new List<Chicken>();
         private static Singleton instance;
 		public static Singleton Instance
 

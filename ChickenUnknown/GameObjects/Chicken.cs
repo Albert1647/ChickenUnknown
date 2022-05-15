@@ -32,9 +32,11 @@ namespace ChickenUnknown.GameObjects {
 		}
 
 		private void DetectCollision(){
-			if(pos.X > 1920 || pos.X < 0 ||  pos.Y < 0|| pos.Y > 1080){
+			if(pos.X > 1920 || pos.X < 0 ||  pos.Y < 0|| pos.Y > UI.FLOOR_Y){
 				IsActive = false;
 				Singleton.Instance.IsShooting = false;
+				Singleton.Instance.NumOfChicken += 1;
+				Singleton.Instance.ChickenList.RemoveAt(Singleton.Instance.ChickenList.IndexOf(this));
 			}
 		}
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
@@ -43,7 +45,6 @@ namespace ChickenUnknown.GameObjects {
 			_spriteBatch.DrawString(font, "Angle ? = " + Angle , new Vector2(0,360), Color.Green);
 			_spriteBatch.Draw(_texture, pos ,null, Color.White, rotation, getCenterOrigin(_texture), 1f, isUpsideDown() ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
 		}
-
 		public Vector2 getCenterOrigin(Texture2D texture){
             return new Vector2(texture.Width/2, texture.Height/2);
         }
