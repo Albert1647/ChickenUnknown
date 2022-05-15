@@ -61,7 +61,8 @@ namespace ChickenUnknown.Screen {
                     HoverCollection = true;
                 }
                 if (IsClick()){
-                    ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.SettingScreen);
+                    Singleton.Instance.ToggleFullscreen();
+                    //ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.SettingScreen);
                 }
             } else {
                 MouseOnCollectionButton = false;
@@ -87,7 +88,7 @@ namespace ChickenUnknown.Screen {
             }
             _spriteBatch.DrawString(Arial, "X = " + Singleton.Instance.MouseCurrent.X , new Vector2(0,0), Color.Black);
             _spriteBatch.DrawString(Arial, "Y = " + Singleton.Instance.MouseCurrent.Y, new Vector2(0, 20), Color.Black);
-            _spriteBatch.DrawString(Arial, "Is Click " + IsClick(), new Vector2(0,40), Color.Black);
+            _spriteBatch.DrawString(Arial, "Is Click " + Singleton.Instance._graphics.IsFullScreen, new Vector2(0,40), Color.Black);
 
 		}
         

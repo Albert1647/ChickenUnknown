@@ -18,7 +18,14 @@ namespace ChickenUnknown
 		public GraphicsDeviceManager gdm;
 		public bool gamePaused = false;
         public KeyboardState currentKB, previousKB;
-
+		//
+		public GraphicsDeviceManager _graphics;
+		public void ToggleFullscreen(){
+			// if(Singleton.Instance.gdm.IsFullScreen){
+            // 	Singleton.Instance.gdm.IsFullScreen=false;
+            // }else{Singleton.Instance.gdm.IsFullScreen=true;}
+			Singleton.Instance.gdm.ToggleFullScreen();
+		}
 		//chicken status
 		public int scale = 5;
 		public int quantity = 5;

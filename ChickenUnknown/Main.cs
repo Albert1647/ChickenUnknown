@@ -7,14 +7,14 @@ namespace ChickenUnknown
 {
     public class Main : Game
     {
-        private GraphicsDeviceManager _graphics;
+        //private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
 
         public Main()
         {
-            _graphics = new GraphicsDeviceManager(this);
-            Singleton.Instance.gdm = _graphics;
+            Singleton.Instance._graphics = new GraphicsDeviceManager(this);
+            Singleton.Instance.gdm = Singleton.Instance._graphics;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -22,9 +22,10 @@ namespace ChickenUnknown
         protected override void Initialize()
         {
             // Apply Game resolution
-            _graphics.PreferredBackBufferWidth = (int)Singleton.Instance.Dimension.X;  // set this value to the desired width of your window
-            _graphics.PreferredBackBufferHeight = (int)Singleton.Instance.Dimension.Y;   // set this value to the desired height of your window
-            _graphics.ApplyChanges();
+            Singleton.Instance._graphics.PreferredBackBufferWidth = (int)Singleton.Instance.Dimension.X;  // set this value to the desired width of your window
+            Singleton.Instance._graphics.PreferredBackBufferHeight = (int)Singleton.Instance.Dimension.Y;   // set this value to the desired height of your window
+            Singleton.Instance._graphics.IsFullScreen=false;
+            Singleton.Instance._graphics.ApplyChanges();
 
             // _graphics.ToggleFullScreen();
 
