@@ -13,7 +13,8 @@ namespace ChickenUnknown.Screen {
     class PlayScreen : IGameScreen {
         private SpriteFont Arial;
         public Texture2D ExpBarRectangle, SwingTexture, ChickenTexture, StretchAreaTexture, ZombieTexture,
-                        bg, bg1, barricade, slingshot, wall;
+                        bg, bg1, barricade, slingshot, wall, Popup_levelup, Levelup_item1, Levelup_item2, 
+                        Levelup_item3, Select_button ;
         public Rectangle ExpBarRect;
         public Chicken chicken;
         private Swing swing;
@@ -22,7 +23,7 @@ namespace ChickenUnknown.Screen {
         public float Timer = 0f;
         public TimeSpan TimeSpan;
         public string answerTime;
-        public bool lvlup = false;
+        public bool lvlup = false, LevelUp = false;
         public string[] allPower = {"scale","quantity","cooldown","damage"};
         public string[] canSelectPower = {};
         public String power_random_one , power_random_two , power_random_three,
@@ -57,6 +58,11 @@ namespace ChickenUnknown.Screen {
             bg1 = Content.Load<Texture2D>("PlayScreen/draft_ingame");
             barricade = Content.Load<Texture2D>("PlayScreen/draft_barricade");
             wall = Content.Load<Texture2D>("PlayScreen/draft_wall");
+            Popup_levelup = Content.Load<Texture2D>("PlayScreen/draft_levelup");
+            Levelup_item1 = Content.Load<Texture2D>("PlayScreen/draft_levelup_item1");
+            Levelup_item2 = Content.Load<Texture2D>("PlayScreen/draft_levelup_item2");
+            Levelup_item3 = Content.Load<Texture2D>("PlayScreen/draft_levelup_item3");
+            Select_button = Content.Load<Texture2D>("PlayScreen/draft_levelup_select");
             SetExpbar();
             Initial();
         }
@@ -91,6 +97,13 @@ namespace ChickenUnknown.Screen {
 
             UpdateExpBar(gameTime);
             UpdateDisplayTime();
+        
+            if (Keyboard.GetState().IsKeyDown(Keys.T)) {
+                LevelUp = true;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.U)) {
+                LevelUp = false;
+            }
              
         }
         public override void Draw(SpriteBatch _spriteBatch) {
@@ -119,13 +132,24 @@ namespace ChickenUnknown.Screen {
 
         public void DrawGameElement(SpriteBatch _spriteBatch){
             
-            _spriteBatch.Draw(bg, CenterElementWithHeight(bg,0) , Color.White);
-            // _spriteBatch.Draw(bg1, CenterElementWithHeight(bg1,0) , Color.White);
+            // _spriteBatch.Draw(bg, CenterElementWithHeight(bg,0) , Color.White);
+            _spriteBatch.Draw(bg1, CenterElementWithHeight(bg1,0) , Color.White);
             _spriteBatch.Draw(wall, new Rectangle(173, UI.FLOOR_Y-378, wall.Width, wall.Height), Color.White);
             _spriteBatch.Draw(barricade, new Rectangle(403, UI.FLOOR_Y-108, barricade.Width, barricade.Height), Color.White);
             _spriteBatch.Draw(SwingTexture, new Rectangle(185, UI.FLOOR_Y-378-216, SwingTexture.Width, SwingTexture.Height), Color.White);
-            _spriteBatch.Draw(ExpBarRectangle, new Vector2(100, 100) ,ExpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
-        }
+            _spriteBatch.Draw(ExpBarRectangle, new Vector2(100, 100) ,ExpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);        
+            
+            if (LevelUp) {
+                _spriteBatch.Draw(Popup_levelup, new Vector2(288, 108),Color.White);
+                _spriteBatch.Draw(Levelup_item1, new Vector2(344, 372),Color.White);
+                _spriteBatch.Draw(Levelup_item2, new Vector2(792, 372),Color.White);
+                _spriteBatch.Draw(Levelup_item3, new Vector2(1240, 372),Color.White);
+                _spriteBatch.Draw(Select_button, new Vector2(378, 753),Color.White);
+                _spriteBatch.Draw(Select_button, new Vector2(826, 753),Color.White);
+                _spriteBatch.Draw(Select_button, new Vector2(1274, 753),Color.White);
+            }
+            
+        }   
         public void UpdateDisplayTime(){
             TimeSpan = TimeSpan.FromSeconds(Timer);
             answerTime = string.Format("{0:D2}:{1:D2}", //for example if you want Millisec => "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms"  ,t.Milliseconds
