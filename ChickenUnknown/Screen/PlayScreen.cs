@@ -13,7 +13,7 @@ namespace ChickenUnknown.Screen {
     class PlayScreen : IGameScreen {
         private SpriteFont Arial;
         public Texture2D ExpBarRectangle, SwingTexture, ChickenTexture, StretchAreaTexture, ZombieTexture,
-                        bg, barricade, slingshot, wall;
+                        bg, bg1, barricade, slingshot, wall;
         public Rectangle ExpBarRect;
         private Chicken chicken;
         private Swing swing;
@@ -49,6 +49,7 @@ namespace ChickenUnknown.Screen {
             ZombieTexture = Content.Load<Texture2D>("PlayScreen/draft_zombie_nm");
 
             bg = Content.Load<Texture2D>("PlayScreen/draft_bg");
+            bg1 = Content.Load<Texture2D>("PlayScreen/draft_ingame");
             barricade = Content.Load<Texture2D>("PlayScreen/draft_barricade");
             wall = Content.Load<Texture2D>("PlayScreen/draft_wall");
             SetExpbar();
@@ -107,9 +108,10 @@ namespace ChickenUnknown.Screen {
 
         public void DrawGameElement(SpriteBatch _spriteBatch){
             _spriteBatch.Draw(bg, CenterElementWithHeight(bg,0) , Color.White);
-            _spriteBatch.Draw(wall, new Rectangle(96, UI.FLOOR_Y-378, wall.Width, wall.Height), Color.White);
-            _spriteBatch.Draw(barricade, new Rectangle(288, UI.FLOOR_Y-108, barricade.Width, barricade.Height), Color.White);
-            _spriteBatch.Draw(SwingTexture, new Rectangle(119, UI.FLOOR_Y-378-216, SwingTexture.Width, SwingTexture.Height), Color.White);
+            // _spriteBatch.Draw(bg1, CenterElementWithHeight(bg1,0) , Color.White);
+            _spriteBatch.Draw(wall, new Rectangle(173, UI.FLOOR_Y-378, wall.Width, wall.Height), Color.White);
+            _spriteBatch.Draw(barricade, new Rectangle(403, UI.FLOOR_Y-108, barricade.Width, barricade.Height), Color.White);
+            _spriteBatch.Draw(SwingTexture, new Rectangle(185, UI.FLOOR_Y-378-216, SwingTexture.Width, SwingTexture.Height), Color.White);
             _spriteBatch.Draw(ExpBarRectangle, new Vector2(100, 100) ,ExpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
         }
         public void UpdateDisplayTime(){

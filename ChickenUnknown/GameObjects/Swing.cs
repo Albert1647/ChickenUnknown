@@ -48,9 +48,9 @@ namespace ChickenUnknown.GameObjects {
 			}
 		}
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
-			_spriteBatch.Draw(StretchAreaTexture, new Vector2(165, 475) ,null, Color.White, 0f, GetCenterOrigin(StretchAreaTexture), 1f, SpriteEffects.None, 0);
+			_spriteBatch.Draw(StretchAreaTexture, new Vector2(230, 475) ,null, Color.White, 0f, GetCenterOrigin(StretchAreaTexture), 1f, SpriteEffects.None, 0);
 			if(!Singleton.Instance.IsShooting){
-				_spriteBatch.Draw(ChickenTexture, new Vector2(165, 475) ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f, SpriteEffects.None, 0);
+				_spriteBatch.Draw(ChickenTexture, new Vector2(230, 475) ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f, SpriteEffects.None, 0);
 			} else {
 				chicken.Draw(_spriteBatch, font);
 			}
