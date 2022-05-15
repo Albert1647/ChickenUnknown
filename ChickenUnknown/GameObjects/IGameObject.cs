@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Diagnostics;
-
+using System.Collections.Generic;
 namespace ChickenUnknown.GameObjects {
 		// Class hold basic attribute of gameObject
     	public class IGameObject {

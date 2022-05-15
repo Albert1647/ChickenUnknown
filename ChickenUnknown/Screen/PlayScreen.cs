@@ -15,14 +15,14 @@ namespace ChickenUnknown.Screen {
         public Texture2D ExpBarRectangle, SwingTexture, ChickenTexture, StretchAreaTexture, ZombieTexture,
                         bg, bg1, barricade, slingshot, wall;
         public Rectangle ExpBarRect;
-        private Chicken chicken;
+        public Chicken chicken;
         private Swing swing;
         private Zombie zombie;
         // private Zombie zombie;
         public float Timer = 0f;
         public TimeSpan TimeSpan;
-        string answerTime;
-        public bool lvlup = false; 
+        public string answerTime;
+        public bool lvlup = false;
         public string[] allPower = {"scale","quantity","cooldown","damage"};
         public string[] canSelectPower = {};
         public String power_random_one , power_random_two , power_random_three,
@@ -37,6 +37,11 @@ namespace ChickenUnknown.Screen {
             zombie = new Zombie(ZombieTexture) {
                 
             };
+            // for(int i = 0; i < 3; i++){
+            //     chicken.Add(new Chicken(ChickenTexture){
+            //         IsActive = false
+            //     });
+            // }
         }
         public override void LoadContent() {
             // Load Resource
@@ -44,7 +49,7 @@ namespace ChickenUnknown.Screen {
             Arial = Content.Load<SpriteFont>("Arial");
 
             SwingTexture = Content.Load<Texture2D>("PlayScreen/draft_slingshot");
-            StretchAreaTexture = Content.Load<Texture2D>("PlayScreen/draft_slingshot_stretcharea");
+            StretchAreaTexture = Content.Load<Texture2D>("PlayScreen/StretchArea");
             ChickenTexture = Content.Load<Texture2D>("PlayScreen/draft_chicken");
             ZombieTexture = Content.Load<Texture2D>("PlayScreen/draft_zombie_nm");
 
@@ -66,6 +71,9 @@ namespace ChickenUnknown.Screen {
             //  zombie.Update(gameTime);
             UpdateExpBar(gameTime);
             UpdateDisplayTime();
+            // for(int i = 0 ; i < chicken.Count ; i++){
+            //     chicken[i].Update(gameTime);
+            // }
             
             //LevelupRandomPower
             LevelupRandomPower();
@@ -88,6 +96,9 @@ namespace ChickenUnknown.Screen {
         public override void Draw(SpriteBatch _spriteBatch) {
             DrawGameElement(_spriteBatch);
             DrawLog(_spriteBatch);
+            // for(int i = 0 ; i < chicken.Count ; i++){
+            //     chicken[i].Draw(_spriteBatch, Arial);
+            // }
             swing.Draw(_spriteBatch, Arial);
             //  zombie.Update(gameTime);
         }
@@ -107,6 +118,7 @@ namespace ChickenUnknown.Screen {
         }
 
         public void DrawGameElement(SpriteBatch _spriteBatch){
+            
             _spriteBatch.Draw(bg, CenterElementWithHeight(bg,0) , Color.White);
             // _spriteBatch.Draw(bg1, CenterElementWithHeight(bg1,0) , Color.White);
             _spriteBatch.Draw(wall, new Rectangle(173, UI.FLOOR_Y-378, wall.Width, wall.Height), Color.White);

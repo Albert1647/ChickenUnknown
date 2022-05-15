@@ -23,7 +23,7 @@ namespace ChickenUnknown
 		public int quantity = 5;
 		public int cooldown = 5;
 		public int damage = 5;
-		
+		public int NumOfChicken = 3;
 		public float Exp = 0, MaxExp = 150;
         private static Singleton instance;
 		public static Singleton Instance

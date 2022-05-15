@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace ChickenUnknown.GameObjects {
@@ -29,6 +30,7 @@ namespace ChickenUnknown.GameObjects {
 				DetectCollision();
 			}
 		}
+
 		private void DetectCollision(){
 			if(pos.X > 1920 || pos.X < 0 ||  pos.Y < 0|| pos.Y > 1080){
 				IsActive = false;
@@ -41,6 +43,7 @@ namespace ChickenUnknown.GameObjects {
 			_spriteBatch.DrawString(font, "Angle ? = " + Angle , new Vector2(0,360), Color.Green);
 			_spriteBatch.Draw(_texture, pos ,null, Color.White, rotation, getCenterOrigin(_texture), 1f, isUpsideDown() ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
 		}
+
 		public Vector2 getCenterOrigin(Texture2D texture){
             return new Vector2(texture.Width/2, texture.Height/2);
         }
