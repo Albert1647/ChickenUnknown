@@ -16,9 +16,8 @@ namespace ChickenUnknown.Screen {
                         bg, bg1, barricade, wall, Popup_levelup, Levelup_item1, Levelup_item2, 
                         Levelup_item3, Select_button ;
         public Rectangle ExpBarRect;
-        private Swing swing;
-        private Zombie zombie;
-        // private Zombie zombie;
+        private Swing Swing;
+        public List<Zombie> ZombieList;
         public float Timer = 0f;
         public TimeSpan TimeSpan;
         public string answerTime;
@@ -31,12 +30,10 @@ namespace ChickenUnknown.Screen {
         private int MaxWidth = 300, Level = 0;
 
         public void Initial() {
-            swing = new Swing(SwingTexture, ChickenTexture, StretchAreaTexture) {
+            Swing = new Swing(SwingTexture, ChickenTexture, StretchAreaTexture) {
                 
             };
-            zombie = new Zombie(ZombieTexture) {
-                
-            };
+            ZombieList = new List<Zombie>();
         }
         public override void LoadContent() {
             // Load Resource
@@ -65,10 +62,22 @@ namespace ChickenUnknown.Screen {
         }
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);
-            GetMouseInput();   
-             
-            swing.Update(gameTime);
-            //  zombie.Update(gameTime);
+            GetMouseInput();
+
+            Timer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;   
+
+            if(Timer >= ZombieSpawnRate()){
+                ZombieList.Add(new Zombie(ZombieTexture){
+                    IsActive = true
+                });
+                Timer = 0;
+            }
+
+            for(int i = 0; i < ZombieList.Count ; i++){
+				ZombieList[i].Update(gameTime);
+			}
+            
+            Swing.Update(gameTime);
             UpdateExpBar(gameTime);
             UpdateDisplayTime();
             
@@ -100,8 +109,10 @@ namespace ChickenUnknown.Screen {
         public override void Draw(SpriteBatch _spriteBatch) {
             DrawGameElement(_spriteBatch);
             DrawLog(_spriteBatch);
-            swing.Draw(_spriteBatch, Arial);
-            //  zombie.Update(gameTime);
+            Swing.Draw(_spriteBatch, Arial);
+            for(int i = 0; i < ZombieList.Count ; i++){
+				ZombieList[i].Draw(_spriteBatch, Arial);
+			}
         }
 
         public void DrawLog(SpriteBatch _spriteBatch){
@@ -137,7 +148,12 @@ namespace ChickenUnknown.Screen {
                 _spriteBatch.Draw(Select_button, new Vector2(1274, 753),Color.White);
             }
             
-        }   
+        }
+
+        public float ZombieSpawnRate(){
+            return 3f;
+        }
+
         public void UpdateDisplayTime(){
             TimeSpan = TimeSpan.FromSeconds(Timer);
             answerTime = string.Format("{0:D2}:{1:D2}", //for example if you want Millisec => "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms"  ,t.Milliseconds
@@ -145,7 +161,7 @@ namespace ChickenUnknown.Screen {
                 TimeSpan.Seconds);
         }
         public void UpdateExpBar(GameTime gameTime){
-            Timer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+            
             if (Singleton.Instance.currentKB.IsKeyUp(Keys.O) && Singleton.Instance.previousKB.IsKeyDown(Keys.O)) {                
                 Singleton.Instance.Exp += 50; 
             }
