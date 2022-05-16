@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ChickenUnknown.GameObjects {
 		// Class hold basic attribute of gameObject
     	public class IGameObject {
-		protected Texture2D _texture;
+		public Texture2D _texture;
 		public Vector2 _pos;
 		
 		public IGameObject(Texture2D texture) {

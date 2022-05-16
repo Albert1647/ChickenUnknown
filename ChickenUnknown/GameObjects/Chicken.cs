@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using ChickenUnknown.Screen;
 using System.Diagnostics;
 
 namespace ChickenUnknown.GameObjects {
@@ -45,7 +46,21 @@ namespace ChickenUnknown.GameObjects {
 				IsActive = false;
 				Singleton.Instance.IsShooting = false;
 				_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius);
+				DetectZombieCollision();
 				IsWalking = true;
+			}
+		}
+		private void DetectZombieCollision(){
+			for(int i = 0; i < PlayScreen.ZombieList.Count; i++){
+				var pos = PlayScreen.ZombieList[i]._pos;
+				var texture = PlayScreen.ZombieList[i]._texture;
+				var xMin = pos.X - texture.Width / 2 - texture.Height / 2;;
+				var xMax = pos.X + texture.Width / 2 + texture.Height / 2;;
+				var yMin = pos.Y - texture.Height / 2 - texture.Height / 2;;
+				var yMax = pos.Y + texture.Height / 2 + texture.Height / 2;;
+				if(_pos.X > xMin && _pos.X < xMax && _pos.Y > yMin && _pos.Y < yMax){
+					PlayScreen.ZombieList[i]._pos.X += 10;
+				}
 			}
 		}
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {

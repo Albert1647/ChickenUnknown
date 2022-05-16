@@ -17,7 +17,7 @@ namespace ChickenUnknown.Screen {
                         Levelup_item3, Select_button ;
         public Rectangle ExpBarRect;
         private Swing Swing;
-        public List<Zombie> ZombieList;
+        public static List<Zombie> ZombieList;
         public float Timer = 0f;
         public TimeSpan TimeSpan;
         public string answerTime;
@@ -151,7 +151,7 @@ namespace ChickenUnknown.Screen {
         }
 
         public float ZombieSpawnRate(){
-            return 3f;
+            return 5f;
         }
 
         public void UpdateDisplayTime(){
