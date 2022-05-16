@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Input;
 using ChickenUnknown.Managers;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
+using System.Collections;
 
 namespace ChickenUnknown.Screen {
     class PlayScreen : IGameScreen {
@@ -22,7 +23,6 @@ namespace ChickenUnknown.Screen {
         public TimeSpan TimeSpan;
         public string answerTime;
         public bool lvlUp = false, LevelUp = false;
-        public string[] allPower = {"scale","quantity","cooldown","damage"};
         public string[] canSelectPower = {};
         public String power_random_one , power_random_two , power_random_three,
                         selectPower;
@@ -83,18 +83,6 @@ namespace ChickenUnknown.Screen {
             
             //LevelupRandomPower
             LevelupRandomPower();
-            //select power
-            if(MouseOnElement(387, 387+253, 758,758+92)){
-                selectPower = power_random_one;
-                updatePower(selectPower);
-            }else if(MouseOnElement(833, 833+253, 758,758+92)){
-                selectPower = power_random_two;
-                updatePower(selectPower);
-            }else if(MouseOnElement(1282, 1282+253, 758,758+92)){
-                selectPower = power_random_three;
-                updatePower(selectPower);
-            }
-
             UpdateExpBar(gameTime);
             UpdateDisplayTime();
         
@@ -189,32 +177,34 @@ namespace ChickenUnknown.Screen {
             }
         }
         public void LevelupRandomPower(){
+            var RandomPower = new ArrayList();
              //random
-             if(lvlUp){
-                Random rand = new Random();
-                
-                int [] temp = {};
-                int index;
-                bool uniqueValue = true;
+            if(lvlUp) {
 
-                for (int i = 0; i < 3;) {
-                    index = rand.Next(allPower.Length);
-                    //unique value
-                    if(temp[0] != index && temp[1] != index){
-                        uniqueValue = true;
-                    }
-                    //store power
-                    if(uniqueValue){
-                        canSelectPower[i] = allPower[index];
-                        temp[i] = index;
-                        i++;
-                        uniqueValue = false;
-                    }
+                var allPower = new ArrayList()
+                    {
+                        "scale","quantity","cooldown","damage"
+                    };
+
+                var temp = allPower;  
+                Random randomPower = new Random();
+                for ( int i=0 ; i < 3 ; i++) {
+                    int thisPower = randomPower.Next(temp.Count);
+                    RandomPower.Add(temp[thisPower]);
+                    temp.RemoveAt(thisPower); 
                 }
-                power_random_one = canSelectPower[0];
-                power_random_two = canSelectPower[1];
-                power_random_three = canSelectPower[2];
-             }
+            }
+            //select power
+            if(MouseOnElement(387, 387+253, 758,758+92)){
+                selectPower = RandomPower[0].ToString();
+                updatePower(selectPower);
+            }else if(MouseOnElement(833, 833+253, 758,758+92)){
+                selectPower = RandomPower[1].ToString();
+                updatePower(selectPower);
+            }else if(MouseOnElement(1282, 1282+253, 758,758+92)){
+                selectPower = RandomPower[2].ToString();
+                updatePower(selectPower);
+            }
         }
         public void SetExpbar(){
             var width = 1000;
