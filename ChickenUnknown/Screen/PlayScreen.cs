@@ -22,7 +22,7 @@ namespace ChickenUnknown.Screen {
         public float Timer = 0f;
         public TimeSpan TimeSpan;
         public string answerTime;
-        public bool lvlup = false, LevelUp = false;
+        public bool lvlUp = false, LevelUp = false;
         public string[] allPower = {"scale","quantity","cooldown","damage"};
         public string[] canSelectPower = {};
         public String power_random_one , power_random_two , power_random_three,
@@ -159,22 +159,22 @@ namespace ChickenUnknown.Screen {
         public void updatePower(String power){
             switch (power) {
                 case "scale":
-                    Singleton.Instance.scale =+ 1;
+                    Singleton.Instance.scale += 1;
                     break;
                 case "quantity":
-                    Singleton.Instance.quantity =+ 1;
+                    Singleton.Instance.quantity += 1;
                     break;
                 case "cooldown":
-                    Singleton.Instance.cooldown =+ 1;
+                    Singleton.Instance.cooldown += 1;
                     break;
                 case "damage":
-                    Singleton.Instance.damage =+ 1;
+                    Singleton.Instance.damage += 1;
                     break;
             }
         }
         public void LevelupRandomPower(){
              //random
-             if(lvlup){
+             if(lvlUp){
                 Random rand = new Random();
                 
                 int [] temp = {};
