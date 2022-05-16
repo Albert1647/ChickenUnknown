@@ -13,10 +13,9 @@ namespace ChickenUnknown.Screen {
     class PlayScreen : IGameScreen {
         private SpriteFont Arial;
         public Texture2D ExpBarRectangle, SwingTexture, ChickenTexture, StretchAreaTexture, ZombieTexture,
-                        bg, bg1, barricade, slingshot, wall, Popup_levelup, Levelup_item1, Levelup_item2, 
+                        bg, bg1, barricade, wall, Popup_levelup, Levelup_item1, Levelup_item2, 
                         Levelup_item3, Select_button ;
         public Rectangle ExpBarRect;
-        public Chicken chicken;
         private Swing swing;
         private Zombie zombie;
         // private Zombie zombie;
@@ -38,11 +37,6 @@ namespace ChickenUnknown.Screen {
             zombie = new Zombie(ZombieTexture) {
                 
             };
-            // for(int i = 0; i < 3; i++){
-            //     chicken.Add(new Chicken(ChickenTexture){
-            //         IsActive = false
-            //     });
-            // }
         }
         public override void LoadContent() {
             // Load Resource
@@ -77,9 +71,6 @@ namespace ChickenUnknown.Screen {
             //  zombie.Update(gameTime);
             UpdateExpBar(gameTime);
             UpdateDisplayTime();
-            // for(int i = 0 ; i < chicken.Count ; i++){
-            //     chicken[i].Update(gameTime);
-            // }
             
             //LevelupRandomPower
             LevelupRandomPower();
@@ -109,9 +100,6 @@ namespace ChickenUnknown.Screen {
         public override void Draw(SpriteBatch _spriteBatch) {
             DrawGameElement(_spriteBatch);
             DrawLog(_spriteBatch);
-            // for(int i = 0 ; i < chicken.Count ; i++){
-            //     chicken[i].Draw(_spriteBatch, Arial);
-            // }
             swing.Draw(_spriteBatch, Arial);
             //  zombie.Update(gameTime);
         }
@@ -200,7 +188,7 @@ namespace ChickenUnknown.Screen {
                         uniqueValue = true;
                     }
                     //store power
-                    if(uniqueValue = true){
+                    if(uniqueValue){
                         canSelectPower[i] = allPower[index];
                         temp[i] = index;
                         i++;

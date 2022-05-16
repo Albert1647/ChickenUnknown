@@ -9,11 +9,11 @@ namespace ChickenUnknown.GameObjects {
 			
 		}
 		
-		public virtual void Update(GameTime gameTime) {
+		public override void Update(GameTime gameTime) {
 
 		}
 		
-		public virtual void Draw(SpriteBatch spriteBatch) {
+		public override void Draw(SpriteBatch spriteBatch) {
 
 		}
     }

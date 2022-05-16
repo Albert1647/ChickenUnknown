@@ -5,11 +5,11 @@ namespace ChickenUnknown.GameObjects {
 		// Class hold basic attribute of gameObject
     	public class IGameObject {
 		protected Texture2D _texture;
-		public Vector2 pos;
+		public Vector2 _pos;
 		
 		public IGameObject(Texture2D texture) {
 			_texture = texture; // initialise gameObject texture
-			pos = Vector2.Zero; // default location
+			_pos = Vector2.Zero; // default location
 		}
 		
 		public virtual void Update(GameTime gameTime) {

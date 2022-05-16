@@ -8,13 +8,13 @@ using System.Diagnostics;
 namespace ChickenUnknown.GameObjects {
     	class Chicken : IGameObject {
 		public float Speed;
-		public float rotation;
+		public float Rotation;
 		public float Angle;
 		public Vector2 Acceleration;
 		public  bool IsActive;
-		public  bool IsWalking;
-		public Vector2 Velocity;
-		public int GRAVITY = 981;
+		private  bool IsWalking;
+		private Vector2 Velocity;
+		private int GRAVITY = 981;
 		private int ChickenRadius;
 		public Chicken(Texture2D ChickenTexture) : base(ChickenTexture){
 			ChickenRadius = ChickenTexture.Width / 2;
@@ -25,36 +25,37 @@ namespace ChickenUnknown.GameObjects {
 				Velocity.Y = (float)Math.Sin(Angle) * Speed;
 				Acceleration.Y += GRAVITY;
 				Velocity += Acceleration * gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-				var oldPos = pos;
-				pos += Velocity * gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-				rotation = (float)Math.Atan2(oldPos.Y - pos.Y, oldPos.X - pos.X);
+				var oldPos = _pos;
+				_pos += Velocity * gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+				Rotation = (float)Math.Atan2(oldPos.Y - _pos.Y, oldPos.X - _pos.X);
 				DetectCollision();
 			}
 			if(IsWalking){
-				pos.X -= 10;
-				if(pos.X < 480){
-					Singleton.Instance.ChickenList.RemoveAt(Singleton.Instance.ChickenList.IndexOf(this));
-					Singleton.Instance.NumOfChicken += 1;
+				_pos.X -= 10;
+				if(_pos.X < 480){
+					// IsWalking = false;
+					Swing.ChickenList.RemoveAt(Swing.ChickenList.IndexOf(this));
+					Swing.NumOfChicken += 1;
 				}
 			}
 		}
 
 		private void DetectCollision(){
-			if(pos.X > 1920 || pos.X < 0 ||  pos.Y < 0|| pos.Y > UI.FLOOR_Y){
+			if(_pos.X > 1920 || _pos.X < 0 ||  _pos.Y < 0|| _pos.Y > UI.FLOOR_Y){
 				IsActive = false;
 				Singleton.Instance.IsShooting = false;
-				pos = new Vector2(pos.X, UI.FLOOR_Y - ChickenRadius);
+				_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius);
 				IsWalking = true;
 			}
 		}
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
 			if(IsWalking){
-				_spriteBatch.Draw(_texture, pos ,null, Color.White, 0f, getCenterOrigin(_texture), 1f, SpriteEffects.FlipHorizontally, 0);
+				_spriteBatch.Draw(_texture, _pos ,null, Color.White, 0f, getCenterOrigin(_texture), 1f, SpriteEffects.FlipHorizontally, 0);
 			} else {
-				_spriteBatch.DrawString(font, "Chicken X ? = " + pos.X , new Vector2(0,320), Color.Green);
-				_spriteBatch.DrawString(font, "Chicken Y ? = " + pos.Y , new Vector2(0,340), Color.Green);
+				_spriteBatch.DrawString(font, "Chicken X ? = " + _pos.X , new Vector2(0,320), Color.Green);
+				_spriteBatch.DrawString(font, "Chicken Y ? = " + _pos.Y , new Vector2(0,340), Color.Green);
 				_spriteBatch.DrawString(font, "Angle ? = " + Angle , new Vector2(0,360), Color.Green);
-				_spriteBatch.Draw(_texture, pos ,null, Color.White, rotation, getCenterOrigin(_texture), 1f, isUpsideDown() ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
+				_spriteBatch.Draw(_texture, _pos ,null, Color.White, Rotation, getCenterOrigin(_texture), 1f, isUpsideDown() ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
 			}
 		}
 		public Vector2 getCenterOrigin(Texture2D texture){
@@ -63,10 +64,10 @@ namespace ChickenUnknown.GameObjects {
 
 		public bool isUpsideDown(){
 			var tempAngle = 0.0;
-			if(rotation < 0){
-				tempAngle = (float)rotation *(-1);
+			if(Rotation < 0){
+				tempAngle = (float)Rotation *(-1);
 			} else {
-				tempAngle = rotation;
+				tempAngle = Rotation;
 			}
 			if(tempAngle > 1.6){
 				return true;

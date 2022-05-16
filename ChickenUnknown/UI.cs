@@ -14,8 +14,6 @@ namespace ChickenUnknown
 		public const int HOUSE_X = 1026;
 		public const int SLINGSHOT_X = 1026;
 		public const int BARRICADE_X = 1026;
-
-
 		
 	}
 }

@@ -12,61 +12,63 @@ namespace ChickenUnknown.GameObjects {
         private Texture2D StretchAreaTexture, ChickenTexture;
 		private Vector2 OldChickenPos; 
 		private float OldAimAngle;
-        private float aimAngle;
+        private float AimAngle;
 		private Vector2 CENTER_OF_SWING = new Vector2(230, 475); 
 		private int MAXSPEED = 1300;
 		private int HITBOX;
+		public static List<Chicken> ChickenList = new List<Chicken>();
+		public static int NumOfChicken;
 		public Swing(Texture2D swingTexture, Texture2D chickenTexture, Texture2D stretchAreaTexture) : base(swingTexture){
             // IndicatorTexture = indicatorTexture;
             StretchAreaTexture = stretchAreaTexture;
 			ChickenTexture = chickenTexture;
 			HITBOX = chickenTexture.Width / 2;
-			Singleton.Instance.NumOfChicken = 3;
+			NumOfChicken = 3;
 		}
 		
 		public override void Update(GameTime gameTime) {
             if ((IsShootable() && IsMouseDown()) || Singleton.Instance.IsAiming) {
-				aimAngle = (float)Math.Atan2(Singleton.Instance.MouseCurrent.Y - CENTER_OF_SWING.Y, Singleton.Instance.MouseCurrent.X - CENTER_OF_SWING.X);
+				AimAngle = (float)Math.Atan2(Singleton.Instance.MouseCurrent.Y - CENTER_OF_SWING.Y, Singleton.Instance.MouseCurrent.X - CENTER_OF_SWING.X);
 				if(!Singleton.Instance.IsAiming){
 					// play sound here : Start aim
 				}
-				if (Singleton.Instance.NumOfChicken > 0) {
+				if (NumOfChicken > 0) {
 					Singleton.Instance.IsAiming = true;
 					if(IsMouseUp()){
 						Singleton.Instance.IsAiming = false;
 						var chicken = new Chicken(ChickenTexture) {
-							pos = new Vector2(OldChickenPos.X, OldChickenPos.Y),
+							_pos = new Vector2(OldChickenPos.X, OldChickenPos.Y),
 							Angle = OldAimAngle + MathHelper.Pi,
-							rotation = OldAimAngle,
+							Rotation = OldAimAngle,
 							Speed = (int)(MAXSPEED * (GetMouseStretchDistance() >= StretchAreaTexture.Width/2 ? StretchAreaTexture.Width/2 : GetMouseStretchDistance()) / (StretchAreaTexture.Width/2)),
 							IsActive = true,
 						};
-						Singleton.Instance.ChickenList.Add(chicken);
-						Singleton.Instance.NumOfChicken -= 1;
+						ChickenList.Add(chicken);
+						NumOfChicken -= 1;
 					}
 				}
 			}
 			// if shooting update logic in star
-			for(int i = 0; i < Singleton.Instance.ChickenList.Count ; i++){
-				Singleton.Instance.ChickenList[i].Update(gameTime);
+			for(int i = 0; i < ChickenList.Count ; i++){
+				ChickenList[i].Update(gameTime);
 			}
 		}
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
 			_spriteBatch.Draw(StretchAreaTexture, CENTER_OF_SWING ,null, Color.White, 0f, GetCenterOrigin(StretchAreaTexture), 1f, SpriteEffects.None, 0);
-			if(Singleton.Instance.NumOfChicken > 0){
+			if(NumOfChicken > 0){
 				if(!Singleton.Instance.IsAiming){
 					_spriteBatch.Draw(ChickenTexture, CENTER_OF_SWING ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f, SpriteEffects.None, 0);
 				} else if(Singleton.Instance.IsAiming && MouseIsOnStretchAreaTexture()){
-					_spriteBatch.Draw(ChickenTexture, new Vector2(Singleton.Instance.MouseCurrent.X, Singleton.Instance.MouseCurrent.Y) ,null, Color.White, aimAngle, GetCenterOrigin(ChickenTexture), 1f, IsUpsideDown() ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
+					_spriteBatch.Draw(ChickenTexture, new Vector2(Singleton.Instance.MouseCurrent.X, Singleton.Instance.MouseCurrent.Y) ,null, Color.White, AimAngle, GetCenterOrigin(ChickenTexture), 1f, IsUpsideDown() ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
 					SaveChickenPosAngle();
 				} else if (Singleton.Instance.IsAiming && !MouseIsOnStretchAreaTexture()) {
 					_spriteBatch.Draw(ChickenTexture, new Vector2(OldChickenPos.X, OldChickenPos.Y) ,null, Color.White, OldAimAngle, GetCenterOrigin(ChickenTexture), 1f, IsUpsideDown() ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
 				}
 			}
-			for(int i = 0; i < Singleton.Instance.ChickenList.Count ; i++){
-				Singleton.Instance.ChickenList[i].Draw(_spriteBatch, font);
+			for(int i = 0; i < ChickenList.Count ; i++){
+				ChickenList[i].Draw(_spriteBatch, font);
 			}
-			for(int i = 0; i < Singleton.Instance.NumOfChicken; i++){
+			for(int i = 0; i < NumOfChicken; i++){
 				_spriteBatch.Draw(ChickenTexture, new Vector2(130,650+(i * ChickenTexture.Height + 20)) ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f, SpriteEffects.None, 0);
 			}
 			DrawLog(_spriteBatch,  font);
@@ -78,7 +80,7 @@ namespace ChickenUnknown.GameObjects {
             _spriteBatch.DrawString(font, "Mouse on Kai ? = " + IsShootable(), new Vector2(0,160), Color.Green);
             _spriteBatch.DrawString(font, "AimAngle ? = " + OldAimAngle + MathHelper.Pi, new Vector2(0,300), Color.Green);
             _spriteBatch.DrawString(font, "Mouse In Chicken Area = " + GetMouseOnChickenDistance(), new Vector2(0,340), Color.Green);
-            _spriteBatch.DrawString(font, "Chicken Count = " + Singleton.Instance.ChickenList.Count, new Vector2(0,380), Color.Green);
+            _spriteBatch.DrawString(font, "Chicken Count = " + ChickenList.Count, new Vector2(0,380), Color.Green);
 		}
         public bool IsClick(){
             return Singleton.Instance.MouseCurrent.LeftButton == ButtonState.Pressed && Singleton.Instance.MousePrevious.LeftButton == ButtonState.Released;

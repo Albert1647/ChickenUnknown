@@ -61,7 +61,7 @@ namespace ChickenUnknown.Screen {
                     HoverCollection = true;
                 }
                 if (IsClick()){
-                    Singleton.Instance.ToggleFullscreen();
+                    // Singleton.Instance.ToggleFullscreen();
                     //ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.SettingScreen);
                 }
             } else {
