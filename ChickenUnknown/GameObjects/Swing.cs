@@ -129,6 +129,7 @@ namespace ChickenUnknown.GameObjects {
 			var stretchAreaRadius = StretchAreaTexture.Width/2;
 			return (int)Math.Sqrt(Math.Pow(mousePos.X - CENTER_OF_SWING.X, 2) + Math.Pow(mousePos.Y - CENTER_OF_SWING.Y, 2)) <= stretchAreaRadius;
 		}
+		
 		public int GetMouseOnChickenDistance(){
 			var mousePos = new Vector2(Singleton.Instance.MouseCurrent.X, Singleton.Instance.MouseCurrent.Y);
 			return (int)Math.Sqrt(Math.Pow(mousePos.X - CENTER_OF_SWING.X, 2) + Math.Pow(mousePos.Y - CENTER_OF_SWING.Y, 2));
@@ -138,5 +139,6 @@ namespace ChickenUnknown.GameObjects {
 			var mousePos = new Vector2(Singleton.Instance.MouseCurrent.X, Singleton.Instance.MouseCurrent.Y);
 			return (int)Math.Sqrt(Math.Pow(mousePos.X - CENTER_OF_SWING.X, 2) + Math.Pow(mousePos.Y - CENTER_OF_SWING.Y, 2));
 		}
+
     }
 }

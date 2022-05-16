@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using ChickenUnknown.Screen;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System;
@@ -10,6 +10,7 @@ namespace ChickenUnknown.GameObjects {
 		public int HitPoint;
 		public int Hitbox;
 		public bool IsActive;
+		public bool IsHit;
 		public float Speed;
 		public ZombieType Type;
 		public enum ZombieType{
@@ -25,11 +26,21 @@ namespace ChickenUnknown.GameObjects {
 		public override void Update(GameTime gameTime) {
 			if(IsActive){
 				_pos.X -= Speed;
+				CheckIsDead();
+			}
+		}
+		public void Knockback(GameTime gameTime) {
+			_pos.X -= 10;
+		}
+		public void CheckIsDead() {
+			if(HitPoint <= 0){
+				PlayScreen.ZombieList.RemoveAt(PlayScreen.ZombieList.IndexOf(this));
 			}
 		}
 		
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
 			_spriteBatch.Draw(_texture, _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
+			_spriteBatch.DrawString(font, "HP = " + HitPoint , new Vector2(_pos.X, _pos.Y -_texture.Height / 2), Color.DarkRed, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
 		}
 
 		public Vector2 GetCenterOrigin(Texture2D texture){
