@@ -73,11 +73,15 @@ namespace ChickenUnknown.Screen {
                 Timer = 0;
             }
 
+            Swing.Update(gameTime);
+            for(int i = 0; i < Swing.ChickenList.Count ; i++){
+				Swing.ChickenList[i].Update(gameTime);
+			}
+
             for(int i = 0; i < ZombieList.Count ; i++){
 				ZombieList[i].Update(gameTime);
 			}
-            
-            Swing.Update(gameTime);
+
             UpdateExpBar(gameTime);
             UpdateDisplayTime();
             
@@ -95,14 +99,17 @@ namespace ChickenUnknown.Screen {
              
         }
         public override void Draw(SpriteBatch _spriteBatch) {
-            DrawGameElement(_spriteBatch);
+            DrawHUD(_spriteBatch);
             DrawLog(_spriteBatch);
             Swing.Draw(_spriteBatch, Arial);
+            for(int i = 0; i < Swing.ChickenList.Count ; i++){
+				Swing.ChickenList[i].Draw(_spriteBatch, Arial);
+			}
             for(int i = 0; i < ZombieList.Count ; i++){
 				ZombieList[i].Draw(_spriteBatch, Arial);
 			}
         }
-
+        
         public void DrawLog(SpriteBatch _spriteBatch){
             _spriteBatch.DrawString(Arial, "X = " + Singleton.Instance.MouseCurrent.X , new Vector2(0,0), Color.Black);
             _spriteBatch.DrawString(Arial, "Y = " + Singleton.Instance.MouseCurrent.Y, new Vector2(0, 20), Color.Black);
@@ -117,8 +124,7 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Arial, "KUY : " +(float)(Singleton.Instance.Exp/Singleton.Instance.MaxExp)*MaxWidth , new Vector2(0,300), Color.Black);
         }
 
-        public void DrawGameElement(SpriteBatch _spriteBatch){
-            
+        public void DrawHUD(SpriteBatch _spriteBatch){
             // _spriteBatch.Draw(bg, CenterElementWithHeight(bg,0) , Color.White);
             _spriteBatch.Draw(bg1, CenterElementWithHeight(bg1,0) , Color.White);
             _spriteBatch.Draw(wall, new Rectangle(173, UI.FLOOR_Y-378, wall.Width, wall.Height), Color.White);

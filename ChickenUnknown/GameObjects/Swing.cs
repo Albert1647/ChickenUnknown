@@ -48,10 +48,6 @@ namespace ChickenUnknown.GameObjects {
 					}
 				}
 			}
-			// if shooting update logic in star
-			for(int i = 0; i < ChickenList.Count ; i++){
-				ChickenList[i].Update(gameTime);
-			}
 		}
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
 			_spriteBatch.Draw(StretchAreaTexture, CENTER_OF_SWING ,null, Color.White, 0f, GetCenterOrigin(StretchAreaTexture), 1f, SpriteEffects.None, 0);
@@ -65,12 +61,11 @@ namespace ChickenUnknown.GameObjects {
 					_spriteBatch.Draw(ChickenTexture, new Vector2(OldChickenPos.X, OldChickenPos.Y) ,null, Color.White, OldAimAngle, GetCenterOrigin(ChickenTexture), 1f, IsUpsideDown() ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
 				}
 			}
-			for(int i = 0; i < ChickenList.Count ; i++){
-				ChickenList[i].Draw(_spriteBatch, font);
-			}
+			// Reloaded Chicken
 			for(int i = 0; i < NumOfChicken; i++){
 				_spriteBatch.Draw(ChickenTexture, new Vector2(130,650+(i * ChickenTexture.Height + 20)) ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f, SpriteEffects.None, 0);
 			}
+
 			DrawLog(_spriteBatch,  font);
 		}
 		public void DrawLog(SpriteBatch _spriteBatch, SpriteFont font){
