@@ -97,7 +97,7 @@ namespace ChickenUnknown.GameObjects {
 		public void HitZombieAtIndex(int index){
 			PlayScreen.ZombieList[index]._pos.X += 10;
 			PlayScreen.ZombieList[index].IsHit = true;
-			PlayScreen.ZombieList[index].HitPoint -= 10;
+			PlayScreen.ZombieList[index].HP -= 10;
 		}
 
 		public bool IsCollsionZombie(Vector2 chicken, Texture2D chickenTexture, Vector2 zombie,Texture2D zombieTexture){
