@@ -16,7 +16,7 @@ namespace ChickenUnknown.Screen {
         public Texture2D ExpBarRectangle, SwingTexture, ChickenTexture, StretchAreaTexture, ZombieTexture,
                         bg, bg1, barricade, wall, Popup_levelup, Levelup_item1, Levelup_item2, 
                         Levelup_item3, Select_button ;
-        public Rectangle ExpBarRect;
+        public Rectangle ExpBarRect, HpBarRect;
         private Swing Swing;
         public static List<Zombie> ZombieList;
         public float Timer = 0f;
@@ -27,7 +27,10 @@ namespace ChickenUnknown.Screen {
         public String power_random_one , power_random_two , power_random_three,
                         selectPower;
         
-        private int MaxWidth = 300, Level = 0;
+        private int MaxWidth = 300, Level = 0, HitPoint = 100, MaxWidthHp = 100;
+
+        public Texture2D HpBarRectangle;
+		public int ATK = 10, MaxHp = 200;
 
         public void Initial() {
             Swing = new Swing(SwingTexture, ChickenTexture, StretchAreaTexture) {
@@ -55,6 +58,7 @@ namespace ChickenUnknown.Screen {
             Levelup_item3 = Content.Load<Texture2D>("PlayScreen/draft_levelup_item3");
             Select_button = Content.Load<Texture2D>("PlayScreen/draft_levelup_select");
             SetExpbar();
+            SetHpbar();
             Initial();
         }
         public override void UnloadContent() {
@@ -83,6 +87,7 @@ namespace ChickenUnknown.Screen {
 			}
 
             UpdateExpBar(gameTime);
+            UpdateHp(gameTime);
             UpdateDisplayTime();
             
             //LevelupRandomPower
@@ -122,6 +127,11 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Arial, "MaxExp : " +Singleton.Instance.MaxExp , new Vector2(0,260), Color.Black);
             _spriteBatch.DrawString(Arial, "RectWidth : " +ExpBarRect.Width , new Vector2(0,280), Color.Black);
             _spriteBatch.DrawString(Arial, "KUY : " +(float)(Singleton.Instance.Exp/Singleton.Instance.MaxExp)*MaxWidth , new Vector2(0,300), Color.Black);
+            _spriteBatch.DrawString(Arial, "HpWidth : " +HpBarRect , new Vector2(1700,300), Color.Black);        
+            _spriteBatch.DrawString(Arial, "HitPoint : " + HitPoint, new Vector2(300,200), Color.Black);
+            _spriteBatch.DrawString(Arial, "MaxHp : " + MaxHp, new Vector2(300,300), Color.Black);
+            _spriteBatch.DrawString(Arial, "MaxWidthHp : " + MaxWidthHp, new Vector2(300,400), Color.Black);
+        
         }
 
         public void DrawHUD(SpriteBatch _spriteBatch){
@@ -131,7 +141,8 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.Draw(barricade, new Rectangle(403, UI.FLOOR_Y-108, barricade.Width, barricade.Height), Color.White);
             _spriteBatch.Draw(SwingTexture, new Rectangle(185, UI.FLOOR_Y-378-216, SwingTexture.Width, SwingTexture.Height), Color.White);
             _spriteBatch.Draw(ExpBarRectangle, new Vector2(100, 100) ,ExpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);        
-            
+            _spriteBatch.Draw(HpBarRectangle, new Vector2(800, 400) ,HpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);  
+
             if (LevelUp) {
                 _spriteBatch.Draw(Popup_levelup, new Vector2(288, 108),Color.White);
                 _spriteBatch.Draw(Levelup_item1, new Vector2(344, 372),Color.White);
@@ -252,6 +263,26 @@ namespace ChickenUnknown.Screen {
         }
         public Vector2 CenterElementWithHeight(Texture2D element,int height){
             return new Vector2(Singleton.Instance.Dimension.X / 2 - (element.Width / 2) ,height );
+        }
+        public void SetHpbar(){
+			int width = 1000;
+            int height = 20;
+            
+            HpBarRectangle = new Texture2D(GetGraphicsDeviceManager().GraphicsDevice, width, height);
+			
+            Color[] data = new Color[width*height];
+            for(int i=0; i < data.Length; ++i)
+                data[i] = Color.Orange;
+            HpBarRectangle.SetData(data);
+            HpBarRect = new Rectangle(0,0,MaxWidthHp,30);
+        }
+        public void UpdateHp(GameTime gameTime){
+            
+            if (Singleton.Instance.currentKB.IsKeyUp(Keys.Q) && Singleton.Instance.previousKB.IsKeyDown(Keys.Q)) {                
+                HitPoint -= 10; 
+            }
+            HpBarRect.Width = (int)(((float)(HitPoint/MaxHp))* MaxWidthHp);
+            // HpBarRect.Width -= (ATK/HitPoint)*100;
         }
     }
 }
