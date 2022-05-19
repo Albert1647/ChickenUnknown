@@ -51,11 +51,13 @@ namespace ChickenUnknown.GameObjects {
 				ResetZombieHit();
 			}
 		}
+		
 		public void ResetZombieHit(){
 			for(int i = 0; i < PlayScreen.ZombieList.Count; i++){
 				PlayScreen.ZombieList[i].IsHit = false;
 			}
 		}
+
 		private void DetectZombieCollision(){
 			// float xMin,yMin,xMax,yMax;
 			Vector2 pos;
@@ -78,17 +80,32 @@ namespace ChickenUnknown.GameObjects {
 				// Three part Collision Check -> Head, Body, Leg (roughly)
 				pos.Y -= (float)texture.Height / 2;
 				if(IsCollsionZombie(_pos, _texture, pos, texture)){
+					IsActive = false;
+					Singleton.Instance.IsShooting = false;
+					_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius);
+					IsWalking = true;
 					HitZombieAtIndex(i);
+					// ResetZombieHit();
 					continue;
 				}
 				pos.Y += (float)texture.Height / 2;
 				if(IsCollsionZombie(_pos, _texture, pos, texture)){
+					IsActive = false;
+					Singleton.Instance.IsShooting = false;
+					_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius);
+					IsWalking = true;
 					HitZombieAtIndex(i);
+					// ResetZombieHit();
 					continue;
 				}
 				pos.Y += (float)texture.Height / 2;
 				if(IsCollsionZombie(_pos, _texture, pos, texture)){
+					IsActive = false;
+					Singleton.Instance.IsShooting = false;
+					_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius);
+					IsWalking = true;
 					HitZombieAtIndex(i);
+					// ResetZombieHit();
 					continue;
 				}
 			}
@@ -96,7 +113,7 @@ namespace ChickenUnknown.GameObjects {
 		
 		public void HitZombieAtIndex(int index){
 			PlayScreen.ZombieList[index]._pos.X += 10;
-			PlayScreen.ZombieList[index].IsHit = true;
+			// PlayScreen.ZombieList[index].IsHit = true;
 			PlayScreen.ZombieList[index].HP -= 10;
 		}
 
