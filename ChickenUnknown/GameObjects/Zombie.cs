@@ -24,7 +24,7 @@ namespace ChickenUnknown.GameObjects {
 			_pos = new Vector2(1920, UI.FLOOR_Y - Hitbox);
 			HP = GetZombieHp();
 			MaxHp = HP;
-			Speed = 0.5f;
+			Speed = 0.35f;
 			HpTexture = HpBarTexture;
 			HpBarRect = new Rectangle(0, 0, ZombieTexture.Width, HpTexture.Height);
 		}
@@ -60,7 +60,7 @@ namespace ChickenUnknown.GameObjects {
 		public int GetZombieHp(){
             switch(Type){
 				case ZombieType.NORMAL:
-				return 100;
+				return 30;
 				case ZombieType.TANK:
 				return 200;
 				default:

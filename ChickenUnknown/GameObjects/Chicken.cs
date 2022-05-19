@@ -32,7 +32,7 @@ namespace ChickenUnknown.GameObjects {
 				DetectCollision();
 			}
 			if(IsWalking){
-				_pos.X -= 10;
+				_pos.X -= 3.5f;
 				if(_pos.X < 480){
 					// IsWalking = false;
 					Swing.ChickenList.RemoveAt(Swing.ChickenList.IndexOf(this));
