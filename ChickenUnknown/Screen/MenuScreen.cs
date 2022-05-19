@@ -138,7 +138,7 @@ namespace ChickenUnknown.Screen {
                     HoverExit = true;
                 }
                 if (IsClick()){
-                    //Exit game
+                    Singleton.Instance.isExit = true;
                 }
             } else {
                 MouseOnExitButton = false;

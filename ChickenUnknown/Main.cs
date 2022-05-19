@@ -49,6 +49,10 @@ namespace ChickenUnknown
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            if(Singleton.Instance.isExit){
+                Exit();
+            }
+
             // Update logic base on CurrentScreen
             ScreenManager.Instance.Update(gameTime);
 

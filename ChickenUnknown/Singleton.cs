@@ -15,6 +15,8 @@ namespace ChickenUnknown
 		private Random random = new Random();
 		public bool IsShooting;
 		public bool IsAiming;
+		//Exit in Menu
+		public bool isExit = false;
 		public GraphicsDeviceManager gdm;
         public KeyboardState currentKB, previousKB;
 		//
