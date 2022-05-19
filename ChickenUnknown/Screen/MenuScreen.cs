@@ -124,7 +124,7 @@ namespace ChickenUnknown.Screen {
                 }
                 if (IsClick()){
                     // Singleton.Instance.ToggleFullscreen();
-                    //ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.SettingScreen);
+                    ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.SettingScreen);
                 }
             } else {
                 MouseOnSettingButton = false;
