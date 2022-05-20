@@ -12,7 +12,7 @@ namespace ChickenUnknown.GameObjects {
 		public Rectangle HpBarRect;
 		public float HP, MaxHp;
 		public int ATK;
-		public int Hitbox;
+		public int GroundToOrigin;
 		public bool IsActive;
 		public bool IsHit;
 		public float Speed;
@@ -26,8 +26,8 @@ namespace ChickenUnknown.GameObjects {
 			NORMAL, TANK, RUNNER
 		}
 		public Zombie(Texture2D zombieTexture, Texture2D hpBarTexture, ZombieType type) : base(zombieTexture){
-			Hitbox = zombieTexture.Height/2;
-			_pos = new Vector2(1920, UI.FLOOR_Y - Hitbox);
+			GroundToOrigin = zombieTexture.Height/2;
+			_pos = new Vector2(1920, UI.FLOOR_Y - GroundToOrigin);
 			Type = type;
 			HP = GetZombieHp();
 			MaxHp = HP;
