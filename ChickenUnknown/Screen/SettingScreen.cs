@@ -16,7 +16,12 @@ namespace ChickenUnknown.Screen {
 
         private Song ThemeSong;
 
-        private bool  HoverButton1,HoverButton2,HoverButton3,HoverButton4,CloseButton;
+        public double PosSFXVol,PosMusicVol;
+        public int PosPointerSFX,PosPointerMusic,TempMouseCurrentX,NewMouseCurrentX;
+
+        private bool  HoverButton1,HoverButton2,HoverButton3,HoverButton4,CloseButton,IsDragPointer1,IsDragPointer2;
+
+        public float tempsfx,tempmusic;
         
         public void Initial() {
 
@@ -59,13 +64,19 @@ namespace ChickenUnknown.Screen {
         public void DrawHUD(SpriteBatch _spriteBatch){
         _spriteBatch.Draw(SettingDraft, CenterElementWithHeight(SettingDraft,0) , Color.White);
         
-        //_spriteBatch.Draw(SettingFrame, CenterElementWithHeight(SettingFrame,0) , Color.White);
+        _spriteBatch.Draw(SettingFrame, CenterElementWithHeight(SettingFrame,0) , Color.White);
         _spriteBatch.Draw(SettingBar, new Rectangle(611, 328, SettingBar.Width, SettingBar.Height), Color.White);  
         _spriteBatch.Draw(ArrowLeft, new Rectangle(555, 314, ArrowLeft.Width, ArrowLeft.Height), Color.White);  
         _spriteBatch.Draw(ArrowRight, new Rectangle(1309, 314, ArrowRight.Width, ArrowRight.Height), Color.White);
+        PosSFXVol=(Singleton.Instance.SFXVolume)*6.98;
+        PosPointerSFX=((int)(PosSFXVol-14))+611;
+        _spriteBatch.Draw(SettingPointer, new Rectangle(PosPointerSFX, 314, SettingPointer.Width, SettingPointer.Height), Color.White);
         _spriteBatch.Draw(SettingBar, new Rectangle(611, 497, SettingBar.Width, SettingBar.Height), Color.White);  
         _spriteBatch.Draw(ArrowLeft, new Rectangle(555, 483, ArrowLeft.Width, ArrowLeft.Height), Color.White);  
         _spriteBatch.Draw(ArrowRight, new Rectangle(1309, 483, ArrowRight.Width, ArrowRight.Height), Color.White);
+        PosMusicVol=Singleton.Instance.MusicVolume*6.98;
+        PosPointerMusic=((int)(PosMusicVol-14))+611;
+        _spriteBatch.Draw(SettingPointer, new Rectangle(PosPointerMusic, 483, SettingPointer.Width, SettingPointer.Height), Color.White);
         _spriteBatch.Draw(SettingClose, new Rectangle(836, 903, SettingClose.Width, SettingClose.Height), Color.White);
         }
 
@@ -76,7 +87,13 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Arial, "Is Dragging " + IsDragging(), new Vector2(0,60), Color.Black);
             _spriteBatch.DrawString(Arial, "SFXVolume = " + Singleton.Instance.SFXVolume, new Vector2(0, 80), Color.Black);
             _spriteBatch.DrawString(Arial, "MusicVolume = " + Singleton.Instance.MusicVolume , new Vector2(0,100), Color.Black);
-
+            _spriteBatch.DrawString(Arial, "PosPointerSFX = " + PosPointerSFX , new Vector2(0,120), Color.Black);
+            _spriteBatch.DrawString(Arial, "tempMouseCurrentX = " + TempMouseCurrentX , new Vector2(0,160), Color.Black);
+            _spriteBatch.DrawString(Arial, "tempsfx = " + tempsfx , new Vector2(0,180), Color.Black);
+            _spriteBatch.DrawString(Arial, "NewMouseCurrentX = " + NewMouseCurrentX , new Vector2(0,200), Color.Black);
+            _spriteBatch.DrawString(Arial, "IsDragPointer = " + IsDragPointer1 , new Vector2(0,220), Color.Black);
+            _spriteBatch.DrawString(Arial, "Sound Effect Volume : " +(int)(Singleton.Instance.SFXVolume) , new Vector2(555,246), Color.Black);
+            _spriteBatch.DrawString(Arial, "Music Volume : " + (int)(Singleton.Instance.MusicVolume) , new Vector2(555,415), Color.Black);
         }
         public void ButtonsUpdate(){
             if(MouseOnElement(555, 555+56, 314,314+56)){
@@ -155,6 +172,60 @@ namespace ChickenUnknown.Screen {
                 }
             } else {
                 CloseButton = false;
+            }
+            if(MouseOnElement(PosPointerSFX, PosPointerSFX+28, 314,314+55)||IsDragPointer1){
+                //OnPointer1=true;
+                if(IsClick()){
+                    if(IsDragPointer1 == false){
+                    TempMouseCurrentX=Singleton.Instance.MouseCurrent.X;
+                    Click.Play();
+                    IsDragPointer1 = true;
+                }
+
+
+                }else {
+                //IsDragPointer = false;
+            }     
+                if(IsDragPointer1&&IsDragging()){
+                    NewMouseCurrentX=Singleton.Instance.MouseCurrent.X;
+                    tempsfx=(NewMouseCurrentX-TempMouseCurrentX)-14;
+                    tempsfx=(float)(((double)(((TempMouseCurrentX+tempsfx)-611)+14))/6.98);
+                    if(tempsfx<0){tempsfx=0;}else if(tempsfx>100){tempsfx=100;}
+                    Singleton.Instance.SFXVolume=tempsfx;
+                    SoundEffect.MasterVolume = ((float)(Singleton.Instance.SFXVolume)/100);
+                    }else {
+                    IsDragPointer1 = false;
+            }    
+
+            } else {
+               //OnPointer1 = false;
+            }
+            if(MouseOnElement(PosPointerMusic, PosPointerMusic+28, 483,483+55)||IsDragPointer2){
+                //OnPointer1=true;
+                if(IsClick()){
+                    if(IsDragPointer2 == false){
+                    TempMouseCurrentX=Singleton.Instance.MouseCurrent.X;
+                    Click.Play();
+                    IsDragPointer2 = true;
+                }
+
+
+                }else {
+                //IsDragPointer = false;
+            }     
+                if(IsDragPointer2&&IsDragging()){
+                    NewMouseCurrentX=Singleton.Instance.MouseCurrent.X;
+                    tempmusic=(NewMouseCurrentX-TempMouseCurrentX)-14;
+                    tempmusic=(float)(((double)(((TempMouseCurrentX+tempmusic)-611)+14))/6.98);
+                    if(tempmusic<0){tempmusic=0;}else if(tempmusic>100){tempmusic=100;}
+                    Singleton.Instance.MusicVolume=tempmusic;
+                    MediaPlayer.Volume=((float)(Singleton.Instance.MusicVolume)/100)*0.5f;
+                    }else {
+                    IsDragPointer2 = false;
+            }    
+
+            } else {
+               //OnPointer1 = false;
             }
 
         }
