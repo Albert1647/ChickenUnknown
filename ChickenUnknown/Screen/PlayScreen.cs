@@ -13,14 +13,17 @@ using System.Collections;
 namespace ChickenUnknown.Screen {
     class PlayScreen : IGameScreen {
         private SpriteFont Arial;
-        public Texture2D ExpBarRectangle, SwingTexture, ChickenTexture, StretchAreaTexture, ZombieTexture,
+        public Texture2D ExpBarRectangle, SwingTexture, ChickenTexture, StretchAreaTexture, NormalZombieTexture, TankZombieTexture,
                         bg, bg1, barricade, wall, Popup_levelup, Levelup_item1, Levelup_item2, 
-                        Levelup_item3, Select_button, HpBarRectangle;
+                        Levelup_item3, Select_button, HpBarTexture;
         public Rectangle ExpBarRect;
         private Swing Swing;
         public static List<Zombie> ZombieList;
-        public float Timer = 0f;
-        public float showTime = 0f;
+        public List<Zombie> ZombieQueue = new List<Zombie>();
+        public float ZombieSpawnTimer = 0f;
+        public float ShowTime = 0f;
+        public float SpawnTimer = 0f;
+        public int SpawnLevel = 1;
         public TimeSpan TimeSpan;
         public string answerTime;
         public bool lvlUp = false, LevelUp = false;
@@ -31,6 +34,9 @@ namespace ChickenUnknown.Screen {
                 
             };
             ZombieList = new List<Zombie>();
+
+            AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
+            SpawnLevel += 1;
         }
         public override void LoadContent() {
             // Load Resource
@@ -40,7 +46,7 @@ namespace ChickenUnknown.Screen {
             SwingTexture = Content.Load<Texture2D>("PlayScreen/draft_slingshot");
             StretchAreaTexture = Content.Load<Texture2D>("PlayScreen/StretchArea");
             ChickenTexture = Content.Load<Texture2D>("PlayScreen/draft_chicken");
-            ZombieTexture = Content.Load<Texture2D>("PlayScreen/draft_zombie_nm");
+            NormalZombieTexture = Content.Load<Texture2D>("PlayScreen/draft_zombie_nm");
 
             bg = Content.Load<Texture2D>("PlayScreen/draft_bg");
             bg1 = Content.Load<Texture2D>("PlayScreen/draft_ingame");
@@ -58,53 +64,52 @@ namespace ChickenUnknown.Screen {
         public override void UnloadContent() {
             base.UnloadContent();
         }
+
+        
         public override void Update(GameTime gameTime) {
             base.Update(gameTime);
             GetMouseInput();
+            SpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+            ZombieSpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+            ShowTime += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
 
-            Timer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-            showTime += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-
-
-            if(Timer >= ZombieSpawnRate()){
-                ZombieList.Add(new Zombie(ZombieTexture, HpBarRectangle){
-                    IsActive = true
-                });
-                Timer = 0;
+            if(ZombieSpawnTimer >= ZombieSpawnDelay()){
+                if(ZombieQueue.Count > 0){
+                    ZombieList.Add(ZombieQueue[0]);   
+                    ZombieQueue.RemoveAt(0);
+                }
+                ZombieSpawnTimer = 0;
             }
 
-            Swing.Update(gameTime);
-            for(int i = 0; i < Swing.ChickenList.Count ; i++){
-				Swing.ChickenList[i].Update(gameTime);
-			}
+            CheckSpawnZombie();
 
-            for(int i = 0; i < ZombieList.Count ; i++){
+            Swing.Update(gameTime);
+            for(int i = 0; i < Swing.ChickenList.Count ; i++)
+				Swing.ChickenList[i].Update(gameTime);
+			
+
+            for(int i = 0; i < ZombieList.Count ; i++)
 				ZombieList[i].Update(gameTime);
-			}
 
             //LevelupRandomPower
             LevelupRandomPower();
             UpdateExpBar();
             UpdateDisplayTime();
         
-            if (Keyboard.GetState().IsKeyDown(Keys.T)) {
+            if (Keyboard.GetState().IsKeyDown(Keys.T)) 
                 LevelUp = true;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.U)) {
+            if (Keyboard.GetState().IsKeyDown(Keys.U)) 
                 LevelUp = false;
-            }
              
         }
         public override void Draw(SpriteBatch _spriteBatch) {
             DrawHUD(_spriteBatch);
             DrawLog(_spriteBatch);
             Swing.Draw(_spriteBatch, Arial);
-            for(int i = 0; i < Swing.ChickenList.Count ; i++){
+            for(int i = 0; i < Swing.ChickenList.Count ; i++)
 				Swing.ChickenList[i].Draw(_spriteBatch, Arial);
-			}
-            for(int i = 0; i < ZombieList.Count ; i++){
+            for(int i = 0; i < ZombieList.Count ; i++)
 				ZombieList[i].Draw(_spriteBatch, Arial);
-			}
         }
         
         public void DrawLog(SpriteBatch _spriteBatch){
@@ -119,6 +124,10 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Arial, "MaxExp : " +Singleton.Instance.MaxExp , new Vector2(0,260), Color.Black);
             _spriteBatch.DrawString(Arial, "KUY : " +(float)(Singleton.Instance.Exp/Singleton.Instance.MaxExp)*MaxExpWidth , new Vector2(0,300), Color.Black);    
             _spriteBatch.DrawString(Arial, "MaxHpWidth : " + MaxHpWidth, new Vector2(300,400), Color.Black);
+
+            _spriteBatch.DrawString(Arial, "ZombieInQueue : " + ZombieQueue.Count, new Vector2(1200,200), Color.Black);
+            _spriteBatch.DrawString(Arial, "Time: " + SpawnTimer, new Vector2(1200,220), Color.Black);
+            _spriteBatch.DrawString(Arial, "ZombieSpawnTimer: " + ZombieSpawnTimer, new Vector2(1200,240), Color.Black);
         }
 
         public void DrawHUD(SpriteBatch _spriteBatch){
@@ -142,21 +151,69 @@ namespace ChickenUnknown.Screen {
             
         }
 
-        public float ZombieSpawnRate(){
+        public void AddSpawnQueueZombie(Zombie.ZombieType type, int amount){
+            switch(type){
+                case Zombie.ZombieType.NORMAL:
+                for(int i = 0 ; i < amount ; i++)
+                    ZombieQueue.Add(new Zombie(NormalZombieTexture, HpBarTexture){
+                        IsActive = true
+                    });
+                break;
+                case Zombie.ZombieType.TANK:
+                    ZombieQueue.Add(new Zombie(NormalZombieTexture, HpBarTexture){
+                        IsActive = true
+                    });
+                break;
+                case Zombie.ZombieType.RUNNER:
+                    ZombieQueue.Add(new Zombie(NormalZombieTexture, HpBarTexture){
+                        IsActive = true
+                    });
+                break;
+                default:
+                break;
+            }
+        }
+
+        public void CheckSpawnZombie(){
+            if(SpawnTimer >= 10){
+                switch(SpawnLevel){
+                    case 1:
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
+                    break;
+                    case 2:
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,20);
+                    break;
+                    case 3:
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
+                    break;
+                    case 4:
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
+                    break;
+                    case 5:
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,25);
+                    break;
+                    default:
+                    break;
+                }
+                SpawnTimer = 0;
+            }
+
+        }
+
+        public float ZombieSpawnDelay(){
             return 5f;
         }
 
         public void UpdateDisplayTime(){
-            TimeSpan = TimeSpan.FromSeconds(showTime);
+            TimeSpan = TimeSpan.FromSeconds(ShowTime);
             answerTime = string.Format("{0:D2}:{1:D2}", //for example if you want Millisec => "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms"  ,t.Milliseconds
                 TimeSpan.Minutes, 
                 TimeSpan.Seconds);
         }
         public void UpdateExpBar(){
             
-            if (Singleton.Instance.currentKB.IsKeyUp(Keys.O) && Singleton.Instance.previousKB.IsKeyDown(Keys.O)) {                
+            if (Singleton.Instance.currentKB.IsKeyUp(Keys.O) && Singleton.Instance.previousKB.IsKeyDown(Keys.O))             
                 Singleton.Instance.Exp += 50; 
-            }
             ExpBarRect.Width = (int)(((float)(Singleton.Instance.Exp/Singleton.Instance.MaxExp))* MaxExpWidth);
             if (ExpBarRect.Width > MaxExpWidth) {
                 ExpBarRect.Width = 0;
@@ -226,13 +283,14 @@ namespace ChickenUnknown.Screen {
 			int width = 100;
             int height = 5;
             
-            HpBarRectangle = new Texture2D(GetGraphicsDeviceManager().GraphicsDevice, width, height);
+            HpBarTexture = new Texture2D(GetGraphicsDeviceManager().GraphicsDevice, width, height);
 			
             Color[] data = new Color[width*height];
             for(int i=0; i < data.Length; ++i)
                 data[i] = Color.DarkRed;
-            HpBarRectangle.SetData(data);
+            HpBarTexture.SetData(data);
         }
+        
         public GraphicsDeviceManager GetGraphicsDeviceManager(){
             return Singleton.Instance.gdm;
         }
