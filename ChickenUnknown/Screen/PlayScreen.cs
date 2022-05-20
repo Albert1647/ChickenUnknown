@@ -20,6 +20,7 @@ namespace ChickenUnknown.Screen {
         private Swing Swing;
         public static List<Zombie> ZombieList;
         public float Timer = 0f;
+        public float showTime = 0f;
         public TimeSpan TimeSpan;
         public string answerTime;
         public bool lvlUp = false, LevelUp = false;
@@ -61,7 +62,9 @@ namespace ChickenUnknown.Screen {
             base.Update(gameTime);
             GetMouseInput();
 
-            Timer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;   
+            Timer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+            showTime += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+
 
             if(Timer >= ZombieSpawnRate()){
                 ZombieList.Add(new Zombie(ZombieTexture, HpBarRectangle){
@@ -79,9 +82,6 @@ namespace ChickenUnknown.Screen {
 				ZombieList[i].Update(gameTime);
 			}
 
-            UpdateExpBar();
-            UpdateDisplayTime();
-            
             //LevelupRandomPower
             LevelupRandomPower();
             UpdateExpBar();
@@ -147,7 +147,7 @@ namespace ChickenUnknown.Screen {
         }
 
         public void UpdateDisplayTime(){
-            TimeSpan = TimeSpan.FromSeconds(Timer);
+            TimeSpan = TimeSpan.FromSeconds(showTime);
             answerTime = string.Format("{0:D2}:{1:D2}", //for example if you want Millisec => "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms"  ,t.Milliseconds
                 TimeSpan.Minutes, 
                 TimeSpan.Seconds);
