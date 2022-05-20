@@ -22,7 +22,13 @@ namespace ChickenUnknown
 		//
 		public GraphicsDeviceManager _graphics;
 		//chicken status
-		public int MusicVolume = 50,SFXVolume = 50;
+		public int scale = 5;
+		public int quantity = 5;
+		public int cooldown = 5;
+		public int damage = 5;
+		public float Exp = 0, MaxExp = 150;
+		//Volume
+		public float MusicVolume = 50,SFXVolume = 50;
 
         private static Singleton instance;
 		public static Singleton Instance
