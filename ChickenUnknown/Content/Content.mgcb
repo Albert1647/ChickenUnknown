@@ -296,6 +296,18 @@
 /processorParam:TextureFormat=Color
 /build:PlayScreen/draft_zombie_nm.png
 
+#begin PlayScreen/draft_zombie_tank.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PlayScreen/draft_zombie_tank.png
+
 #begin PlayScreen/StretchArea.png
 /importer:TextureImporter
 /processor:TextureProcessor

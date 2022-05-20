@@ -35,7 +35,8 @@ namespace ChickenUnknown.Screen {
             };
             ZombieList = new List<Zombie>();
 
-            AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
+            AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
+            AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 15);
             SpawnLevel += 1;
         }
         public override void LoadContent() {
@@ -47,6 +48,7 @@ namespace ChickenUnknown.Screen {
             StretchAreaTexture = Content.Load<Texture2D>("PlayScreen/StretchArea");
             ChickenTexture = Content.Load<Texture2D>("PlayScreen/draft_chicken");
             NormalZombieTexture = Content.Load<Texture2D>("PlayScreen/draft_zombie_nm");
+            TankZombieTexture = Content.Load<Texture2D>("PlayScreen/draft_zombie_tank");
 
             bg = Content.Load<Texture2D>("PlayScreen/draft_bg");
             bg1 = Content.Load<Texture2D>("PlayScreen/draft_ingame");
@@ -138,7 +140,6 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.Draw(SwingTexture, new Rectangle(185, UI.FLOOR_Y-378-216, SwingTexture.Width, SwingTexture.Height), Color.White);
             _spriteBatch.Draw(ExpBarRectangle, new Vector2(100, 100) ,ExpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);        
             
-
             if (LevelUp) {
                 _spriteBatch.Draw(Popup_levelup, new Vector2(288, 108),Color.White);
                 _spriteBatch.Draw(Levelup_item1, new Vector2(344, 372),Color.White);
@@ -148,27 +149,26 @@ namespace ChickenUnknown.Screen {
                 _spriteBatch.Draw(Select_button, new Vector2(826, 753),Color.White);
                 _spriteBatch.Draw(Select_button, new Vector2(1274, 753),Color.White);
             }
-            
         }
 
         public void AddSpawnQueueZombie(Zombie.ZombieType type, int amount){
             switch(type){
                 case Zombie.ZombieType.NORMAL:
                 for(int i = 0 ; i < amount ; i++)
-                    ZombieQueue.Add(new Zombie(NormalZombieTexture, HpBarTexture){
-                        IsActive = true
+                    ZombieQueue.Add(new Zombie(NormalZombieTexture, HpBarTexture, Zombie.ZombieType.NORMAL){
+                        IsActive = true,
                     });
                 break;
                 case Zombie.ZombieType.TANK:
-                    ZombieQueue.Add(new Zombie(NormalZombieTexture, HpBarTexture){
-                        IsActive = true
+                    ZombieQueue.Add(new Zombie(TankZombieTexture, HpBarTexture, Zombie.ZombieType.TANK){
+                        IsActive = true,
                     });
                 break;
-                case Zombie.ZombieType.RUNNER:
-                    ZombieQueue.Add(new Zombie(NormalZombieTexture, HpBarTexture){
-                        IsActive = true
-                    });
-                break;
+                // case Zombie.ZombieType.RUNNER:
+                //     ZombieQueue.Add(new Zombie(NormalZombieTexture, HpBarTexture){
+                //         IsActive = true
+                //     });
+                // break;
                 default:
                 break;
             }

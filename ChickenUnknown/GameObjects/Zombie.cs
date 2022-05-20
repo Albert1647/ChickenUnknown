@@ -19,9 +19,10 @@ namespace ChickenUnknown.GameObjects {
 		public enum ZombieType{
 			NORMAL, TANK, RUNNER
 		}
-		public Zombie(Texture2D zombieTexture, Texture2D hpBarTexture) : base(zombieTexture){
+		public Zombie(Texture2D zombieTexture, Texture2D hpBarTexture, ZombieType type) : base(zombieTexture){
 			Hitbox = zombieTexture.Height/2;
 			_pos = new Vector2(1920, UI.FLOOR_Y - Hitbox);
+			Type = type;
 			HP = GetZombieHp();
 			MaxHp = HP;
 			Speed = 0.35f;
