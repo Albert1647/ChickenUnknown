@@ -27,7 +27,7 @@ namespace ChickenUnknown.Screen {
         public TimeSpan TimeSpan;
         public string answerTime;
         public bool lvlUp = false, LevelUp = false, ShowDialog, Random;
-        public String selectPower;
+        public String SelectPower;
 		public int Level = 0, MaxHpWidth = 100, MaxExpWidth = 300;
         public ArrayList RandomPower = new ArrayList();  
         public GameState _gameState;
@@ -118,7 +118,6 @@ namespace ChickenUnknown.Screen {
                         case PlayState.LEVELUP:
                             GetMouseInput();
                             if(!SelectablePower){
-                                var RandomPower = new ArrayList();
                                 //random
                                 // if(LevelUp) {
                                 var allPower = new ArrayList()
@@ -138,18 +137,25 @@ namespace ChickenUnknown.Screen {
                             if(SelectablePower){
                                 //select power
                                 if(MouseOnElement(387, 646, 753,833) && IsClick()){
-                                    // selectPower = RandomPower[0].ToString();
-                                    // UpdatePower(selectPower);
+                                    // SelectPower = RandomPower[0].ToString();
+                                    // UpdatePower(SelectPower);
+                                    SelectPower = RandomPower[0].ToString();
                                     SelectablePower = false;
+                                    UpdatePower(SelectPower);
                                     _playState = PlayState.PLAYING;
+                                    RandomPower.Clear();
                                 }else if(MouseOnElement(826, 1092, 758,833) && IsClick()){
-                                    selectPower = RandomPower[1].ToString();
-                                    UpdatePower(selectPower);
+                                    SelectPower = RandomPower[1].ToString();
+                                    SelectablePower = false;
+                                    UpdatePower(SelectPower);
                                     _playState = PlayState.PLAYING;
+                                    RandomPower.Clear();
                                 }else if(MouseOnElement(1274, 1540, 753,834) && IsClick()){
-                                    selectPower = RandomPower[2].ToString();
-                                    UpdatePower(selectPower);
+                                    SelectPower = RandomPower[2].ToString();
+                                    SelectablePower = false;
+                                    UpdatePower(SelectPower);
                                     _playState = PlayState.PLAYING;
+                                    RandomPower.Clear();
                                 }
                             }
                             // if (Singleton.Instance.currentKB.IsKeyUp(Keys.M) && Singleton.Instance.previousKB.IsKeyDown(Keys.M)) {                
@@ -201,6 +207,8 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Arial, "Levelup : " + LevelUp, new Vector2(400,100), Color.Black);
             _spriteBatch.DrawString(Arial, "ShowDialog : " + ShowDialog, new Vector2(400,120), Color.Black);
             _spriteBatch.DrawString(Arial, "Random : " + Random, new Vector2(400,140), Color.Black);
+            _spriteBatch.DrawString(Arial, "SelectPower : " + SelectPower, new Vector2(400,200), Color.Black);
+            _spriteBatch.DrawString(Arial, "RandomArray : " + RandomPower.Count, new Vector2(400,220), Color.Black);
             // _spriteBatch.DrawString(Arial, "randomPower : " + RandomPower, new Vector2(400,160), Color.Black);
         }
         
