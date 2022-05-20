@@ -13,15 +13,6 @@ namespace ChickenUnknown.Screen {
         private Texture2D StartButton, StartHover, SettingButton, SettingHover, ExitButton, ExitHover,
         BG,Title;
         private bool MouseOnStartButton, MouseOnSettingButton, MouseOnExitButton, HoverStart, HoverSetting, HoverExit;
-
-        private enum GameState{
-            PLAYING, WINNING, LOSING
-        }
-        
-        private enum PlayingState{
-            PLAYING, LEVELUP, GACHA
-        }
-
         public void Initial() {
 
 		}

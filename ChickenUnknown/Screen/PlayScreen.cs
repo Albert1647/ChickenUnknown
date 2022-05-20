@@ -30,7 +30,19 @@ namespace ChickenUnknown.Screen {
         public String selectPower;
 		public int Level = 0, MaxHpWidth = 100, MaxExpWidth = 300;
         public ArrayList RandomPower = new ArrayList();  
+        public GameState _gameState;
+        public PlayState _playState;
+        private bool SelectablePower;
+        public enum GameState{
+            PLAYING, WINNING, LOSING
+        }
+        
+        public enum PlayState{
+            PLAYING, LEVELUP, GACHA
+        }
         public void Initial() {
+            _gameState = GameState.PLAYING;
+            _playState = PlayState.PLAYING;
             Swing = new Swing(SwingTexture, ChickenTexture, StretchAreaTexture) {
                 
             };
@@ -67,48 +79,97 @@ namespace ChickenUnknown.Screen {
         public override void UnloadContent() {
             base.UnloadContent();
         }
-
-        
         public override void Update(GameTime gameTime) {
-            
-            if (LevelUp && ShowDialog) {
-                LevelupRandomPower();               
-            }
 
-            if (!LevelUp && !ShowDialog) {
-                GetMouseInput();
-                SpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-                ZombieSpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-                ShowTime += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+            switch(_gameState){
+                case GameState.PLAYING:
+                    switch(_playState){
+                        case PlayState.PLAYING:
+                        GetMouseInput();
+                        SpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+                        ZombieSpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+                        ShowTime += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
 
-                if(ZombieSpawnTimer >= ZombieSpawnRate()){
-                    if(ZombieQueue.Count > 0){
-                        ZombieList.Add(ZombieQueue[0]);   
-                        ZombieQueue.RemoveAt(0);
+                        if(ZombieSpawnTimer >= ZombieSpawnRate()){
+                            if(ZombieQueue.Count > 0){
+                                ZombieList.Add(ZombieQueue[0]);   
+                                ZombieQueue.RemoveAt(0);
+                            }
+                            ZombieSpawnTimer = 0;
+                        }
+
+                        CheckSpawnZombie();
+                        Swing.Update(gameTime);
+                        for(int i = 0; i < Swing.ChickenList.Count ; i++)
+                            Swing.ChickenList[i].Update(gameTime);
+                        
+
+                        for(int i = 0; i < ZombieList.Count ; i++)
+                            ZombieList[i].Update(gameTime);
+                        //LevelupRandomPower
+                        UpdateExp();
+                        UpdateDisplayTime();
+                    
+                        if (Keyboard.GetState().IsKeyDown(Keys.T)) 
+                            LevelUp = true;
+                        if (Keyboard.GetState().IsKeyDown(Keys.U)) 
+                            LevelUp = false;
+                        break;
+                        case PlayState.LEVELUP:
+                            GetMouseInput();
+                            if(!SelectablePower){
+                                var RandomPower = new ArrayList();
+                                //random
+                                // if(LevelUp) {
+                                var allPower = new ArrayList()
+                                    {
+                                        "scale","quantity","cooldown","damage"
+                                    };
+
+                                var temp = allPower;  
+                                Random randomPower = new Random();
+                                for ( int i=0 ; i < 3 ; i++) {
+                                    int thisPower = randomPower.Next(temp.Count);
+                                    RandomPower.Add(temp[thisPower]);
+                                    temp.RemoveAt(thisPower); 
+                                }
+                                SelectablePower = true;
+                            }
+                            if(SelectablePower){
+                                //select power
+                                if(MouseOnElement(387, 646, 753,833) && IsClick()){
+                                    // selectPower = RandomPower[0].ToString();
+                                    // UpdatePower(selectPower);
+                                    SelectablePower = false;
+                                    _playState = PlayState.PLAYING;
+                                }else if(MouseOnElement(826, 1092, 758,833) && IsClick()){
+                                    selectPower = RandomPower[1].ToString();
+                                    UpdatePower(selectPower);
+                                    _playState = PlayState.PLAYING;
+                                }else if(MouseOnElement(1274, 1540, 753,834) && IsClick()){
+                                    selectPower = RandomPower[2].ToString();
+                                    UpdatePower(selectPower);
+                                    _playState = PlayState.PLAYING;
+                                }
+                            }
+                            // if (Singleton.Instance.currentKB.IsKeyUp(Keys.M) && Singleton.Instance.previousKB.IsKeyDown(Keys.M)) {                
+                            //     ShowDialog = false;
+                            //     LevelUp = false;
+                            //     Random = false;                
+                            // }        
+                        break;
+                        case PlayState.GACHA:
+                        break;
                     }
-                    ZombieSpawnTimer = 0;
-                }
+                break;
+                case GameState.LOSING:
 
-                CheckSpawnZombie();
+                break;
+                case GameState.WINNING:
 
-                Swing.Update(gameTime);
-                for(int i = 0; i < Swing.ChickenList.Count ; i++)
-                    Swing.ChickenList[i].Update(gameTime);
-                
-
-                for(int i = 0; i < ZombieList.Count ; i++)
-                    ZombieList[i].Update(gameTime);
-
-                //LevelupRandomPower
-                LevelupRandomPower();
-                UpdateExpBar();
-                UpdateDisplayTime();
-            
-                if (Keyboard.GetState().IsKeyDown(Keys.T)) 
-                    LevelUp = true;
-                if (Keyboard.GetState().IsKeyDown(Keys.U)) 
-                    LevelUp = false;
+                break;
             }
+            
             base.Update(gameTime);
         }
         public override void Draw(SpriteBatch _spriteBatch) {
@@ -150,15 +211,18 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.Draw(barricade, new Rectangle(403, UI.FLOOR_Y-108, barricade.Width, barricade.Height), Color.White);
             _spriteBatch.Draw(SwingTexture, new Rectangle(185, UI.FLOOR_Y-378-216, SwingTexture.Width, SwingTexture.Height), Color.White);
             _spriteBatch.Draw(ExpBarRectangle, new Vector2(100, 100) ,ExpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);        
-            
-            if (LevelUp && ShowDialog) {
-                _spriteBatch.Draw(Popup_levelup, new Vector2(288, 108),Color.White);
-                _spriteBatch.Draw(Levelup_item1, new Vector2(344, 372),Color.White);
-                _spriteBatch.Draw(Levelup_item2, new Vector2(792, 372),Color.White);
-                _spriteBatch.Draw(Levelup_item3, new Vector2(1240, 372),Color.White);
-                _spriteBatch.Draw(Select_button, new Vector2(378, 753),Color.White);
-                _spriteBatch.Draw(Select_button, new Vector2(826, 753),Color.White);
-                _spriteBatch.Draw(Select_button, new Vector2(1274, 753),Color.White);
+            switch(_playState){
+                case PlayState.LEVELUP:
+                    _spriteBatch.Draw(Popup_levelup, new Vector2(288, 108),Color.White);
+                    _spriteBatch.Draw(Levelup_item1, new Vector2(344, 372),Color.White);
+                    _spriteBatch.Draw(Levelup_item2, new Vector2(792, 372),Color.White);
+                    _spriteBatch.Draw(Levelup_item3, new Vector2(1240, 372),Color.White);
+                    _spriteBatch.Draw(Select_button, new Vector2(378, 753),Color.White);
+                    _spriteBatch.Draw(Select_button, new Vector2(826, 753),Color.White);
+                    _spriteBatch.Draw(Select_button, new Vector2(1274, 753),Color.White);
+                break;
+                case PlayState.GACHA:
+                break;
             }
         }
 
@@ -237,27 +301,23 @@ namespace ChickenUnknown.Screen {
                 return 5f;  
             }
         }
-
         public void UpdateDisplayTime(){
             TimeSpan = TimeSpan.FromSeconds(ShowTime);
             answerTime = string.Format("{0:D2}:{1:D2}", //for example if you want Millisec => "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms"  ,t.Milliseconds
                 TimeSpan.Minutes, 
                 TimeSpan.Seconds);
         }
-        public void UpdateExpBar(){
-            
+        public void UpdateExp(){
             if (Singleton.Instance.currentKB.IsKeyUp(Keys.O) && Singleton.Instance.previousKB.IsKeyDown(Keys.O))             
                 Player.Instance.Exp += 50; 
             ExpBarRect.Width = (int)(((float)(Player.Instance.Exp/Player.Instance.MaxExp))* MaxExpWidth);
             if (ExpBarRect.Width > MaxExpWidth) {
                 ExpBarRect.Width = 0;
                 Level += 1;
-                LevelUp = true;
-                ShowDialog = true;
                 Player.Instance.Exp = 0;
+                _playState = PlayState.LEVELUP;
             }
         }
-
         public void UpdatePower(String power){
             switch (power) {
                 case "scale":
@@ -274,52 +334,6 @@ namespace ChickenUnknown.Screen {
                     break;
             }
         }
-        public void LevelupRandomPower(){
-            var RandomPower = new ArrayList();
-             //random
-            if(LevelUp) {
-
-                var allPower = new ArrayList()
-                    {
-                        "scale","quantity","cooldown","damage"
-                    };
-
-                var temp = allPower;  
-                Random randomPower = new Random();
-                for ( int i=0 ; i < 3 ; i++) {
-                    int thisPower = randomPower.Next(temp.Count);
-                    RandomPower.Add(temp[thisPower]);
-                    temp.RemoveAt(thisPower); 
-                }
-                //Print item this round
-                foreach(var item in RandomPower) {
-                    Console.WriteLine("Item m:" + item);
-                }
-                Random = true;
-            }
-            //select power
-            if (Random) {
-                if(MouseOnElement(387, 646, 753,833) && IsClick()){
-                    // selectPower = RandomPower[0].ToString();
-                    // UpdatePower(selectPower);
-                    ShowDialog = false;
-                    LevelUp = false;
-                    Random = false;
-                }else if(MouseOnElement(826, 1092, 758,833) && IsClick()){
-                    selectPower = RandomPower[1].ToString();
-                    UpdatePower(selectPower);
-                }else if(MouseOnElement(1274, 1540, 753,834) && IsClick()){
-                    selectPower = RandomPower[2].ToString();
-                    UpdatePower(selectPower);
-                }
-            }
-             if (Singleton.Instance.currentKB.IsKeyUp(Keys.M) && Singleton.Instance.previousKB.IsKeyDown(Keys.M)) {                
-                ShowDialog = false;
-                LevelUp = false;
-                Random = false;                
-            }
-        }
-
         public void InitializeExpBar(){
             var width = 1000;
             var height = 20;
