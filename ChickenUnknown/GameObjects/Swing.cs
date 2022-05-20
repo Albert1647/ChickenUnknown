@@ -9,8 +9,11 @@ using System.Diagnostics;
 
 namespace ChickenUnknown.GameObjects {
     	class Swing : IGameObject {
-        private Texture2D StretchAreaTexture, ChickenTexture;
-		private Vector2 OldChickenPos; 
+        private Texture2D StretchAreaTexture,
+							NormalChickenTexture,SpecialChickenTexture,
+							NormalFlyChickenTexture,SpecialFlyChickenTexture,
+							NormalWalkChickenTexture,SpecialWalkChickenTexture;
+		private Vector2 OldChickenPos;
 		private float OldAimAngle;
         private float AimAngle;
 		private Vector2 CENTER_OF_SWING = new Vector2(230, 475); 
@@ -18,11 +21,20 @@ namespace ChickenUnknown.GameObjects {
 		private int HITBOX;
 		public static List<Chicken> ChickenList = new List<Chicken>();
 		public static int NumOfChicken;
-		public Swing(Texture2D swingTexture, Texture2D chickenTexture, Texture2D stretchAreaTexture) : base(swingTexture){
-            // IndicatorTexture = indicatorTexture;
+		public Swing(Texture2D swingTexture,Texture2D stretchAreaTexture,
+						Texture2D normalChickenTexture,Texture2D specialChickenTexture,
+					  	Texture2D normalFlyChickenTexture,Texture2D specialFlyChickenTexture,
+						Texture2D  normalWalkChickenTexture,Texture2D specialWalkChickenTexture) : base(swingTexture)
+		{
             StretchAreaTexture = stretchAreaTexture;
-			ChickenTexture = chickenTexture;
-			HITBOX = chickenTexture.Width / 2;
+			NormalChickenTexture = normalChickenTexture;
+			NormalFlyChickenTexture = normalFlyChickenTexture;
+			NormalWalkChickenTexture = normalWalkChickenTexture;
+			SpecialWalkChickenTexture = specialWalkChickenTexture;
+			SpecialChickenTexture = specialChickenTexture;
+			SpecialFlyChickenTexture = specialFlyChickenTexture;
+
+			HITBOX = normalChickenTexture.Width / 2;
 			NumOfChicken = Player.Instance.StartQuantity;
 		}
 		
@@ -36,15 +48,30 @@ namespace ChickenUnknown.GameObjects {
 					Singleton.Instance.IsAiming = true;
 					if(IsMouseUp()){
 						Singleton.Instance.IsAiming = false;
-						var chicken = new Chicken(ChickenTexture) {
-							_pos = new Vector2(OldChickenPos.X, OldChickenPos.Y),
-							Angle = OldAimAngle + MathHelper.Pi,
-							FlyingRotation = OldAimAngle,
-							Speed = (int)(MAXSPEED * (GetMouseStretchDistance() >= StretchAreaTexture.Width/2 ? StretchAreaTexture.Width/2 : GetMouseStretchDistance()) / (StretchAreaTexture.Width/2)),
-							IsFlying = true,
-							IsActive = true
-						};
-						ChickenList.Add(chicken);
+						Chicken chicken;
+						if(Player.Instance.IsUsingSpecialAbility){
+							chicken = new Chicken(SpecialChickenTexture, SpecialWalkChickenTexture, SpecialFlyChickenTexture) {
+								_pos = new Vector2(OldChickenPos.X, OldChickenPos.Y),
+								Angle = OldAimAngle + MathHelper.Pi,
+								FlyingRotation = OldAimAngle,
+								Speed = (int)(MAXSPEED * (GetMouseStretchDistance() >= StretchAreaTexture.Width/2 ? StretchAreaTexture.Width/2 : GetMouseStretchDistance()) / (StretchAreaTexture.Width/2)),
+								IsFlying = true,
+								IsActive = true,
+								IsSpecial = true
+							};
+							ChickenList.Add(chicken);
+						} else {
+							chicken = new Chicken(NormalChickenTexture, NormalWalkChickenTexture, NormalFlyChickenTexture) {
+								_pos = new Vector2(OldChickenPos.X, OldChickenPos.Y),
+								Angle = OldAimAngle + MathHelper.Pi,
+								FlyingRotation = OldAimAngle,
+								Speed = (int)(MAXSPEED * (GetMouseStretchDistance() >= StretchAreaTexture.Width/2 ? StretchAreaTexture.Width/2 : GetMouseStretchDistance()) / (StretchAreaTexture.Width/2)),
+								IsFlying = true,
+								IsActive = true,
+								IsSpecial = false
+							};
+							ChickenList.Add(chicken);
+						}
 						NumOfChicken -= 1;
 					}
 				}
@@ -52,11 +79,11 @@ namespace ChickenUnknown.GameObjects {
 		}
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
 			_spriteBatch.Draw(StretchAreaTexture, CENTER_OF_SWING ,null, Color.White, 0f, GetCenterOrigin(StretchAreaTexture), 1f, SpriteEffects.None, 0);
+			Texture2D ChickenTexture = Player.Instance.IsUsingSpecialAbility ? SpecialChickenTexture : NormalChickenTexture;
 			if(NumOfChicken > 0){
 				if(!Singleton.Instance.IsAiming){
 					_spriteBatch.Draw(ChickenTexture, CENTER_OF_SWING ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
 				} else if(Singleton.Instance.IsAiming && MouseIsOnStretchAreaTexture()){
-					// _spriteBatch.Draw(ChickenTexture, new Vector2(Singleton.Instance.MouseCurrent.X, Singleton.Instance.MouseCurrent.Y) ,null, Color.White, AimAngle, GetCenterOrigin(ChickenTexture), 1f + Player.Instance.Scale, IsUpsideDown() ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
 					_spriteBatch.Draw(ChickenTexture, new Vector2(Singleton.Instance.MouseCurrent.X, Singleton.Instance.MouseCurrent.Y) ,null, Color.White, AimAngle + MathHelper.Pi, GetCenterOrigin(ChickenTexture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
 					SaveChickenPosAngle();
 				} else if (Singleton.Instance.IsAiming && !MouseIsOnStretchAreaTexture()) {
@@ -65,7 +92,7 @@ namespace ChickenUnknown.GameObjects {
 			}
 			// Reloaded Chicken
 			for(int i = 0; i < NumOfChicken && i < 8; i++){
-				_spriteBatch.Draw(ChickenTexture, new Vector2(130,650+(i * ChickenTexture.Height + 20)) ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
+				_spriteBatch.Draw(NormalChickenTexture, new Vector2(130,650+(i * ChickenTexture.Height + 20)) ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
 			}
 
 			DrawLog(_spriteBatch,  font);
@@ -92,7 +119,7 @@ namespace ChickenUnknown.GameObjects {
 		}
 
 		public bool IsShootable(){
-			var chickenRadius = ChickenTexture.Width/2;
+			var chickenRadius = NormalChickenTexture.Width/2;
 			return GetMouseOnChickenDistance() < chickenRadius;
 		}
 

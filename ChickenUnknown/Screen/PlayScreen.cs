@@ -13,7 +13,11 @@ using System.Collections;
 namespace ChickenUnknown.Screen {
     class PlayScreen : IGameScreen {
         private SpriteFont Arial;
-        public Texture2D ExpBarRectangle, SwingTexture, ChickenTexture, StretchAreaTexture, NormalZombieTexture, TankZombieTexture,
+        public Texture2D ExpBarRectangle, SwingTexture, 
+                        NormalChickenTexture,SpecialChickenTexture,
+                        NormalFlyChickenTexture,SpecialFlyChickenTexture,
+                        NormalWalkChickenTexture,SpecialWalkChickenTexture,
+                        StretchAreaTexture, NormalZombieTexture, TankZombieTexture,
                         bg, bg1, barricade, wall, Popup_levelup, Levelup_item1, Levelup_item2, 
                         Levelup_item3, Select_button, HpBarTexture;
         public Rectangle ExpBarRect;
@@ -44,12 +48,15 @@ namespace ChickenUnknown.Screen {
         public void Initial() {
             _gameState = GameState.PLAYING;
             _playState = PlayState.PLAYING;
-            Swing = new Swing(SwingTexture, ChickenTexture, StretchAreaTexture) {
+            Swing = new Swing(SwingTexture,StretchAreaTexture,
+                        NormalChickenTexture,SpecialChickenTexture,
+                        NormalFlyChickenTexture,SpecialFlyChickenTexture,
+                        NormalWalkChickenTexture,SpecialWalkChickenTexture) {
                 
             };
             ZombieList = new List<Zombie>();
-            AddSpawnQueueZombie(Zombie.ZombieType.TANK, 1);
-            AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 1);
+            AddSpawnQueueZombie(Zombie.ZombieType.TANK, 10);
+            AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 20);
             SpawnLevel += 1;
         }
         public override void LoadContent() {
@@ -59,9 +66,15 @@ namespace ChickenUnknown.Screen {
 
             SwingTexture = Content.Load<Texture2D>("PlayScreen/draft_slingshot");
             StretchAreaTexture = Content.Load<Texture2D>("PlayScreen/StretchArea");
-            ChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken");
             NormalZombieTexture = Content.Load<Texture2D>("PlayScreen/draft_zombie_nm");
             TankZombieTexture = Content.Load<Texture2D>("PlayScreen/draft_zombie_tank");
+
+            NormalChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_on_sling");
+            NormalFlyChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_on_air");
+            NormalWalkChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_run");
+            SpecialChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_Boom_on_sling");
+            SpecialFlyChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_Boom_on_air");
+            SpecialWalkChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_Boom_run");
 
             bg = Content.Load<Texture2D>("PlayScreen/draft_bg");
             bg1 = Content.Load<Texture2D>("PlayScreen/draft_ingame");
@@ -111,6 +124,9 @@ namespace ChickenUnknown.Screen {
                         SpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
                         ZombieSpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
                         ShowTime += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+                        if(Player.Instance.SpecailAbiltyCooldown > 0){
+                            Player.Instance.SpecailAbiltyCooldown -= (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+                        }
 
                         if(ZombieSpawnTimer >= ZombieSpawnRate()){
                             if(ZombieQueue.Count > 0){
@@ -237,6 +253,8 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Arial, "BarricadeHp : " + Player.Instance.BarricadeHP, new Vector2(480,900), Color.Black);
             _spriteBatch.DrawString(Arial, "WW : " + Player.Instance.ChickenAddedHitBox, new Vector2(480,920), Color.Black);
             _spriteBatch.DrawString(Arial, "22 : " + SelectablePower.Count, new Vector2(960,30), Color.Black);
+            _spriteBatch.DrawString(Arial, "BOMB : " + Player.Instance.IsUsingSpecialAbility, new Vector2(960,120), Color.Black);
+            _spriteBatch.DrawString(Arial, "COOLDOWN BRO : " + Player.Instance.SpecailAbiltyCooldown, new Vector2(960,150), Color.Black);
             // _spriteBatch.DrawString(Arial, "randomPower : " + RandomPower, new Vector2(400,160), Color.Black);
         }
         
@@ -319,12 +337,15 @@ namespace ChickenUnknown.Screen {
                 Player.Instance.Exp += 50; 
             if (Singleton.Instance.currentKB.IsKeyUp(Keys.G) && Singleton.Instance.previousKB.IsKeyDown(Keys.G))             
                 UpdatePower("chickenSpeed");
+            if (Singleton.Instance.currentKB.IsKeyUp(Keys.Space) && Singleton.Instance.previousKB.IsKeyDown(Keys.Space))
+                if(Player.Instance.SpecailAbiltyCooldown < 0)
+                    Player.Instance.IsUsingSpecialAbility = !Player.Instance.IsUsingSpecialAbility; 
         }
         public void UpdatePower(String power){
             switch (power) {
                 case "scale":
                     Player.Instance.Scale += PlayerUpgrade.Scale;
-                    Player.Instance.ChickenAddedHitBox = (ChickenTexture.Width / 2)* Player.Instance.Scale;
+                    Player.Instance.ChickenAddedHitBox = (NormalChickenTexture.Width / 2)* Player.Instance.Scale;
                     break;
                 case "knockback":
                     Player.Instance.Knockback += PlayerUpgrade.Knockback;
@@ -404,9 +425,9 @@ namespace ChickenUnknown.Screen {
         public float ZombieSpawnRate(){
             switch(SpawnLevel - 1){
                 case 1:
-                return 5f;  
+                return 2f;  
                 case 2:
-                return 5f;  
+                return 2f;  
                 case 3:
                 return 2f;  
                 case 4:

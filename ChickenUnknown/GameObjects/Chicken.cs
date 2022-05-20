@@ -8,6 +8,7 @@ using System.Diagnostics;
 
 namespace ChickenUnknown.GameObjects {
     	class Chicken : IGameObject {
+		public Texture2D ChickenWalkTexture, ChickenFlyTexture;
 		public float Speed;
 		public float FlyingRotation;
 		public float Angle;
@@ -18,10 +19,25 @@ namespace ChickenUnknown.GameObjects {
 		private int GRAVITY = 981;
 		public float ChickenRadius;
 		public bool IsActive;
-		public Chicken(Texture2D ChickenTexture) : base(ChickenTexture){
-			ChickenRadius = (ChickenTexture.Width) / 2;
+		public float AnimationTimer = 0f;
+		public bool IsSpecial = false;
+		// public bool SwitchFrame = false;
+		// public List<Texture2D> WalkingAnimation;
+		// public List<Texture2D> FlyingAnimation;
+		// public Chicken(Texture2D chickenTexture, Texture2D chickenBombTexture, List<Texture2D> walkingAnimation, List<Texture2D> flyingAnimation) : base(chickenTexture){
+		public Chicken(Texture2D chickenTexture,Texture2D chickenWalkTexture, Texture2D chickenFlyTexture) : base(chickenTexture){
+			ChickenRadius = (chickenTexture.Width) / 2;
+			ChickenWalkTexture = chickenWalkTexture;
+			ChickenFlyTexture = chickenFlyTexture;
+			// WalkingAnimation = walkingAnimation;
+			// FlyingAnimation = flyingAnimation;
 		}
 		public override void Update(GameTime gameTime) {
+			// AnimationTimer += gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+			// if(AnimationTimer > 2f){
+			// 	SwitchFrame = !SwitchFrame;
+			// 	AnimationTimer = 0;
+			// }
 			if(IsFlying){
 				Velocity.X = (float)Math.Cos(Angle) * Speed;
 				Velocity.Y = (float)Math.Sin(Angle) * Speed;
@@ -45,6 +61,11 @@ namespace ChickenUnknown.GameObjects {
 		private void DetectCollision(){
 			DetectZombieCollision();
 			if(_pos.X > 1920 || _pos.X < 0 || _pos.Y > UI.FLOOR_Y){
+				if(Player.Instance.IsUsingSpecialAbility){
+					HitZombieWithAoE();
+					Player.Instance.IsUsingSpecialAbility = false;
+					Player.Instance.SpecailAbiltyCooldown = 5f;
+				}
 				IsFlying = false;
 				_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
 				IsWalking = true;
@@ -71,17 +92,47 @@ namespace ChickenUnknown.GameObjects {
 				// Three part Collision Check -> Head, Body, Leg (roughly)
 				pos.Y -= (float)texture.Height / 2;
 				if(IsCollsionZombie(_pos, _texture, pos, texture)){
-					HitZombieAtIndex(i);
+					if(Player.Instance.IsUsingSpecialAbility){
+						PlayScreen.ZombieList[i].IsHit = true;
+						IsFlying = false;
+						_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
+						IsWalking = true;
+						HitZombieWithAoE();
+						Player.Instance.IsUsingSpecialAbility = false;
+						Player.Instance.SpecailAbiltyCooldown = 5f;
+					} else {
+						HitZombieAtIndex(i);
+					}
 					continue;
 				}
 				pos.Y += (float)texture.Height / 2;
 				if(IsCollsionZombie(_pos, _texture, pos, texture)){
-					HitZombieAtIndex(i);
+					if(Player.Instance.IsUsingSpecialAbility){
+						PlayScreen.ZombieList[i].IsHit = true;
+						IsFlying = false;
+						_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
+						IsWalking = true;
+						HitZombieWithAoE();
+						Player.Instance.IsUsingSpecialAbility = false;
+						Player.Instance.SpecailAbiltyCooldown = 5f;
+					} else {
+						HitZombieAtIndex(i);
+					}
 					continue;
 				}
 				pos.Y += (float)texture.Height / 2;
 				if(IsCollsionZombie(_pos, _texture, pos, texture)){
-					HitZombieAtIndex(i);
+					if(Player.Instance.IsUsingSpecialAbility){
+						PlayScreen.ZombieList[i].IsHit = true;
+						IsFlying = false;
+						_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
+						IsWalking = true;
+						HitZombieWithAoE();
+						Player.Instance.IsUsingSpecialAbility = false;
+						Player.Instance.SpecailAbiltyCooldown = 5f;
+					} else {
+						HitZombieAtIndex(i);
+					}
 					continue;
 				}
 			}
@@ -109,6 +160,19 @@ namespace ChickenUnknown.GameObjects {
 			PlayScreen.ZombieList[index]._pos.X += Player.Instance.Knockback;
 			PlayScreen.ZombieList[index].HP -= Player.Instance.Damage;
 		}
+		public void HitZombieWithAoE(){
+			for(int i = 0; i < PlayScreen.ZombieList.Count; i++){
+				var pos = PlayScreen.ZombieList[i]._pos;
+				var chickenPos = _pos;
+				if(IsInAOERadius(chickenPos, pos)){
+					PlayScreen.ZombieList[i].HP -= Player.Instance.SpecailAbiltyDamage;
+				}
+			}
+		}
+		public bool IsInAOERadius(Vector2 chicken, Vector2 zombie){
+			var AOE = 500;
+			return (int)Math.Sqrt(Math.Pow(chicken.X - zombie.X, 2) + Math.Pow(chicken.Y - zombie.Y, 2)) <= AOE;
+		}
 
 		public bool IsCollsionZombie(Vector2 chicken, Texture2D chickenTexture, Vector2 zombie,Texture2D zombieTexture){
 			var contactDistance = ChickenRadius + Player.Instance.ChickenAddedHitBox + zombieTexture.Width/2;
@@ -117,11 +181,11 @@ namespace ChickenUnknown.GameObjects {
 
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
 			if(IsWalking){
-				_spriteBatch.Draw(_texture, _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f + Player.Instance.Scale, SpriteEffects.FlipHorizontally, 0);
+				_spriteBatch.Draw(ChickenWalkTexture, _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f + Player.Instance.Scale, SpriteEffects.FlipHorizontally, 0);
 				
 			} else {
 				_spriteBatch.DrawString(font, "Radius ? = " + Player.Instance.ChickenAddedHitBox , new Vector2(600,360), Color.Green);
-				_spriteBatch.Draw(_texture, _pos ,null, Color.White, FlyingRotation + MathHelper.Pi, GetCenterOrigin(_texture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
+				_spriteBatch.Draw(ChickenFlyTexture, _pos ,null, Color.White, FlyingRotation + MathHelper.Pi, GetCenterOrigin(_texture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
 			}
 		}
 
