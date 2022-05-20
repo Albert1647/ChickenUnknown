@@ -7,7 +7,7 @@ using System;
 using Microsoft.Xna.Framework.Input;
 
 namespace ChickenUnknown.GameObjects {
-    	class Zombie : IGameObject {
+    	public class Zombie : IGameObject {
 		public Texture2D HpTexture;
 		public Rectangle HpBarRect;
 		public float HP, MaxHp;
@@ -17,16 +17,16 @@ namespace ChickenUnknown.GameObjects {
 		public float Speed;
 		public ZombieType Type;
 		public enum ZombieType{
-			NORMAL, TANK
+			NORMAL, TANK, RUNNER
 		}
-		public Zombie(Texture2D ZombieTexture, Texture2D HpBarTexture) : base(ZombieTexture){
-			Hitbox = ZombieTexture.Height/2;
+		public Zombie(Texture2D zombieTexture, Texture2D hpBarTexture) : base(zombieTexture){
+			Hitbox = zombieTexture.Height/2;
 			_pos = new Vector2(1920, UI.FLOOR_Y - Hitbox);
 			HP = GetZombieHp();
 			MaxHp = HP;
 			Speed = 0.35f;
-			HpTexture = HpBarTexture;
-			HpBarRect = new Rectangle(0, 0, ZombieTexture.Width, HpTexture.Height);
+			HpTexture = hpBarTexture;
+			HpBarRect = new Rectangle(0, 0, zombieTexture.Width, HpTexture.Height);
 		}
 		public override void Update(GameTime gameTime) {
 			if(IsActive){
