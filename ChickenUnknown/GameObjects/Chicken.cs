@@ -9,7 +9,7 @@ using System.Diagnostics;
 namespace ChickenUnknown.GameObjects {
     	class Chicken : IGameObject {
 		public float Speed;
-		public float Rotation;
+		public float FlyingRotation;
 		public float Angle;
 		public Vector2 Acceleration;
 		public  bool IsActive;
@@ -28,7 +28,7 @@ namespace ChickenUnknown.GameObjects {
 				Velocity += Acceleration * gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
 				var oldPos = _pos;
 				_pos += Velocity * gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-				Rotation = (float)Math.Atan2(oldPos.Y - _pos.Y, oldPos.X - _pos.X);
+				FlyingRotation = (float)Math.Atan2(oldPos.Y - _pos.Y, oldPos.X - _pos.X);
 				DetectCollision();
 			}
 			if(IsWalking){
@@ -129,7 +129,8 @@ namespace ChickenUnknown.GameObjects {
 				_spriteBatch.DrawString(font, "Chicken X ? = " + _pos.X , new Vector2(0,320), Color.Green);
 				_spriteBatch.DrawString(font, "Chicken Y ? = " + _pos.Y , new Vector2(0,340), Color.Green);
 				_spriteBatch.DrawString(font, "Angle ? = " + Angle , new Vector2(0,360), Color.Green);
-				_spriteBatch.Draw(_texture, _pos ,null, Color.White, Rotation, GetCenterOrigin(_texture), 1f, isUpsideDown() ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
+				// _spriteBatch.Draw(_texture, _pos ,null, Color.White, FlyingRotation, GetCenterOrigin(_texture), 1f, isUpsideDown() ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+				_spriteBatch.Draw(_texture, _pos ,null, Color.White, FlyingRotation + MathHelper.Pi, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
 			}
 		}
 
@@ -139,10 +140,10 @@ namespace ChickenUnknown.GameObjects {
 
 		public bool isUpsideDown(){
 			var tempAngle = 0.0;
-			if(Rotation < 0){
-				tempAngle = (float)Rotation *(-1);
+			if(FlyingRotation < 0){
+				tempAngle = (float)FlyingRotation *(-1);
 			} else {
-				tempAngle = Rotation;
+				tempAngle = FlyingRotation;
 			}
 			if(tempAngle > 1.6){
 				return true;

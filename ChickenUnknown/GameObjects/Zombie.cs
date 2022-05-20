@@ -11,10 +11,12 @@ namespace ChickenUnknown.GameObjects {
 		public Texture2D HpTexture;
 		public Rectangle HpBarRect;
 		public float HP, MaxHp;
+		public int ATK;
 		public int Hitbox;
 		public bool IsActive;
 		public bool IsHit;
 		public float Speed;
+		public bool IsEating;
 		public ZombieType Type;
 		public enum ZombieType{
 			NORMAL, TANK, RUNNER
@@ -31,8 +33,15 @@ namespace ChickenUnknown.GameObjects {
 		}
 		public override void Update(GameTime gameTime) {
 			if(IsActive){
-				_pos.X -= Speed;
 				CheckIsDead();
+				if(_pos.X < 480){
+					IsEating = true;
+				} else {
+					_pos.X -= Speed;
+				}
+			}
+			if(IsEating){
+				Player.Instance.barricadeHP -= ATK;
 			}
 			UpdateHp();
 		}
@@ -45,7 +54,7 @@ namespace ChickenUnknown.GameObjects {
 		}
 		public void CheckIsDead() {
 			if(HP <= 0){
-				Singleton.Instance.Exp += 100;
+				Player.Instance.Exp += 100;
 				PlayScreen.ZombieList.RemoveAt(PlayScreen.ZombieList.IndexOf(this));
 			}
 		}

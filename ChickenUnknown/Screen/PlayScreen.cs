@@ -47,7 +47,7 @@ namespace ChickenUnknown.Screen {
 
             SwingTexture = Content.Load<Texture2D>("PlayScreen/draft_slingshot");
             StretchAreaTexture = Content.Load<Texture2D>("PlayScreen/StretchArea");
-            ChickenTexture = Content.Load<Texture2D>("PlayScreen/draft_chicken");
+            ChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken");
             NormalZombieTexture = Content.Load<Texture2D>("PlayScreen/draft_zombie_nm");
             TankZombieTexture = Content.Load<Texture2D>("PlayScreen/draft_zombie_tank");
 
@@ -128,10 +128,10 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Arial, "Is Dragging " + IsDragging(), new Vector2(0,60), Color.Black);
             _spriteBatch.DrawString(Arial, "Time : " + answerTime, new Vector2(915,50), Color.Black);
             _spriteBatch.DrawString(Arial, "Level : " + Level, new Vector2(0,200), Color.Black);
-            _spriteBatch.DrawString(Arial, "Exp : " + Singleton.Instance.Exp, new Vector2(0,220), Color.Black);
+            _spriteBatch.DrawString(Arial, "Exp : " + Player.Instance.Exp, new Vector2(0,220), Color.Black);
             _spriteBatch.DrawString(Arial, "MaxExpWidth : " + MaxExpWidth, new Vector2(0,240), Color.Black);
-            _spriteBatch.DrawString(Arial, "MaxExp : " +Singleton.Instance.MaxExp , new Vector2(0,260), Color.Black);
-            _spriteBatch.DrawString(Arial, "KUY : " +(float)(Singleton.Instance.Exp/Singleton.Instance.MaxExp)*MaxExpWidth , new Vector2(0,300), Color.Black);    
+            _spriteBatch.DrawString(Arial, "MaxExp : " +Player.Instance.MaxExp , new Vector2(0,260), Color.Black);
+            _spriteBatch.DrawString(Arial, "KUY : " +(float)(Player.Instance.Exp/Player.Instance.MaxExp)*MaxExpWidth , new Vector2(0,300), Color.Black);    
             _spriteBatch.DrawString(Arial, "MaxHpWidth : " + MaxHpWidth, new Vector2(300,400), Color.Black);
 
             _spriteBatch.DrawString(Arial, "ZombieInQueue : " + ZombieQueue.Count, new Vector2(1200,200), Color.Black);
@@ -142,7 +142,7 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Arial, "Random : " + Random, new Vector2(400,140), Color.Black);
             // _spriteBatch.DrawString(Arial, "randomPower : " + RandomPower, new Vector2(400,160), Color.Black);
         }
-
+        
         public void DrawHUD(SpriteBatch _spriteBatch){
             // _spriteBatch.Draw(bg, CenterElementWithHeight(bg,0) , Color.White);
             _spriteBatch.Draw(bg1, CenterElementWithHeight(bg1,0) , Color.White);
@@ -247,30 +247,30 @@ namespace ChickenUnknown.Screen {
         public void UpdateExpBar(){
             
             if (Singleton.Instance.currentKB.IsKeyUp(Keys.O) && Singleton.Instance.previousKB.IsKeyDown(Keys.O))             
-                Singleton.Instance.Exp += 50; 
-            ExpBarRect.Width = (int)(((float)(Singleton.Instance.Exp/Singleton.Instance.MaxExp))* MaxExpWidth);
+                Player.Instance.Exp += 50; 
+            ExpBarRect.Width = (int)(((float)(Player.Instance.Exp/Player.Instance.MaxExp))* MaxExpWidth);
             if (ExpBarRect.Width > MaxExpWidth) {
                 ExpBarRect.Width = 0;
                 Level += 1;
-                Singleton.Instance.Exp = 0;
                 LevelUp = true;
                 ShowDialog = true;
+                Player.Instance.Exp = 0;
             }
         }
 
         public void UpdatePower(String power){
             switch (power) {
                 case "scale":
-                    Singleton.Instance.scale += 1;
+                    Player.Instance.scale += 1;
                     break;
                 case "quantity":
-                    Singleton.Instance.quantity += 1;
+                    Player.Instance.quantity += 1;
                     break;
                 case "cooldown":
-                    Singleton.Instance.cooldown += 1;
+                    Player.Instance.cooldown += 1;
                     break;
                 case "damage":
-                    Singleton.Instance.damage += 1;
+                    Player.Instance.damage += 1;
                     break;
             }
         }
