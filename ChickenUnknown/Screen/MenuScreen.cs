@@ -12,6 +12,7 @@ namespace ChickenUnknown.Screen {
         private SpriteFont Arial;
         private Texture2D StartButton, StartHover, SettingButton, SettingHover, ExitButton, ExitHover,
         BG,Title;
+        private SoundEffect Click,HoverMenu;
         private bool MouseOnStartButton, MouseOnSettingButton, MouseOnExitButton, HoverStart, HoverSetting, HoverExit;
         public void Initial() {
 
@@ -27,6 +28,9 @@ namespace ChickenUnknown.Screen {
             SettingHover = Content.Load<Texture2D>("MenuScreen/draft_option_button_hover");
             ExitButton = Content.Load<Texture2D>("MenuScreen/draft_exit_button");
             ExitHover = Content.Load<Texture2D>("MenuScreen/draft_exit_button_hover");
+            //Sound
+            Click = Content.Load<SoundEffect>("Sound/Click");
+            HoverMenu = Content.Load<SoundEffect>("Sound/MenuSelect");
             Initial();
 		}
 		public override void UnloadContent() {
@@ -97,9 +101,11 @@ namespace ChickenUnknown.Screen {
             if(MouseOnElement(787, 787+349, 492,492+96)){
                 MouseOnStartButton = true;
                 if(HoverStart == false){
+                    HoverMenu.Play();
                     HoverStart = true;
                 }
                 if(IsClick()){
+                    Click.Play();
                     ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.GameScreen);
                 }
             } else {
@@ -110,11 +116,11 @@ namespace ChickenUnknown.Screen {
             if(MouseOnElement(787, 787+349, 628,628+96)){
                 MouseOnSettingButton = true;
                 if (HoverSetting == false)
-                {
+                {   HoverMenu.Play();
                     HoverSetting = true;
                 }
                 if (IsClick()){
-                    // Singleton.Instance.ToggleFullscreen();
+                    Click.Play();
                     ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.SettingScreen);
                 }
             } else {
@@ -125,10 +131,11 @@ namespace ChickenUnknown.Screen {
             if(MouseOnElement(787, 787+349, 764,764+96)){
                 MouseOnExitButton = true;
                 if (HoverExit == false)
-                {
+                {   HoverMenu.Play();
                     HoverExit = true;
                 }
                 if (IsClick()){
+                    Click.Play();
                     Singleton.Instance.isExit = true;
                 }
             } else {
