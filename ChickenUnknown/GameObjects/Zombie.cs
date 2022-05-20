@@ -17,6 +17,10 @@ namespace ChickenUnknown.GameObjects {
 		public bool IsHit;
 		public float Speed;
 		public bool IsEating;
+		public int ExpReward;
+		public float AttackCooldownTimer = 5f;
+		public float AttackCooldown;
+		
 		public ZombieType Type;
 		public enum ZombieType{
 			NORMAL, TANK, RUNNER
@@ -28,7 +32,9 @@ namespace ChickenUnknown.GameObjects {
 			HP = GetZombieHp();
 			MaxHp = HP;
 			ATK = GetZombieATK();
-			Speed = 0.35f;
+			ExpReward = GetZombieExpReward();
+			Speed = GetZombieSpeed();
+			AttackCooldown = 5f;
 			HpTexture = hpBarTexture;
 			HpBarRect = new Rectangle(0, 0, zombieTexture.Width, HpTexture.Height);
 		}
@@ -42,7 +48,11 @@ namespace ChickenUnknown.GameObjects {
 				}
 			}
 			if(IsEating){
-				Player.Instance.barricadeHP -= ATK;
+				AttackCooldownTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+				if(AttackCooldownTimer > AttackCooldown){
+					Player.Instance.BarricadeHP -= ATK;
+					AttackCooldownTimer = 0;
+				}
 			}
 			UpdateHp();
 		}
@@ -55,7 +65,7 @@ namespace ChickenUnknown.GameObjects {
 		}
 		public void CheckIsDead() {
 			if(HP <= 0){
-				Player.Instance.Exp += 100;
+				Player.Instance.Exp += ExpReward;
 				PlayScreen.ZombieList.RemoveAt(PlayScreen.ZombieList.IndexOf(this));
 			}
 		}
@@ -119,6 +129,23 @@ namespace ChickenUnknown.GameObjects {
 			}
 			return baseHp + levelHp;
         }
+		public int GetZombieExpReward(){
+			var ExpReward = 0;
+            switch(Type){
+				case ZombieType.NORMAL:
+					ExpReward = 25;
+				break;
+				case ZombieType.TANK:
+					ExpReward = 60;
+				break;
+				case ZombieType.RUNNER:
+					ExpReward = 40;
+				break;
+				default:
+				break;
+			}
+			return ExpReward;
+        }
 		public int GetZombieATK(){
 			var baseATK = 0;
             switch(Type){
@@ -135,6 +162,23 @@ namespace ChickenUnknown.GameObjects {
 				break;
 			}
 			return baseATK;
+        }
+		public float GetZombieSpeed(){
+			var Speed = 0f;
+            switch(Type){
+				case ZombieType.NORMAL:
+					Speed = 2f;
+				break;
+				case ZombieType.TANK:
+					Speed = 2f;
+				break;
+				case ZombieType.RUNNER:
+					Speed = 2f;
+				break;
+				default:
+				break;
+			}
+			return Speed;
         }
     }
 

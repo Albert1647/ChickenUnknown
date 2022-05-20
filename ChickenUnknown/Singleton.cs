@@ -9,30 +9,17 @@ namespace ChickenUnknown
 {
     class Singleton
     {
-		// Game Resolution
-        public Vector2 Dimension = new Vector2(1920 , 1080);
+        public Vector2 Dimension = new Vector2(1920 , 1080); // Game Resolution
 		public MouseState MousePrevious, MouseCurrent;
-		private Random random = new Random();
-		public bool IsShooting;
 		public bool IsAiming;
-		//Exit in Menu
-		public bool isExit = false;
+		public bool isExit = false; //Exit in Menu
 		public GraphicsDeviceManager gdm;
         public KeyboardState currentKB, previousKB;
-		//
 		public GraphicsDeviceManager _graphics;
-		//chicken status
-		public int scale = 5;
-		public int quantity = 5;
-		public int cooldown = 5;
-		public int damage = 5;
-		public float Exp = 0, MaxExp = 150;
 		//Volume
 		public float MusicVolume = 50,SFXVolume = 50;
-
         private static Singleton instance;
 		public static Singleton Instance
-
 		{
 			get
 			{

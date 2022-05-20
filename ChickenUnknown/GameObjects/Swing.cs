@@ -23,7 +23,7 @@ namespace ChickenUnknown.GameObjects {
             StretchAreaTexture = stretchAreaTexture;
 			ChickenTexture = chickenTexture;
 			HITBOX = chickenTexture.Width / 2;
-			NumOfChicken = 3;
+			NumOfChicken = Player.Instance.StartQuantity;
 		}
 		
 		public override void Update(GameTime gameTime) {
@@ -63,7 +63,7 @@ namespace ChickenUnknown.GameObjects {
 				}
 			}
 			// Reloaded Chicken
-			for(int i = 0; i < NumOfChicken; i++){
+			for(int i = 0; i < NumOfChicken && i < 8; i++){
 				_spriteBatch.Draw(ChickenTexture, new Vector2(130,650+(i * ChickenTexture.Height + 20)) ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f, SpriteEffects.None, 0);
 			}
 

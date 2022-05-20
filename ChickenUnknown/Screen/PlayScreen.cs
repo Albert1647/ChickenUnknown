@@ -47,8 +47,8 @@ namespace ChickenUnknown.Screen {
                 
             };
             ZombieList = new List<Zombie>();
-            AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
-            AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 15);
+            AddSpawnQueueZombie(Zombie.ZombieType.TANK, 1);
+            AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 1);
             SpawnLevel += 1;
         }
         public override void LoadContent() {
@@ -101,7 +101,6 @@ namespace ChickenUnknown.Screen {
                         Swing.Update(gameTime);
                         for(int i = 0; i < Swing.ChickenList.Count ; i++)
                             Swing.ChickenList[i].Update(gameTime);
-                        
 
                         for(int i = 0; i < ZombieList.Count ; i++)
                             ZombieList[i].Update(gameTime);
@@ -121,7 +120,7 @@ namespace ChickenUnknown.Screen {
                                 // if(LevelUp) {
                                 var allPower = new ArrayList()
                                     {
-                                        "scale","quantity","cooldown","damage"
+                                        "scale","chickenSpeed","penetrationChance","quantity","cooldown","damage"
                                     };
 
                                 var temp = allPower;  
@@ -137,20 +136,21 @@ namespace ChickenUnknown.Screen {
                                 //select power
                                 if(MouseOnElement(387, 646, 753,833) && IsClick()){
                                     // SelectPower = RandomPower[0].ToString();
-                                    // UpdatePower(SelectPower);
-                                    SelectPower = RandomPower[0].ToString();
+                                    SelectPower = "damage";
                                     SelectablePower = false;
                                     UpdatePower(SelectPower);
                                     _playState = PlayState.PLAYING;
                                     RandomPower.Clear();
                                 }else if(MouseOnElement(826, 1092, 758,833) && IsClick()){
-                                    SelectPower = RandomPower[1].ToString();
+                                    // SelectPower = RandomPower[1].ToString();
+                                    SelectPower = "penetrationChance";
                                     SelectablePower = false;
                                     UpdatePower(SelectPower);
                                     _playState = PlayState.PLAYING;
                                     RandomPower.Clear();
                                 }else if(MouseOnElement(1274, 1540, 753,834) && IsClick()){
-                                    SelectPower = RandomPower[2].ToString();
+                                    // SelectPower = RandomPower[2].ToString();
+                                    SelectPower = "chickenSpeed";
                                     SelectablePower = false;
                                     UpdatePower(SelectPower);
                                     _playState = PlayState.PLAYING;
@@ -208,6 +208,7 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Arial, "Random : " + Random, new Vector2(400,140), Color.Black);
             _spriteBatch.DrawString(Arial, "SelectPower : " + SelectPower, new Vector2(400,200), Color.Black);
             _spriteBatch.DrawString(Arial, "RandomArray : " + RandomPower.Count, new Vector2(400,220), Color.Black);
+            _spriteBatch.DrawString(Arial, "BarricadeHp : " + Player.Instance.BarricadeHP, new Vector2(480,900), Color.Black);
             // _spriteBatch.DrawString(Arial, "randomPower : " + RandomPower, new Vector2(400,160), Color.Black);
         }
         
@@ -262,23 +263,23 @@ namespace ChickenUnknown.Screen {
             if(SpawnTimer >= SpawnInterval){
                 switch(SpawnLevel){
                     case 1:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
-                        // AddSpawnQueueZombie(Zombie.ZombieType.TANK,1);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
+                        // AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
+                        // // AddSpawnQueueZombie(Zombie.ZombieType.TANK,1);
+                        // AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
                     break;
                     case 2:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
-                        // AddSpawnQueueZombie(Zombie.ZombieType.TANK,1);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
+                        // AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
+                        // // AddSpawnQueueZombie(Zombie.ZombieType.TANK,1);
+                        // AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
                     break;
                     case 3:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
+                        // AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
                     break;
                     case 4:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
+                        // AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
                     break;
                     case 5:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,25);
+                        // AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,25);
                     break;
                     default:
                     break;
@@ -299,13 +300,13 @@ namespace ChickenUnknown.Screen {
                 case 2:
                 return 5f;  
                 case 3:
-                return 5f;  
+                return 2f;  
                 case 4:
-                return 5f;  
+                return 2f;  
                 case 5:
-                return 5f;  
+                return 2f;  
                 default:
-                return 5f;  
+                return 2f;  
             }
         }
         public void UpdateDisplayTime(){
@@ -328,16 +329,22 @@ namespace ChickenUnknown.Screen {
         public void UpdatePower(String power){
             switch (power) {
                 case "scale":
-                    Player.Instance.scale += 1;
+                    Player.Instance.Scale += 1;
+                    break;
+                case "knockback":
+                    Player.Instance.Scale += 1;
+                    break;
+                case "penetrationChance":
+                    Player.Instance.PenetrationChance = 100f;
                     break;
                 case "quantity":
-                    Player.Instance.quantity += 1;
+                    Swing.NumOfChicken += 1;
                     break;
-                case "cooldown":
-                    Player.Instance.cooldown += 1;
+                case "chickenSpeed":
+                    Player.Instance.ChickenSpeed += 1;
                     break;
                 case "damage":
-                    Player.Instance.damage += 1;
+                    Player.Instance.Damage += 10;
                     break;
             }
         }

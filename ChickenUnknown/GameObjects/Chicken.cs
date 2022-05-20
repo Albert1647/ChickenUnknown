@@ -18,7 +18,7 @@ namespace ChickenUnknown.GameObjects {
 		private int GRAVITY = 981;
 		private int ChickenRadius;
 		public Chicken(Texture2D ChickenTexture) : base(ChickenTexture){
-			ChickenRadius = ChickenTexture.Width / 2;
+			ChickenRadius = (ChickenTexture.Width) / 2;
 		}
 		public override void Update(GameTime gameTime) {
 			if(IsActive){
@@ -45,7 +45,6 @@ namespace ChickenUnknown.GameObjects {
 			DetectZombieCollision();
 			if(_pos.X > 1920 || _pos.X < 0 || _pos.Y > UI.FLOOR_Y){
 				IsActive = false;
-				Singleton.Instance.IsShooting = false;
 				_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius);
 				IsWalking = true;
 				ResetZombieHit();
@@ -68,53 +67,46 @@ namespace ChickenUnknown.GameObjects {
 				}
 				pos = PlayScreen.ZombieList[i]._pos;
 				texture = PlayScreen.ZombieList[i]._texture;
-				// xMin = pos.X - texture.Width / 2;
-				// yMin = pos.Y - texture.Height / 2;
-				// xMax = pos.X + texture.Width / 2;
-				// yMax = pos.Y + texture.Height / 2;
-				// if(_pos.X > xMin && _pos.Y > yMin && _pos.Y < xMax && _pos.Y < yMax){
-				// 	PlayScreen.ZombieList[i]._pos.X += 10;
-				// 	PlayScreen.ZombieList[i].IsHit = true;
-				// }
-
 				// Three part Collision Check -> Head, Body, Leg (roughly)
 				pos.Y -= (float)texture.Height / 2;
 				if(IsCollsionZombie(_pos, _texture, pos, texture)){
-					IsActive = false;
-					Singleton.Instance.IsShooting = false;
-					_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius);
-					IsWalking = true;
 					HitZombieAtIndex(i);
-					// ResetZombieHit();
 					continue;
 				}
 				pos.Y += (float)texture.Height / 2;
 				if(IsCollsionZombie(_pos, _texture, pos, texture)){
-					IsActive = false;
-					Singleton.Instance.IsShooting = false;
-					_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius);
-					IsWalking = true;
 					HitZombieAtIndex(i);
-					// ResetZombieHit();
 					continue;
 				}
 				pos.Y += (float)texture.Height / 2;
 				if(IsCollsionZombie(_pos, _texture, pos, texture)){
-					IsActive = false;
-					Singleton.Instance.IsShooting = false;
-					_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius);
-					IsWalking = true;
 					HitZombieAtIndex(i);
-					// ResetZombieHit();
 					continue;
 				}
 			}
 		}
-		
+
+		public void RandomPenetration(int index){
+			Random random = new Random();
+			float rand = random.Next(100);
+			if(rand < Player.Instance.PenetrationChance){
+				// Penetration
+				PlayScreen.ZombieList[index].IsHit = true;
+			} else {
+				// No Penetration
+				PlayScreen.ZombieList[index].IsHit = true;
+				// Start Walking Rightaway
+				IsActive = false;
+				_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius);
+				IsWalking = true;
+				// let next chicken hit by reset all zombie isHit;
+				ResetZombieHit();
+			}
+		}
 		public void HitZombieAtIndex(int index){
-			PlayScreen.ZombieList[index]._pos.X += 10;
-			// PlayScreen.ZombieList[index].IsHit = true;
-			PlayScreen.ZombieList[index].HP -= 10;
+			RandomPenetration(index);
+			PlayScreen.ZombieList[index]._pos.X += Player.Instance.Knockback;
+			PlayScreen.ZombieList[index].HP -= Player.Instance.Damage;
 		}
 
 		public bool IsCollsionZombie(Vector2 chicken, Texture2D chickenTexture, Vector2 zombie,Texture2D zombieTexture){
@@ -138,19 +130,6 @@ namespace ChickenUnknown.GameObjects {
             return new Vector2(texture.Width/2, texture.Height/2);
         }
 
-		public bool isUpsideDown(){
-			var tempAngle = 0.0;
-			if(FlyingRotation < 0){
-				tempAngle = (float)FlyingRotation *(-1);
-			} else {
-				tempAngle = FlyingRotation;
-			}
-			if(tempAngle > 1.6){
-				return true;
-			} else {
-				return false;
-			}
-		}
     }
 
 }
