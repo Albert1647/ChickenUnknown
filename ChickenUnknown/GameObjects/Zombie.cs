@@ -41,10 +41,11 @@ namespace ChickenUnknown.GameObjects {
 		public override void Update(GameTime gameTime) {
 			if(IsActive){
 				CheckIsDead();
-				if(_pos.X < 480){
+				if(_pos.X < 480 && Player.Instance.BarricadeHP > 0){
 					IsEating = true;
 				} else {
 					_pos.X -= Speed;
+					IsEating = false;
 				}
 			}
 			if(IsEating){

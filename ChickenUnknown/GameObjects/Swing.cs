@@ -41,7 +41,8 @@ namespace ChickenUnknown.GameObjects {
 							Angle = OldAimAngle + MathHelper.Pi,
 							FlyingRotation = OldAimAngle,
 							Speed = (int)(MAXSPEED * (GetMouseStretchDistance() >= StretchAreaTexture.Width/2 ? StretchAreaTexture.Width/2 : GetMouseStretchDistance()) / (StretchAreaTexture.Width/2)),
-							IsActive = true,
+							IsFlying = true,
+							IsActive = true
 						};
 						ChickenList.Add(chicken);
 						NumOfChicken -= 1;
@@ -53,18 +54,18 @@ namespace ChickenUnknown.GameObjects {
 			_spriteBatch.Draw(StretchAreaTexture, CENTER_OF_SWING ,null, Color.White, 0f, GetCenterOrigin(StretchAreaTexture), 1f, SpriteEffects.None, 0);
 			if(NumOfChicken > 0){
 				if(!Singleton.Instance.IsAiming){
-					_spriteBatch.Draw(ChickenTexture, CENTER_OF_SWING ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f, SpriteEffects.None, 0);
+					_spriteBatch.Draw(ChickenTexture, CENTER_OF_SWING ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
 				} else if(Singleton.Instance.IsAiming && MouseIsOnStretchAreaTexture()){
-					// _spriteBatch.Draw(ChickenTexture, new Vector2(Singleton.Instance.MouseCurrent.X, Singleton.Instance.MouseCurrent.Y) ,null, Color.White, AimAngle, GetCenterOrigin(ChickenTexture), 1f, IsUpsideDown() ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
-					_spriteBatch.Draw(ChickenTexture, new Vector2(Singleton.Instance.MouseCurrent.X, Singleton.Instance.MouseCurrent.Y) ,null, Color.White, AimAngle + MathHelper.Pi, GetCenterOrigin(ChickenTexture), 1f, SpriteEffects.None, 0);
+					// _spriteBatch.Draw(ChickenTexture, new Vector2(Singleton.Instance.MouseCurrent.X, Singleton.Instance.MouseCurrent.Y) ,null, Color.White, AimAngle, GetCenterOrigin(ChickenTexture), 1f + Player.Instance.Scale, IsUpsideDown() ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
+					_spriteBatch.Draw(ChickenTexture, new Vector2(Singleton.Instance.MouseCurrent.X, Singleton.Instance.MouseCurrent.Y) ,null, Color.White, AimAngle + MathHelper.Pi, GetCenterOrigin(ChickenTexture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
 					SaveChickenPosAngle();
 				} else if (Singleton.Instance.IsAiming && !MouseIsOnStretchAreaTexture()) {
-					_spriteBatch.Draw(ChickenTexture, new Vector2(OldChickenPos.X, OldChickenPos.Y) ,null, Color.White, OldAimAngle + MathHelper.Pi, GetCenterOrigin(ChickenTexture), 1f, SpriteEffects.None, 0);
+					_spriteBatch.Draw(ChickenTexture, new Vector2(OldChickenPos.X, OldChickenPos.Y) ,null, Color.White, OldAimAngle + MathHelper.Pi, GetCenterOrigin(ChickenTexture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
 				}
 			}
 			// Reloaded Chicken
 			for(int i = 0; i < NumOfChicken && i < 8; i++){
-				_spriteBatch.Draw(ChickenTexture, new Vector2(130,650+(i * ChickenTexture.Height + 20)) ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f, SpriteEffects.None, 0);
+				_spriteBatch.Draw(ChickenTexture, new Vector2(130,650+(i * ChickenTexture.Height + 20)) ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
 			}
 
 			DrawLog(_spriteBatch,  font);

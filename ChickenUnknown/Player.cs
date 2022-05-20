@@ -9,13 +9,16 @@ namespace ChickenUnknown
 {
     class Player
     {
-		public int BarricadeHP = 100;
-		public float PenetrationChance = 0f;
-		public int Scale = 5;
-		public int StartQuantity = 5;
-		public int Knockback = 10;
-		public int ChickenSpeed = 5;
-		public int Damage = 5;
+		public int Level;
+		public int BarricadeHP = 200;
+		public float PenetrationChance = 10f;
+		public float TreasureChestChance = 2f;
+		public float ChickenAddedHitBox = 0f;
+		public float Scale = 0f;
+		public int StartQuantity = 3;
+		public int Knockback = 0;
+		public float ChickenSpeed = 5f;
+		public int Damage = 10;
 		public float Exp = 0, MaxExp = 150;
         private static Player instance;
 		public static Player Instance
