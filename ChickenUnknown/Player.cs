@@ -22,6 +22,7 @@ namespace ChickenUnknown
 		public bool IsUsingSpecialAbility = false;
 		public float SpecailAbiltyDamage = 100;
 		public float SpecailAbiltyCooldown = 5f;
+		public float SpecailAbilityAoE= 400f;
 		public float Exp = 0, MaxExp = 150;
         private static Player instance;
 		public static Player Instance

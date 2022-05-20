@@ -170,8 +170,7 @@ namespace ChickenUnknown.GameObjects {
 			}
 		}
 		public bool IsInAOERadius(Vector2 chicken, Vector2 zombie){
-			var AOE = 500;
-			return (int)Math.Sqrt(Math.Pow(chicken.X - zombie.X, 2) + Math.Pow(chicken.Y - zombie.Y, 2)) <= AOE;
+			return (int)Math.Sqrt(Math.Pow(chicken.X - zombie.X, 2) + Math.Pow(chicken.Y - zombie.Y, 2)) <= Player.Instance.SpecailAbilityAoE;
 		}
 
 		public bool IsCollsionZombie(Vector2 chicken, Texture2D chickenTexture, Vector2 zombie,Texture2D zombieTexture){
