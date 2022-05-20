@@ -252,6 +252,17 @@ namespace ChickenUnknown.Screen {
                     _spriteBatch.Draw(Select_button, new Vector2(378, 753),Color.White);
                     _spriteBatch.Draw(Select_button, new Vector2(826, 753),Color.White);
                     _spriteBatch.Draw(Select_button, new Vector2(1274, 753),Color.White);
+                    if(RandomPower.Count == 3){
+                        if(RandomPower[0] != null){
+                            _spriteBatch.DrawString(Arial,": " + RandomPower[0],new Vector2(344, 300),Color.Black);
+                        }
+                        if(RandomPower[1] != null){
+                            _spriteBatch.DrawString(Arial,": " + RandomPower[1],new Vector2(792, 300),Color.Black);
+                        }
+                        if(RandomPower[2] != null){
+                            _spriteBatch.DrawString(Arial,": " + RandomPower[2],new Vector2(1240, 300),Color.Black);
+                        }
+                    }
                 break;
                 case PlayState.GACHA:
                 break;
@@ -383,7 +394,7 @@ namespace ChickenUnknown.Screen {
                 }
                 SpawnTimer = 0;
                 // MaxSpawnLevel = 5
-                if(SpawnLevel < 5){
+                if(SpawnLevel <= 5){
                     SpawnLevel += 1;
                 }
             }
@@ -391,7 +402,7 @@ namespace ChickenUnknown.Screen {
         }
 
         public float ZombieSpawnRate(){
-            switch(SpawnLevel){
+            switch(SpawnLevel - 1){
                 case 1:
                 return 5f;  
                 case 2:
