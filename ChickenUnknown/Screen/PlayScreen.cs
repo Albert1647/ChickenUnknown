@@ -26,9 +26,10 @@ namespace ChickenUnknown.Screen {
         public int SpawnLevel = 1;
         public TimeSpan TimeSpan;
         public string answerTime;
-        public bool lvlUp = false, LevelUp = false;
+        public bool lvlUp = false, LevelUp = false, ShowDialog, Random;
         public String selectPower;
 		public int Level = 0, MaxHpWidth = 100, MaxExpWidth = 300;
+        public ArrayList RandomPower = new ArrayList();  
         public void Initial() {
             Swing = new Swing(SwingTexture, ChickenTexture, StretchAreaTexture) {
                 
@@ -69,40 +70,46 @@ namespace ChickenUnknown.Screen {
 
         
         public override void Update(GameTime gameTime) {
-            base.Update(gameTime);
-            GetMouseInput();
-            SpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-            ZombieSpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-            ShowTime += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-
-            if(ZombieSpawnTimer >= ZombieSpawnRate()){
-                if(ZombieQueue.Count > 0){
-                    ZombieList.Add(ZombieQueue[0]);   
-                    ZombieQueue.RemoveAt(0);
-                }
-                ZombieSpawnTimer = 0;
+            
+            if (LevelUp && ShowDialog) {
+                LevelupRandomPower();               
             }
 
-            CheckSpawnZombie();
+            if (!LevelUp && !ShowDialog) {
+                GetMouseInput();
+                SpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+                ZombieSpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+                ShowTime += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
 
-            Swing.Update(gameTime);
-            for(int i = 0; i < Swing.ChickenList.Count ; i++)
-				Swing.ChickenList[i].Update(gameTime);
-			
+                if(ZombieSpawnTimer >= ZombieSpawnRate()){
+                    if(ZombieQueue.Count > 0){
+                        ZombieList.Add(ZombieQueue[0]);   
+                        ZombieQueue.RemoveAt(0);
+                    }
+                    ZombieSpawnTimer = 0;
+                }
 
-            for(int i = 0; i < ZombieList.Count ; i++)
-				ZombieList[i].Update(gameTime);
+                CheckSpawnZombie();
 
-            //LevelupRandomPower
-            LevelupRandomPower();
-            UpdateExpBar();
-            UpdateDisplayTime();
-        
-            if (Keyboard.GetState().IsKeyDown(Keys.T)) 
-                LevelUp = true;
-            if (Keyboard.GetState().IsKeyDown(Keys.U)) 
-                LevelUp = false;
-             
+                Swing.Update(gameTime);
+                for(int i = 0; i < Swing.ChickenList.Count ; i++)
+                    Swing.ChickenList[i].Update(gameTime);
+                
+
+                for(int i = 0; i < ZombieList.Count ; i++)
+                    ZombieList[i].Update(gameTime);
+
+                //LevelupRandomPower
+                LevelupRandomPower();
+                UpdateExpBar();
+                UpdateDisplayTime();
+            
+                if (Keyboard.GetState().IsKeyDown(Keys.T)) 
+                    LevelUp = true;
+                if (Keyboard.GetState().IsKeyDown(Keys.U)) 
+                    LevelUp = false;
+            }
+            base.Update(gameTime);
         }
         public override void Draw(SpriteBatch _spriteBatch) {
             DrawHUD(_spriteBatch);
@@ -130,6 +137,10 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Arial, "ZombieInQueue : " + ZombieQueue.Count, new Vector2(1200,200), Color.Black);
             _spriteBatch.DrawString(Arial, "Time: " + SpawnTimer, new Vector2(1200,220), Color.Black);
             _spriteBatch.DrawString(Arial, "ZombieSpawnTimer: " + ZombieSpawnTimer, new Vector2(1200,240), Color.Black);
+            _spriteBatch.DrawString(Arial, "Levelup : " + LevelUp, new Vector2(400,100), Color.Black);
+            _spriteBatch.DrawString(Arial, "ShowDialog : " + ShowDialog, new Vector2(400,120), Color.Black);
+            _spriteBatch.DrawString(Arial, "Random : " + Random, new Vector2(400,140), Color.Black);
+            // _spriteBatch.DrawString(Arial, "randomPower : " + RandomPower, new Vector2(400,160), Color.Black);
         }
 
         public void DrawHUD(SpriteBatch _spriteBatch){
@@ -140,7 +151,7 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.Draw(SwingTexture, new Rectangle(185, UI.FLOOR_Y-378-216, SwingTexture.Width, SwingTexture.Height), Color.White);
             _spriteBatch.Draw(ExpBarRectangle, new Vector2(100, 100) ,ExpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);        
             
-            if (LevelUp) {
+            if (LevelUp && ShowDialog) {
                 _spriteBatch.Draw(Popup_levelup, new Vector2(288, 108),Color.White);
                 _spriteBatch.Draw(Levelup_item1, new Vector2(344, 372),Color.White);
                 _spriteBatch.Draw(Levelup_item2, new Vector2(792, 372),Color.White);
@@ -242,6 +253,8 @@ namespace ChickenUnknown.Screen {
                 ExpBarRect.Width = 0;
                 Level += 1;
                 Singleton.Instance.Exp = 0;
+                LevelUp = true;
+                ShowDialog = true;
             }
         }
 
@@ -264,7 +277,7 @@ namespace ChickenUnknown.Screen {
         public void LevelupRandomPower(){
             var RandomPower = new ArrayList();
              //random
-            if(lvlUp) {
+            if(LevelUp) {
 
                 var allPower = new ArrayList()
                     {
@@ -278,17 +291,32 @@ namespace ChickenUnknown.Screen {
                     RandomPower.Add(temp[thisPower]);
                     temp.RemoveAt(thisPower); 
                 }
+                //Print item this round
+                foreach(var item in RandomPower) {
+                    Console.WriteLine("Item m:" + item);
+                }
+                Random = true;
             }
             //select power
-            if(MouseOnElement(387, 387+253, 758,758+92) && IsClick()){
-                selectPower = RandomPower[0].ToString();
-                UpdatePower(selectPower);
-            }else if(MouseOnElement(833, 833+253, 758,758+92) && IsClick()){
-                selectPower = RandomPower[1].ToString();
-                UpdatePower(selectPower);
-            }else if(MouseOnElement(1282, 1282+253, 758,758+92) && IsClick()){
-                selectPower = RandomPower[2].ToString();
-                UpdatePower(selectPower);
+            if (Random) {
+                if(MouseOnElement(387, 646, 753,833) && IsClick()){
+                    // selectPower = RandomPower[0].ToString();
+                    // UpdatePower(selectPower);
+                    ShowDialog = false;
+                    LevelUp = false;
+                    Random = false;
+                }else if(MouseOnElement(826, 1092, 758,833) && IsClick()){
+                    selectPower = RandomPower[1].ToString();
+                    UpdatePower(selectPower);
+                }else if(MouseOnElement(1274, 1540, 753,834) && IsClick()){
+                    selectPower = RandomPower[2].ToString();
+                    UpdatePower(selectPower);
+                }
+            }
+             if (Singleton.Instance.currentKB.IsKeyUp(Keys.M) && Singleton.Instance.previousKB.IsKeyDown(Keys.M)) {                
+                ShowDialog = false;
+                LevelUp = false;
+                Random = false;                
             }
         }
 
