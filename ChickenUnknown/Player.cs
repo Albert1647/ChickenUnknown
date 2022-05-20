@@ -17,7 +17,6 @@ namespace ChickenUnknown
 		public float Exp = 0, MaxExp = 150;
         private static Player instance;
 		public static Player Instance
-
 		{
 			get
 			{

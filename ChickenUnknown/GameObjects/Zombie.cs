@@ -27,6 +27,7 @@ namespace ChickenUnknown.GameObjects {
 			Type = type;
 			HP = GetZombieHp();
 			MaxHp = HP;
+			ATK = GetZombieATK();
 			Speed = 0.35f;
 			HpTexture = hpBarTexture;
 			HpBarRect = new Rectangle(0, 0, zombieTexture.Width, HpTexture.Height);
@@ -61,6 +62,7 @@ namespace ChickenUnknown.GameObjects {
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
 			_spriteBatch.Draw(_texture, _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
 			_spriteBatch.DrawString(font, "HP = " + HP , new Vector2(_pos.X, _pos.Y - _texture.Height / 2), Color.DarkRed, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
+			_spriteBatch.DrawString(font, "ATK = " + ATK , new Vector2(_pos.X, _pos.Y - _texture.Height / 2 + 20), Color.DarkRed, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
 			_spriteBatch.Draw(HpTexture, new Vector2(_pos.X-_texture.Width / 2, _pos.Y-120), HpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);  
 		}
 
@@ -68,14 +70,71 @@ namespace ChickenUnknown.GameObjects {
             return new Vector2(texture.Width / 2, texture.Height / 2);
         }
 		public int GetZombieHp(){
+			var baseHp = 0;
+			var levelHp = 0;
             switch(Type){
 				case ZombieType.NORMAL:
-				return 30;
+					baseHp = 30;
+					switch(PlayScreen.SpawnLevel){
+						case 1:
+						break;
+						case 2:
+						break;
+						case 3:
+							levelHp += 10;
+						break;
+						case 4:
+							levelHp += 10;
+						break;
+						case 5:
+							levelHp += 20;
+						break;
+						default:
+						break;
+					}
+				break;
 				case ZombieType.TANK:
-				return 200;
+					baseHp = 80;
+					switch(PlayScreen.SpawnLevel){
+						case 1:
+						break;
+						case 2:
+						break;
+						case 3:
+							levelHp += 20;
+						break;
+						case 4:
+							levelHp += 20;
+						break;
+						case 5:
+							levelHp += 40;
+						break;
+						default:
+						break;
+					}
+				break;
 				default:
-				return 100;
+					baseHp = 20;
+				break;
 			}
+			return baseHp + levelHp;
+        }
+		public int GetZombieATK(){
+			var baseATK = 0;
+            switch(Type){
+				case ZombieType.NORMAL:
+					baseATK = 10;
+				break;
+				case ZombieType.TANK:
+					baseATK = 20;
+				break;
+				case ZombieType.RUNNER:
+					baseATK = 15;
+				break;
+				default:
+				break;
+			}
+			return baseATK;
         }
     }
 

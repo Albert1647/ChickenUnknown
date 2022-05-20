@@ -18,12 +18,11 @@ namespace ChickenUnknown.Screen {
                         Levelup_item3, Select_button, HpBarTexture;
         public Rectangle ExpBarRect;
         private Swing Swing;
-        public static List<Zombie> ZombieList;
+        
         public List<Zombie> ZombieQueue = new List<Zombie>();
         public float ZombieSpawnTimer = 0f;
         public float ShowTime = 0f;
         public float SpawnTimer = 0f;
-        public int SpawnLevel = 1;
         public TimeSpan TimeSpan;
         public string answerTime;
         public bool lvlUp = false, LevelUp = false, ShowDialog, Random;
@@ -33,10 +32,11 @@ namespace ChickenUnknown.Screen {
         public GameState _gameState;
         public PlayState _playState;
         private bool SelectablePower;
+        public static int SpawnLevel = 1;
+        public static List<Zombie> ZombieList;
         public enum GameState{
             PLAYING, WINNING, LOSING
         }
-        
         public enum PlayState{
             PLAYING, LEVELUP, GACHA
         }
@@ -47,7 +47,6 @@ namespace ChickenUnknown.Screen {
                 
             };
             ZombieList = new List<Zombie>();
-
             AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
             AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 15);
             SpawnLevel += 1;

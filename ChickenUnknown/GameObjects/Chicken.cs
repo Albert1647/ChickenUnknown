@@ -43,7 +43,7 @@ namespace ChickenUnknown.GameObjects {
 
 		private void DetectCollision(){
 			DetectZombieCollision();
-			if(_pos.X > 1920 || _pos.X < 0 ||  _pos.Y < 0|| _pos.Y > UI.FLOOR_Y){
+			if(_pos.X > 1920 || _pos.X < 0 || _pos.Y > UI.FLOOR_Y){
 				IsActive = false;
 				Singleton.Instance.IsShooting = false;
 				_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius);
