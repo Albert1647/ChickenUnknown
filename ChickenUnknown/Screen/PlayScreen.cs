@@ -73,7 +73,7 @@ namespace ChickenUnknown.Screen {
             ZombieSpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
             ShowTime += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
 
-            if(ZombieSpawnTimer >= ZombieSpawnDelay()){
+            if(ZombieSpawnTimer >= ZombieSpawnRate()){
                 if(ZombieQueue.Count > 0){
                     ZombieList.Add(ZombieQueue[0]);   
                     ZombieQueue.RemoveAt(0);
@@ -175,13 +175,19 @@ namespace ChickenUnknown.Screen {
         }
 
         public void CheckSpawnZombie(){
-            if(SpawnTimer >= 10){
+            // Default Is 180f - 3 minute
+            var SpawnInterval = 10f;
+            if(SpawnTimer >= SpawnInterval){
                 switch(SpawnLevel){
                     case 1:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
+                        // AddSpawnQueueZombie(Zombie.ZombieType.TANK,1);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
                     break;
                     case 2:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,20);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
+                        // AddSpawnQueueZombie(Zombie.ZombieType.TANK,1);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
                     break;
                     case 3:
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
@@ -196,12 +202,29 @@ namespace ChickenUnknown.Screen {
                     break;
                 }
                 SpawnTimer = 0;
+                // MaxSpawnLevel = 5
+                if(SpawnLevel < 5){
+                    SpawnLevel += 1;
+                }
             }
 
         }
 
-        public float ZombieSpawnDelay(){
-            return 5f;
+        public float ZombieSpawnRate(){
+            switch(SpawnLevel){
+                case 1:
+                return 5f;  
+                case 2:
+                return 5f;  
+                case 3:
+                return 5f;  
+                case 4:
+                return 5f;  
+                case 5:
+                return 5f;  
+                default:
+                return 5f;  
+            }
         }
 
         public void UpdateDisplayTime(){
