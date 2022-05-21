@@ -12,7 +12,7 @@ namespace ChickenUnknown
 		public const int Attack = 10;
 		public const float PenetrationChance = 10f;
 		public const float TreasureChestChance = 1.5f;
-		public const float Scale = 0f;
+		public const float Scale = 0.1f;
 		public const float ChickenSpeed = 0.5f;
 		public const int AddQuantity = 1;
 		public const int Knockback = 1;

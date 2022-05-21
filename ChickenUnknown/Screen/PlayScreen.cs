@@ -17,6 +17,7 @@ namespace ChickenUnknown.Screen {
                         NormalChickenTexture,SpecialChickenTexture,
                         NormalFlyChickenTexture,SpecialFlyChickenTexture,
                         NormalWalkChickenTexture,SpecialWalkChickenTexture,
+                        ExplosionEffect,
                         StretchAreaTexture, NormalZombieTexture, TankZombieTexture,
                         bg, bg1, barricade, wall, Popup_levelup, Levelup_item1, Levelup_item2, 
                         Levelup_item3, Select_button, HpBarTexture;
@@ -51,7 +52,8 @@ namespace ChickenUnknown.Screen {
             Swing = new Swing(SwingTexture,StretchAreaTexture,
                         NormalChickenTexture,SpecialChickenTexture,
                         NormalFlyChickenTexture,SpecialFlyChickenTexture,
-                        NormalWalkChickenTexture,SpecialWalkChickenTexture) {
+                        NormalWalkChickenTexture,SpecialWalkChickenTexture,
+                        ExplosionEffect) {
                 
             };
             ZombieList = new List<Zombie>();
@@ -75,10 +77,11 @@ namespace ChickenUnknown.Screen {
             SpecialChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_Boom_on_sling");
             SpecialFlyChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_Boom_on_air");
             SpecialWalkChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_Boom_run");
+            ExplosionEffect = Content.Load<Texture2D>("PlayScreen/explosion");
 
             bg = Content.Load<Texture2D>("PlayScreen/draft_bg");
             bg1 = Content.Load<Texture2D>("PlayScreen/draft_ingame");
-            barricade = Content.Load<Texture2D>("PlayScreen/draft_barricade");
+            barricade = Content.Load<Texture2D>("PlayScreen/Barricade");
             wall = Content.Load<Texture2D>("PlayScreen/draft_wall");
             Popup_levelup = Content.Load<Texture2D>("PlayScreen/draft_levelup");
             Levelup_item1 = Content.Load<Texture2D>("PlayScreen/draft_levelup_item1");
@@ -124,9 +127,8 @@ namespace ChickenUnknown.Screen {
                         SpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
                         ZombieSpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
                         ShowTime += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-                        if(Player.Instance.SpecailAbiltyCooldown > 0){
+                        if(Player.Instance.SpecailAbiltyCooldown > 0)
                             Player.Instance.SpecailAbiltyCooldown -= (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-                        }
 
                         if(ZombieSpawnTimer >= ZombieSpawnRate()){
                             if(ZombieQueue.Count > 0){
@@ -155,7 +157,7 @@ namespace ChickenUnknown.Screen {
                                 Random randomPower = new Random();
                                 var allPower = new ArrayList()
                                 {
-                                    "scale","chickenSpeed","penetrationChance","quantity","cooldown","damage"
+                                    "scale","chickenSpeed","penetrationChance","quantity","damage","knockback"
                                 };
                                 var temp = allPower;
                                 for ( int i=0 ; i < 3 ; i++) {
@@ -174,14 +176,16 @@ namespace ChickenUnknown.Screen {
                                     UpdatePower(SelectPower);
                                     _playState = PlayState.PLAYING;
                                     RandomPower.Clear();
-                                }else if(MouseOnElement(826, 1092, 758,833) && IsClick()){
+                                }
+                                if(MouseOnElement(826, 1092, 758,833) && IsClick()){
                                     SelectPower = RandomPower[1].ToString();
                                     // SelectPower = "penetrationChance";
                                     CanSelectPower = false;
                                     UpdatePower(SelectPower);
                                     _playState = PlayState.PLAYING;
                                     RandomPower.Clear();
-                                }else if(MouseOnElement(1274, 1540, 753,834) && IsClick()){
+                                }
+                                if(MouseOnElement(1274, 1540, 753,834) && IsClick()){
                                     SelectPower = RandomPower[2].ToString();
                                     // SelectPower = "chickenSpeed";
                                     CanSelectPower = false;
@@ -207,7 +211,7 @@ namespace ChickenUnknown.Screen {
         }
         public void CheckLosing(){
             for(int i = 0; i < ZombieList.Count; i++)
-                if(ZombieList[i]._pos.X < UI.BARRICADE_X)
+                if(ZombieList[i]._pos.X < UI.FORT_X)
                     _gameState = GameState.LOSING;
         } 
         public void CheckWinning(){
@@ -223,7 +227,7 @@ namespace ChickenUnknown.Screen {
             for(int i = 0; i < Swing.ChickenList.Count ; i++)
 				Swing.ChickenList[i].Draw(_spriteBatch, Arial);
             if(Player.Instance.BarricadeHP > 0){
-                _spriteBatch.Draw(barricade, new Rectangle(403, UI.FLOOR_Y-108, barricade.Width, barricade.Height), Color.White);
+                _spriteBatch.Draw(barricade, new Rectangle(403, UI.FLOOR_Y - barricade.Height, barricade.Width, barricade.Height), Color.White);
             }
             for(int i = 0; i < ZombieList.Count ; i++)
 				ZombieList[i].Draw(_spriteBatch, Arial);
@@ -250,8 +254,7 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Arial, "ZombieSpawnTimer: " + ZombieSpawnTimer, new Vector2(1200,240), Color.Black);
             _spriteBatch.DrawString(Arial, "SelectPower : " + SelectPower, new Vector2(400,200), Color.Black);
             _spriteBatch.DrawString(Arial, "RandomArray : " + RandomPower.Count, new Vector2(400,220), Color.Black);
-            _spriteBatch.DrawString(Arial, "BarricadeHp : " + Player.Instance.BarricadeHP, new Vector2(480,900), Color.Black);
-            _spriteBatch.DrawString(Arial, "WW : " + Player.Instance.ChickenAddedHitBox, new Vector2(480,920), Color.Black);
+            _spriteBatch.DrawString(Arial, "BarricadeHp : " + Player.Instance.BarricadeHP, new Vector2(UI.BARRICADE_X ,900), Color.Black);
             _spriteBatch.DrawString(Arial, "22 : " + SelectablePower.Count, new Vector2(960,30), Color.Black);
             _spriteBatch.DrawString(Arial, "BOMB : " + Player.Instance.IsUsingSpecialAbility, new Vector2(960,120), Color.Black);
             _spriteBatch.DrawString(Arial, "COOLDOWN BRO : " + Player.Instance.SpecailAbiltyCooldown, new Vector2(960,150), Color.Black);
@@ -336,7 +339,7 @@ namespace ChickenUnknown.Screen {
             if (Singleton.Instance.currentKB.IsKeyUp(Keys.O) && Singleton.Instance.previousKB.IsKeyDown(Keys.O))             
                 Player.Instance.Exp += 50; 
             if (Singleton.Instance.currentKB.IsKeyUp(Keys.G) && Singleton.Instance.previousKB.IsKeyDown(Keys.G))             
-                UpdatePower("chickenSpeed");
+                UpdatePower("scale");
             if (Singleton.Instance.currentKB.IsKeyUp(Keys.Space) && Singleton.Instance.previousKB.IsKeyDown(Keys.Space))
                 if(Player.Instance.SpecailAbiltyCooldown < 0)
                     Player.Instance.IsUsingSpecialAbility = !Player.Instance.IsUsingSpecialAbility; 

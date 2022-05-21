@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace ChickenUnknown.GameObjects {
     	class Chicken : IGameObject {
-		public Texture2D ChickenWalkTexture, ChickenFlyTexture;
+		public Texture2D ChickenWalkTexture, ChickenFlyTexture, ExplopsionEffect;
 		public float Speed;
 		public float FlyingRotation;
 		public float Angle;
@@ -19,25 +19,30 @@ namespace ChickenUnknown.GameObjects {
 		private int GRAVITY = 981;
 		public float ChickenRadius;
 		public bool IsActive;
-		public float AnimationTimer = 0f;
+		public float AnimationTimer = 0.4f;
+		private Vector2 ExplosionPos;
 		public bool IsSpecial = false;
+		public bool IsExplode = false;
 		// public bool SwitchFrame = false;
 		// public List<Texture2D> WalkingAnimation;
 		// public List<Texture2D> FlyingAnimation;
 		// public Chicken(Texture2D chickenTexture, Texture2D chickenBombTexture, List<Texture2D> walkingAnimation, List<Texture2D> flyingAnimation) : base(chickenTexture){
-		public Chicken(Texture2D chickenTexture,Texture2D chickenWalkTexture, Texture2D chickenFlyTexture) : base(chickenTexture){
+		public Chicken(Texture2D chickenTexture,Texture2D chickenWalkTexture, Texture2D chickenFlyTexture, Texture2D explopsionEffect) : base(chickenTexture){
 			ChickenRadius = (chickenTexture.Width) / 2;
 			ChickenWalkTexture = chickenWalkTexture;
 			ChickenFlyTexture = chickenFlyTexture;
+			ExplopsionEffect = explopsionEffect;
 			// WalkingAnimation = walkingAnimation;
 			// FlyingAnimation = flyingAnimation;
 		}
 		public override void Update(GameTime gameTime) {
-			// AnimationTimer += gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-			// if(AnimationTimer > 2f){
-			// 	SwitchFrame = !SwitchFrame;
-			// 	AnimationTimer = 0;
-			// }
+			if(IsExplode){
+				AnimationTimer -= (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+				if(AnimationTimer < 0){
+					IsExplode = false;
+					AnimationTimer = 0.4f;
+				}
+			}
 			if(IsFlying){
 				Velocity.X = (float)Math.Cos(Angle) * Speed;
 				Velocity.Y = (float)Math.Sin(Angle) * Speed;
@@ -50,7 +55,7 @@ namespace ChickenUnknown.GameObjects {
 			}
 			if(IsWalking){
 				_pos.X -= Player.Instance.ChickenSpeed;
-				if(_pos.X < 480){
+				if(_pos.X < UI.BARRICADE_X){
 					// IsWalking = false;
 					Swing.ChickenList.RemoveAt(Swing.ChickenList.IndexOf(this));
 					Swing.NumOfChicken += 1;
@@ -61,9 +66,9 @@ namespace ChickenUnknown.GameObjects {
 		private void DetectCollision(){
 			DetectZombieCollision();
 			if(_pos.X > 1920 || _pos.X < 0 || _pos.Y > UI.FLOOR_Y){
-				if(Player.Instance.IsUsingSpecialAbility){
+				if(IsSpecial){
+					IsExplode = true;
 					HitZombieWithAoE();
-					Player.Instance.IsUsingSpecialAbility = false;
 					Player.Instance.SpecailAbiltyCooldown = 5f;
 				}
 				IsFlying = false;
@@ -92,13 +97,14 @@ namespace ChickenUnknown.GameObjects {
 				// Three part Collision Check -> Head, Body, Leg (roughly)
 				pos.Y -= (float)texture.Height / 2;
 				if(IsCollsionZombie(_pos, _texture, pos, texture)){
-					if(Player.Instance.IsUsingSpecialAbility){
+					if(IsSpecial){
+						ExplosionPos = new Vector2(_pos.X,_pos.Y);
+						IsExplode = true;
 						PlayScreen.ZombieList[i].IsHit = true;
 						IsFlying = false;
 						_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
 						IsWalking = true;
 						HitZombieWithAoE();
-						Player.Instance.IsUsingSpecialAbility = false;
 						Player.Instance.SpecailAbiltyCooldown = 5f;
 					} else {
 						HitZombieAtIndex(i);
@@ -107,13 +113,14 @@ namespace ChickenUnknown.GameObjects {
 				}
 				pos.Y += (float)texture.Height / 2;
 				if(IsCollsionZombie(_pos, _texture, pos, texture)){
-					if(Player.Instance.IsUsingSpecialAbility){
+					if(IsSpecial){
+						ExplosionPos = new Vector2(_pos.X,_pos.Y);
+						IsExplode = true;
 						PlayScreen.ZombieList[i].IsHit = true;
 						IsFlying = false;
 						_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
 						IsWalking = true;
 						HitZombieWithAoE();
-						Player.Instance.IsUsingSpecialAbility = false;
 						Player.Instance.SpecailAbiltyCooldown = 5f;
 					} else {
 						HitZombieAtIndex(i);
@@ -122,13 +129,14 @@ namespace ChickenUnknown.GameObjects {
 				}
 				pos.Y += (float)texture.Height / 2;
 				if(IsCollsionZombie(_pos, _texture, pos, texture)){
-					if(Player.Instance.IsUsingSpecialAbility){
+					if(IsSpecial){
+						ExplosionPos = new Vector2(_pos.X,_pos.Y);
+						IsExplode = true;
 						PlayScreen.ZombieList[i].IsHit = true;
 						IsFlying = false;
 						_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
 						IsWalking = true;
 						HitZombieWithAoE();
-						Player.Instance.IsUsingSpecialAbility = false;
 						Player.Instance.SpecailAbiltyCooldown = 5f;
 					} else {
 						HitZombieAtIndex(i);
@@ -183,8 +191,11 @@ namespace ChickenUnknown.GameObjects {
 				_spriteBatch.Draw(ChickenWalkTexture, _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f + Player.Instance.Scale, SpriteEffects.FlipHorizontally, 0);
 				
 			} else {
-				_spriteBatch.DrawString(font, "Radius ? = " + Player.Instance.ChickenAddedHitBox , new Vector2(600,360), Color.Green);
 				_spriteBatch.Draw(ChickenFlyTexture, _pos ,null, Color.White, FlyingRotation + MathHelper.Pi, GetCenterOrigin(_texture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
+			}
+			if(IsExplode && AnimationTimer > 0){
+				_spriteBatch.DrawString(font, "Time ? = " + AnimationTimer , new Vector2(600,360), Color.Green);
+				_spriteBatch.Draw(ExplopsionEffect, ExplosionPos ,null, Color.White, 0f, GetCenterOrigin(ExplopsionEffect), 1f , SpriteEffects.None, 0);
 			}
 		}
 
