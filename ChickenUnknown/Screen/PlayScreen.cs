@@ -35,14 +35,16 @@ namespace ChickenUnknown.Screen {
         public String SelectPower;
 		public int MaxHpWidth = 100, MaxExpWidth = 300;
         public ArrayList RandomPower = new ArrayList();  
+        public String RandomedGacha;
         public List<String> SelectablePower = new List<String>()  {
             "scale","chickenSpeed","penetrationChance","quantity","cooldown","damage"
             };
-        public GameState _gameState;
-        public PlayState _playState;
         private bool CanSelectPower;
+        private bool GachaIsRandom;
+        public GameState _gameState;
         public static int SpawnLevel = 1;
         public static List<Zombie> ZombieList;
+        public static PlayState _playState;
         public enum GameState{
             PLAYING, WINNING, LOSING
         }
@@ -208,6 +210,25 @@ namespace ChickenUnknown.Screen {
                             }
                         break;
                         case PlayState.GACHA:
+                        if(!GachaIsRandom){
+                            Random randomPower = new Random();
+                            var allPower = new ArrayList()
+                            {
+                                "scale","chickenSpeed","penetrationChance","quantity","damage","knockback"
+                            };
+                            int randomIndex = randomPower.Next(allPower.Count);
+                            RandomedGacha = allPower[randomIndex].ToString();
+                            GachaIsRandom = true;
+                        }
+                        if(GachaIsRandom){
+                            
+                            //Click Continue / OK
+                            if(MouseOnElement(387, 646, 753,833) && IsClick()){
+                                // SelectPower = "damage";
+                                UpdatePower(RandomedGacha);
+                                _playState = PlayState.PLAYING;
+                            }
+                        }
                         break;
                     }
                 break;
@@ -316,6 +337,7 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Arial, "22 : " + SelectablePower.Count, new Vector2(960,30), Color.Black);
             _spriteBatch.DrawString(Arial, "BOMB : " + Player.Instance.IsUsingSpecialAbility, new Vector2(960,120), Color.Black);
             _spriteBatch.DrawString(Arial, "COOLDOWN BRO : " + Player.Instance.SpecailAbiltyCooldown, new Vector2(960,150), Color.Black);
+            _spriteBatch.DrawString(Arial, "PlayState index : " + _playState, new Vector2(960,170), Color.Black);
             // _spriteBatch.DrawString(Arial, "randomPower : " + RandomPower, new Vector2(400,160), Color.Black);
         }
         
