@@ -200,10 +200,10 @@ namespace ChickenUnknown.Screen {
                     }
                 break;
                 case GameState.LOSING:
-                    CheckLosing();
+
                 break;
                 case GameState.WINNING:
-                    CheckWinning();
+                
                 break;
             }
             
@@ -274,6 +274,7 @@ namespace ChickenUnknown.Screen {
                     _spriteBatch.Draw(Select_button, new Vector2(826, 753),Color.White);
                     _spriteBatch.Draw(Select_button, new Vector2(1274, 753),Color.White);
                     if(RandomPower.Count == 3){
+                        // Draw Here
                         if(RandomPower[0] != null){
                             _spriteBatch.DrawString(Arial,": " + RandomPower[0],new Vector2(344, 300),Color.Black);
                         }
