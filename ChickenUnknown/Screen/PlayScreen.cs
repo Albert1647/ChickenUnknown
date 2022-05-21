@@ -20,7 +20,10 @@ namespace ChickenUnknown.Screen {
                         ExplosionEffect,
                         StretchAreaTexture, NormalZombieTexture, TankZombieTexture,
                         bg, bg1, barricade, wall, Popup_levelup, Levelup_item1, Levelup_item2, 
-                        Levelup_item3, Select_button, HpBarTexture;
+                        Levelup_item3, Select_button, HpBarTexture,
+                        Lost,Win,
+                        MainMenuButton,MainMenuHover,RetryButton,Retryhover;
+        private bool    MouseOnMainMenuButton, MouseOnRetryButton, HoverMainMenu, HoverRetry;
         public Rectangle ExpBarRect;
         private Swing Swing;
         public List<Zombie> ZombieQueue = new List<Zombie>();
@@ -88,6 +91,15 @@ namespace ChickenUnknown.Screen {
             Levelup_item2 = Content.Load<Texture2D>("PlayScreen/draft_levelup_item2");
             Levelup_item3 = Content.Load<Texture2D>("PlayScreen/draft_levelup_item3");
             Select_button = Content.Load<Texture2D>("PlayScreen/draft_levelup_select");
+
+            //WIN-Lost
+            Lost = Content.Load<Texture2D>("PlayScreen/alert_lose");
+            Win = Content.Load<Texture2D>("PlayScreen/alert_win");
+            MainMenuButton = Content.Load<Texture2D>("PlayScreen/button_main_menu");
+            MainMenuHover = Content.Load<Texture2D>("PlayScreen/button_main_menu_hover");
+            RetryButton = Content.Load<Texture2D>("PlayScreen/button_retry");
+            Retryhover = Content.Load<Texture2D>("PlayScreen/button_retry_hover");
+
             InitializeExpBar();
             InitializeHpBar();
             Initial();
@@ -200,10 +212,56 @@ namespace ChickenUnknown.Screen {
                     }
                 break;
                 case GameState.LOSING:
-
+                    GetMouseInput();
+                    //CheckMouseUI
+                    //Retry
+                    if(MouseOnElement(678, 678+204, 600,600+84)){
+                        MouseOnRetryButton = true;
+                        if(HoverRetry == false){
+                            // HoverMenu.Play();
+                            HoverRetry = true;
+                        }
+                        if(IsClick()){
+                            // Click.Play();
+                            ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.GameScreen);
+                        }
+                    } else {
+                        MouseOnRetryButton = false;
+                        HoverRetry = false;
+                    }
+                    //Main Menu
+                    if(MouseOnElement(926, 926+316, 600,600+84)){
+                        MouseOnMainMenuButton = true;
+                        if(HoverMainMenu == false){
+                            // HoverMenu.Play();
+                            HoverMainMenu = true;
+                        }
+                        if(IsClick()){
+                            // Click.Play();
+                            ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.MenuScreen);
+                        }
+                    } else {
+                        MouseOnMainMenuButton = false;
+                        HoverMainMenu = false;
+                    }
                 break;
                 case GameState.WINNING:
-                
+                    GetMouseInput();
+                    //Main Menu
+                    if(MouseOnElement(802, 802+316, 600,600+84)){
+                        MouseOnMainMenuButton = true;
+                        if(HoverMainMenu == false){
+                            // HoverMenu.Play();
+                            HoverMainMenu = true;
+                        }
+                        if(IsClick()){
+                            // Click.Play();
+                            ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.MenuScreen);
+                        }
+                    } else {
+                        MouseOnMainMenuButton = false;
+                        HoverMainMenu = false;
+                    }
                 break;
             }
             
@@ -291,8 +349,31 @@ namespace ChickenUnknown.Screen {
             }
             switch(_gameState){
                 case GameState.WINNING:
+                    _spriteBatch.Draw(Win, new Vector2(744,372) , Color.White);
+                    //Menu
+                    if(MouseOnMainMenuButton) {
+                        _spriteBatch.Draw(MainMenuHover, new Vector2(802,600) , Color.White);
+                    }
+                    else {
+                        _spriteBatch.Draw(MainMenuButton, new Vector2(802,600) , Color.White);
+                    }
                 break;
                 case GameState.LOSING:
+                    _spriteBatch.Draw(Lost, new Vector2(636,372) , Color.White);
+                    //Menu
+                    if(MouseOnMainMenuButton) {
+                        _spriteBatch.Draw(MainMenuHover, new Vector2(926,600) , Color.White);
+                    }
+                    else {
+                        _spriteBatch.Draw(MainMenuButton, new Vector2(926,600), Color.White);
+                    }
+                    //Retry
+                    if(MouseOnRetryButton) {
+                        _spriteBatch.Draw(Retryhover, new Vector2(678,600),Color.White);
+                    }
+                    else {
+                        _spriteBatch.Draw(RetryButton, new Vector2(678,600), Color.White);
+                    }
                 break;
                 default:
                 break;
