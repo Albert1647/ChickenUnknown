@@ -67,6 +67,7 @@ namespace ChickenUnknown.GameObjects {
 		public void CheckIsDead() {
 			if(HP <= 0){
 				Player.Instance.Exp += ExpReward;
+				RandomTreasureChest();
 				PlayScreen.ZombieList.RemoveAt(PlayScreen.ZombieList.IndexOf(this));
 			}
 		}
@@ -75,6 +76,14 @@ namespace ChickenUnknown.GameObjects {
 			_spriteBatch.DrawString(font, "HP = " + HP , new Vector2(_pos.X, _pos.Y - _texture.Height / 2), Color.DarkRed, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
 			_spriteBatch.DrawString(font, "ATK = " + ATK , new Vector2(_pos.X, _pos.Y - _texture.Height / 2 + 20), Color.DarkRed, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
 			_spriteBatch.Draw(HpTexture, new Vector2(_pos.X-_texture.Width / 2, _pos.Y-120), HpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);  
+		}
+
+		public void RandomTreasureChest(){
+			Random random = new Random();
+			float rand = random.Next(100);
+			if(rand < Player.Instance.TreasureChestChance){
+				PlayScreen._playState = PlayScreen.PlayState.GACHA;
+			}
 		}
 
 		public Vector2 GetCenterOrigin(Texture2D texture){
