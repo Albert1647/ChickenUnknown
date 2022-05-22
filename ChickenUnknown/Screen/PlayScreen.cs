@@ -401,6 +401,7 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Pixeloid, "" + Time, new Vector2(UI.DIMENSION_X/2, 32) , GrayBlack, 0f,new Vector2(timeTextWidth.X/2, 0), 1f, SpriteEffects.None, 0);
 
             _spriteBatch.Draw(ExpBarRectangle, new Vector2(1484, 32) ,ExpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);        
+            _spriteBatch.DrawString(Pixeloid,"" + Player.Instance.Exp + " / " + (int)Player.Instance.MaxExp, new Vector2(1484, 80), GrayBlack);
             _spriteBatch.Draw(hud_level_bar, new Vector2(1484, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
             switch(_playState){
                 case PlayState.LEVELUP:
@@ -468,7 +469,7 @@ namespace ChickenUnknown.Screen {
         }
         public void UpdateExp(){
             ExpBarRect.Width = (int)(((float)(Player.Instance.Exp/Player.Instance.MaxExp))* MaxExpWidth);
-            if (ExpBarRect.Width > MaxExpWidth) {
+            if (ExpBarRect.Width >= MaxExpWidth) {
                 ExpBarRect.Width = 0;
                 Player.Instance.Level += 1;
                 Player.Instance.Exp = 0;
