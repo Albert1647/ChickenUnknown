@@ -19,7 +19,10 @@ namespace ChickenUnknown.Screen {
                         NormalWalkChickenTexture, SpecialWalkChickenTexture, 
                         AmountTexture, LuckTexture, ATKTexture, PenTexture, ScaleTexture, SpeedTexture, 
                         ExplosionEffect, AbilityButton, AbilityButtonInactive, 
-                        StretchAreaTexture, NormalZombieTexture, TankZombieTexture, RunnerZombieTexture,
+                        StretchAreaTexture,
+                        NormalZombieTexture,NormalZombieTexture2,
+                        TankZombieTexture,TankZombieTexture2,
+                        RunnerZombieTexture,RunnerZombieTexture2,
                         ChickenCounter, LevelBar, PauseButton, ResumeButton,
                         BG, Barricade, Wall, PopUpLevelUp, PopUpItemDrop,
                         SelectButton, HpBarTexture,
@@ -33,6 +36,7 @@ namespace ChickenUnknown.Screen {
                         MouseOnSelectButtonThree, HoverSelectThree;
 
         public List<Texture2D> ChickenTextureList;
+        public List<Texture2D> ZombieTextureList;
 
         public Rectangle ExpBarRect;
         private Swing Swing;
@@ -117,8 +121,11 @@ namespace ChickenUnknown.Screen {
             StretchAreaTexture = Content.Load<Texture2D>("PlayScreen/StretchArea");
 
             NormalZombieTexture = Content.Load<Texture2D>("PlayScreen/zombie_nm");
+            NormalZombieTexture2 = Content.Load<Texture2D>("PlayScreen/zombie_nm2");
             RunnerZombieTexture = Content.Load<Texture2D>("PlayScreen/zombie_runner");
+            RunnerZombieTexture2 = Content.Load<Texture2D>("PlayScreen/zombie_runner");
             TankZombieTexture = Content.Load<Texture2D>("PlayScreen/zombie_tank");
+            TankZombieTexture2 = Content.Load<Texture2D>("PlayScreen/zombie_tank");
 
             NormalChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_on_sling");
             NormalFlyChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_on_air");
@@ -634,17 +641,29 @@ namespace ChickenUnknown.Screen {
             switch(type){
                 case Zombie.ZombieType.NORMAL:
                 for(int i = 0 ; i < amount ; i++)
-                    ZombieQueue.Add(new Zombie(NormalZombieTexture, HpBarTexture, Zombie.ZombieType.NORMAL,SFXZombie){
+                    ZombieTextureList = new List<Texture2D>(){
+                        NormalZombieTexture,
+                        NormalZombieTexture2
+                    };
+                    ZombieQueue.Add(new Zombie(ZombieTextureList, HpBarTexture, Zombie.ZombieType.NORMAL, SFXZombie){
                         IsActive = true,
                     });
                 break;
                 case Zombie.ZombieType.TANK:
-                    ZombieQueue.Add(new Zombie(TankZombieTexture, HpBarTexture, Zombie.ZombieType.TANK,SFXZombie){
+                    ZombieTextureList = new List<Texture2D>(){
+                        TankZombieTexture,
+                        TankZombieTexture2
+                    };
+                    ZombieQueue.Add(new Zombie(ZombieTextureList, HpBarTexture, Zombie.ZombieType.TANK, SFXZombie){
                         IsActive = true,
                     });
                 break;
                 case Zombie.ZombieType.RUNNER:
-                    ZombieQueue.Add(new Zombie(RunnerZombieTexture, HpBarTexture, Zombie.ZombieType.RUNNER,SFXZombie){
+                    ZombieTextureList = new List<Texture2D>(){
+                            RunnerZombieTexture,
+                            RunnerZombieTexture2
+                    };
+                    ZombieQueue.Add(new Zombie(ZombieTextureList, HpBarTexture, Zombie.ZombieType.RUNNER, SFXZombie){
                         IsActive = true
                     });
                 break;

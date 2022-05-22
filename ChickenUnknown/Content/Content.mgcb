@@ -771,6 +771,18 @@
 /processorParam:TextureFormat=Color
 /build:PlayScreen/zombie_nm.png
 
+#begin PlayScreen/zombie_nm2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PlayScreen/zombie_nm2.png
+
 #begin PlayScreen/zombie_runner.png
 /importer:TextureImporter
 /processor:TextureProcessor
