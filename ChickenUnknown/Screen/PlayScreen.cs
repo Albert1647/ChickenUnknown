@@ -25,8 +25,13 @@ namespace ChickenUnknown.Screen {
                         SelectButton, HpBarTexture,
                         ChestCloseTexture,ChestOpenTexture,
                         Lost,Win,
+                        SelectButtonHover, 
                         MainMenuButton,MainMenuHover,RetryButton,Retryhover;
-        private bool    MouseOnMainMenuButton, MouseOnRetryButton, HoverMainMenu, HoverRetry;
+        private bool    MouseOnMainMenuButton, MouseOnRetryButton, HoverMainMenu, HoverRetry, 
+                        MouseOnSelectButtonOne, HoverSelectOne,
+                        MouseOnSelectButtonTwo, HoverSelectTwo,
+                        MouseOnSelectButtonThree, HoverSelectThree;
+
         public List<Texture2D> ChickenTextureList;
 
         public Rectangle ExpBarRect;
@@ -140,6 +145,8 @@ namespace ChickenUnknown.Screen {
             ChestOpenTexture = Content.Load<Texture2D>("PlayScreen/treasure_box_opened");
 
             SelectButton = Content.Load<Texture2D>("PlayScreen/levelup_select");
+            SelectButtonHover = Content.Load<Texture2D>("PlayScreen/levelup_select_hover");
+
 
             //WIN-Lost
             Lost = Content.Load<Texture2D>("PlayScreen/alert_lose");
@@ -254,30 +261,64 @@ namespace ChickenUnknown.Screen {
                                 CanSelectPower = true;
                             }
                             if(CanSelectPower){
-                                //select power
-                                if(MouseOnElement(387, 646, 753,833) && IsClick()){
-                                    SelectPower = RandomPower[0].ToString();
-                                    // SelectPower = "damage";
-                                    CanSelectPower = false;
-                                    UpdatePower(SelectPower);
-                                    _playState = PlayState.PLAYING;
-                                    RandomPower.Clear();
+                                //select power one
+                                if(MouseOnElement(387, 646, 753,833)){
+                                    MouseOnSelectButtonOne = true;
+                                    if(HoverSelectOne == false){
+                                        HoverMenu.Play();
+                                        HoverSelectOne = true;
+                                    }
+                                    if(IsClick()){
+                                        Click.Play();
+                                        SelectPower = RandomPower[0].ToString();
+                                        // SelectPower = "damage";
+                                        CanSelectPower = false;
+                                        UpdatePower(SelectPower);
+                                        _playState = PlayState.PLAYING;
+                                        RandomPower.Clear();
+                                    }
+                                } else {
+                                    MouseOnSelectButtonOne = false;
+                                    HoverSelectOne = false;
                                 }
-                                if(MouseOnElement(826, 1092, 758,833) && IsClick()){
-                                    SelectPower = RandomPower[1].ToString();
-                                    // SelectPower = "penetrationChance";
-                                    CanSelectPower = false;
-                                    UpdatePower(SelectPower);
-                                    _playState = PlayState.PLAYING;
-                                    RandomPower.Clear();
+                                if(MouseOnElement(826, 1092, 758,833)){
+                                    MouseOnSelectButtonTwo = true;
+                                    if(HoverSelectTwo == false){
+                                        HoverMenu.Play();
+                                        HoverSelectTwo = true;
+                                    }
+                                    if(IsClick()){
+                                        Click.Play();
+                                        SelectPower = RandomPower[1].ToString();
+                                        // SelectPower = "penetrationChance";
+                                        CanSelectPower = false;
+                                        UpdatePower(SelectPower);
+                                        _playState = PlayState.PLAYING;
+                                        RandomPower.Clear();
+                                    }
+                                } else {
+                                    MouseOnSelectButtonTwo = false;
+                                    HoverSelectTwo = false;
                                 }
-                                if(MouseOnElement(1274, 1540, 753,834) && IsClick()){
-                                    SelectPower = RandomPower[2].ToString();
-                                    // SelectPower = "chickenSpeed";
-                                    CanSelectPower = false;
-                                    UpdatePower(SelectPower);
-                                    _playState = PlayState.PLAYING;
-                                    RandomPower.Clear();
+
+                                if(MouseOnElement(1274, 1540, 753,834)){
+                                    MouseOnSelectButtonThree = true;
+                                    if(HoverSelectThree == false){
+                                        HoverMenu.Play();
+                                        HoverSelectThree = true;
+                                    }
+                                    if(IsClick()){
+                                        Click.Play();
+                                        SelectPower = RandomPower[2].ToString();
+                                        // SelectPower = "chickenSpeed";
+                                        CanSelectPower = false;
+                                        UpdatePower(SelectPower);
+                                        _playState = PlayState.PLAYING;
+                                        RandomPower.Clear();
+                                    }
+                                } else {
+                                    MouseOnSelectButtonThree = false;
+                                    HoverSelectThree = false;
                                 }
                             }
                         break;
@@ -453,9 +494,27 @@ namespace ChickenUnknown.Screen {
                         width = Pixeloid.MeasureString(""+RandomPower[2]);
                         _spriteBatch.DrawString(Pixeloid, ""+RandomPower[2], new Vector2(1408f, 330) , GrayBlack, 0f,GetCenterText(width), 1f, SpriteEffects.None, 0);
                     }
-                    _spriteBatch.Draw(SelectButton, new Vector2(378, 753),Color.White);
-                    _spriteBatch.Draw(SelectButton, new Vector2(826, 753),Color.White);
-                    _spriteBatch.Draw(SelectButton, new Vector2(1274, 753),Color.White);
+                    //Select 1
+                    if(MouseOnSelectButtonOne) {
+                        _spriteBatch.Draw(SelectButtonHover, new Vector2(378, 753) , Color.White);
+                    }
+                    else {
+                        _spriteBatch.Draw(SelectButton, new Vector2(378, 753) , Color.White);
+                    }
+                    //Select 2
+                    if(MouseOnSelectButtonTwo) {
+                        _spriteBatch.Draw(SelectButtonHover, new Vector2(826, 753) , Color.White);
+                    }
+                    else {
+                        _spriteBatch.Draw(SelectButton, new Vector2(826, 753) , Color.White);
+                    }
+                    //Select 3
+                    if(MouseOnSelectButtonThree) {
+                        _spriteBatch.Draw(SelectButtonHover, new Vector2(1274, 753) , Color.White);
+                    }
+                    else {
+                        _spriteBatch.Draw(SelectButton, new Vector2(1274, 753) , Color.White);
+                    }
                 break;
                 case PlayState.GACHA:
                     _spriteBatch.Draw(PopUpItemDrop, new Vector2(288, 108),Color.White);
