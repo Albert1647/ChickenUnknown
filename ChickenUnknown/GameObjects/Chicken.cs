@@ -68,11 +68,14 @@ namespace ChickenUnknown.GameObjects {
 			if(_pos.X > 1920 || _pos.X < 0 || _pos.Y > UI.FLOOR_Y){
 				if(IsSpecial){
 					IsExplode = true;
+					_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
+					ExplosionPos = _pos;
 					HitZombieWithAoE();
-					Player.Instance.SpecailAbiltyCooldown = 5f;
+					IsFlying = false;
+					IsWalking = true;
 				}
-				IsFlying = false;
 				_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
+				IsFlying = false;
 				IsWalking = true;
 				ResetZombieHit();
 			}
@@ -105,7 +108,6 @@ namespace ChickenUnknown.GameObjects {
 						_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
 						IsWalking = true;
 						HitZombieWithAoE();
-						Player.Instance.SpecailAbiltyCooldown = 5f;
 					} else {
 						HitZombieAtIndex(i);
 					}
@@ -121,7 +123,6 @@ namespace ChickenUnknown.GameObjects {
 						_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
 						IsWalking = true;
 						HitZombieWithAoE();
-						Player.Instance.SpecailAbiltyCooldown = 5f;
 					} else {
 						HitZombieAtIndex(i);
 					}
@@ -137,7 +138,6 @@ namespace ChickenUnknown.GameObjects {
 						_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
 						IsWalking = true;
 						HitZombieWithAoE();
-						Player.Instance.SpecailAbiltyCooldown = 5f;
 					} else {
 						HitZombieAtIndex(i);
 					}
@@ -194,7 +194,6 @@ namespace ChickenUnknown.GameObjects {
 				_spriteBatch.Draw(ChickenFlyTexture, _pos ,null, Color.White, FlyingRotation + MathHelper.Pi, GetCenterOrigin(_texture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
 			}
 			if(IsExplode && AnimationTimer > 0){
-				_spriteBatch.DrawString(font, "Time ? = " + AnimationTimer , new Vector2(600,360), Color.Green);
 				_spriteBatch.Draw(ExplopsionEffect, ExplosionPos ,null, Color.White, 0f, GetCenterOrigin(ExplopsionEffect), 1f , SpriteEffects.None, 0);
 			}
 		}

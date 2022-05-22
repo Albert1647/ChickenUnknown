@@ -63,6 +63,7 @@ namespace ChickenUnknown.GameObjects {
 							};
 							ChickenList.Add(chicken);
 							Player.Instance.IsUsingSpecialAbility = false;
+							Player.Instance.SpecailAbiltyCooldown = 5f;
 						} else {
 							chicken = new Chicken(NormalChickenTexture, NormalWalkChickenTexture, NormalFlyChickenTexture, ExplosionEffect) {
 								_pos = new Vector2(OldChickenPos.X, OldChickenPos.Y),
@@ -98,16 +99,6 @@ namespace ChickenUnknown.GameObjects {
 				_spriteBatch.Draw(NormalChickenTexture, new Vector2(130,650+(i * ChickenTexture.Height + 20)) ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
 			}
 
-			DrawLog(_spriteBatch,  font);
-		}
-		public void DrawLog(SpriteBatch _spriteBatch, SpriteFont font){
-			_spriteBatch.DrawString(font, "IsAiming = " + Singleton.Instance.IsAiming, new Vector2(0,80), Color.Green);
-            _spriteBatch.DrawString(font, "MouseUp = " + IsMouseUp(), new Vector2(0,120), Color.Green);
-            _spriteBatch.DrawString(font, "Mouse In Stretch Area = " + MouseIsOnStretchAreaTexture(), new Vector2(0,140), Color.Green);
-            _spriteBatch.DrawString(font, "Mouse on Kai ? = " + IsShootable(), new Vector2(0,160), Color.Green);
-            _spriteBatch.DrawString(font, "AimAngle ? = " + OldAimAngle + MathHelper.Pi, new Vector2(0,300), Color.Green);
-            _spriteBatch.DrawString(font, "Mouse In Chicken Area = " + GetMouseOnChickenDistance(), new Vector2(0,340), Color.Green);
-            _spriteBatch.DrawString(font, "Chicken Count = " + ChickenList.Count, new Vector2(0,380), Color.Green);
 		}
 		public bool IsMouseDown(){
             return Singleton.Instance.MouseCurrent.LeftButton == ButtonState.Pressed;

@@ -20,7 +20,7 @@ namespace ChickenUnknown.GameObjects {
 		public int ExpReward;
 		public float AttackCooldownTimer = 5f;
 		public float AttackCooldown;
-		
+		private int hpYDiff;
 		public ZombieType Type;
 		public enum ZombieType{
 			NORMAL, TANK, RUNNER
@@ -37,6 +37,8 @@ namespace ChickenUnknown.GameObjects {
 			AttackCooldown = 5f;
 			HpTexture = hpBarTexture;
 			HpBarRect = new Rectangle(0, 0, zombieTexture.Width, HpTexture.Height);
+			Random rand = new Random();
+			hpYDiff = rand.Next(20);
 		}
 		public override void Update(GameTime gameTime) {
 			if(IsActive){
@@ -58,24 +60,21 @@ namespace ChickenUnknown.GameObjects {
 			UpdateHp();
 		}
 		public void UpdateHp(){
-	
-			if (Singleton.Instance.currentKB.IsKeyUp(Keys.Q) && Singleton.Instance.previousKB.IsKeyDown(Keys.Q)) {                
-				HP -= 10; 
-			}
 			HpBarRect.Width = (int)(((float)(HP / MaxHp)) * _texture.Width );
 		}
 		public void CheckIsDead() {
 			if(HP <= 0){
 				Player.Instance.Exp += ExpReward;
 				RandomTreasureChest();
+				Player.Instance.Score += 100;
 				PlayScreen.ZombieList.RemoveAt(PlayScreen.ZombieList.IndexOf(this));
 			}
 		}
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
 			_spriteBatch.Draw(_texture, _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
-			_spriteBatch.DrawString(font, "HP = " + HP , new Vector2(_pos.X, _pos.Y - _texture.Height / 2), Color.DarkRed, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
-			_spriteBatch.DrawString(font, "ATK = " + ATK , new Vector2(_pos.X, _pos.Y - _texture.Height / 2 + 20), Color.DarkRed, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
-			_spriteBatch.Draw(HpTexture, new Vector2(_pos.X-_texture.Width / 2, _pos.Y-120), HpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);  
+			Random rand = new Random();
+			
+			_spriteBatch.Draw(HpTexture, new Vector2(_pos.X-_texture.Width / 2, _pos.Y-120-hpYDiff), HpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);  
 		}
 
 		public void RandomTreasureChest(){
@@ -133,6 +132,26 @@ namespace ChickenUnknown.GameObjects {
 						break;
 					}
 				break;
+				case ZombieType.RUNNER:
+					baseHp = 40;
+					switch(PlayScreen.SpawnLevel){
+						case 1:
+						break;
+						case 2:
+						break;
+						case 3:
+							levelHp += 10;
+						break;
+						case 4:
+							levelHp += 10;
+						break;
+						case 5:
+							levelHp += 20;
+						break;
+						default:
+						break;
+					}
+				break;
 				default:
 					baseHp = 20;
 				break;
@@ -177,13 +196,13 @@ namespace ChickenUnknown.GameObjects {
 			var Speed = 0f;
             switch(Type){
 				case ZombieType.NORMAL:
-					Speed = 2f;
+					Speed = 0.7f;
 				break;
 				case ZombieType.TANK:
-					Speed = 2f;
+					Speed = 0.4f;
 				break;
 				case ZombieType.RUNNER:
-					Speed = 2f;
+					Speed = 1.2f;
 				break;
 				default:
 				break;
