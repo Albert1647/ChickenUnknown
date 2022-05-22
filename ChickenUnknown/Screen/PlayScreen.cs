@@ -20,9 +20,9 @@ namespace ChickenUnknown.Screen {
                         AmountTexture,LuckTexture,ATKTexture,PenTexture,ScaleTexture,SpeedTexture,
                         ExplosionEffect,AbilityButton,AbilityButtonInactive,
                         StretchAreaTexture, NormalZombieTexture, TankZombieTexture, RunnerZombieTexture,
-                        HUD_Chicken_Counter, HUD_Level_Bar, HUD_Pause_Button, HUD_Resume_Button,
-                        bg, barricade, wall, Popup_levelup, Item_drop_frame,
-                        Select_button, HpBarTexture,
+                        ChickenCounter, LevelBar, PauseButton, ResumeButton,
+                        BG, Barricade, Wall, PopUpLevelUp, PopUpItemDrop,
+                        SelectButton, HpBarTexture,
                         ChestCloseTexture,ChestOpenTexture,
                         Lost,Win,
                         MainMenuButton,MainMenuHover,RetryButton,Retryhover;
@@ -85,10 +85,10 @@ namespace ChickenUnknown.Screen {
             AbilityButton = Content.Load<Texture2D>("PlayScreen/boomButton_Ready");
             AbilityButtonInactive = Content.Load<Texture2D>("PlayScreen/boomButton_notReady");
 
-            HUD_Chicken_Counter = Content.Load<Texture2D>("PlayScreen/hud_chicken_counter");
-            HUD_Level_Bar = Content.Load<Texture2D>("PlayScreen/HUD_Level_Bar");
-            HUD_Pause_Button = Content.Load<Texture2D>("PlayScreen/hud_pause");
-            HUD_Resume_Button = Content.Load<Texture2D>("PlayScreen/resume");
+            ChickenCounter = Content.Load<Texture2D>("PlayScreen/hud_chicken_counter");
+            LevelBar = Content.Load<Texture2D>("PlayScreen/LevelBar");
+            PauseButton = Content.Load<Texture2D>("PlayScreen/hud_pause");
+            ResumeButton = Content.Load<Texture2D>("PlayScreen/resume");
 
             AmountTexture = Content.Load<Texture2D>("PlayScreen/+amount");
             LuckTexture = Content.Load<Texture2D>("PlayScreen/+lck");
@@ -131,16 +131,16 @@ namespace ChickenUnknown.Screen {
             };
             ExplosionEffect = Content.Load<Texture2D>("PlayScreen/explosion");
 
-            bg = Content.Load<Texture2D>("PlayScreen/bg");
-            barricade = Content.Load<Texture2D>("PlayScreen/Barricade");
-            wall = Content.Load<Texture2D>("PlayScreen/wall");
-            Popup_levelup = Content.Load<Texture2D>("PlayScreen/levelup");
+            BG = Content.Load<Texture2D>("PlayScreen/bg");
+            Barricade = Content.Load<Texture2D>("PlayScreen/Barricade");
+            Wall = Content.Load<Texture2D>("PlayScreen/wall");
+            PopUpLevelUp = Content.Load<Texture2D>("PlayScreen/levelup");
 
-            Item_drop_frame = Content.Load<Texture2D>("PlayScreen/itemdrop_frame");
+            PopUpItemDrop = Content.Load<Texture2D>("PlayScreen/itemdrop_frame");
             ChestCloseTexture = Content.Load<Texture2D>("PlayScreen/treasure_box_close");
             ChestOpenTexture = Content.Load<Texture2D>("PlayScreen/treasure_box_opened");
 
-            Select_button = Content.Load<Texture2D>("PlayScreen/levelup_select");
+            SelectButton = Content.Load<Texture2D>("PlayScreen/levelup_select");
 
             //WIN-Lost
             Lost = Content.Load<Texture2D>("PlayScreen/alert_lose");
@@ -234,7 +234,7 @@ namespace ChickenUnknown.Screen {
                             if(MouseOnElement(70 - AbilityButton.Width / 2, 70+ AbilityButton.Width / 2, 290 - AbilityButton.Height/2,290 + AbilityButton.Height/2) && IsClick() && Player.Instance.SpecailAbiltyCooldown <= 0){
                                 Player.Instance.IsUsingSpecialAbility = !Player.Instance.IsUsingSpecialAbility;
                             }
-                            if(MouseOnElement(1824 , 1824 + HUD_Pause_Button.Width, 32, 32 + HUD_Pause_Button.Height) && IsClick()){
+                            if(MouseOnElement(1824 , 1824 + PauseButton.Width, 32, 32 + PauseButton.Height) && IsClick()){
                                 _playState = PlayState.PAUSE;
                             }
                         break;
@@ -326,7 +326,7 @@ namespace ChickenUnknown.Screen {
                         }
                         break;
                         case PlayState.PAUSE:
-                        if(MouseOnElement(1824 , 1824 + HUD_Pause_Button.Width, 32, 32 + HUD_Pause_Button.Height) && IsClick()){
+                        if(MouseOnElement(1824 , 1824 + PauseButton.Width, 32, 32 + PauseButton.Height) && IsClick()){
                             _playState = PlayState.PLAYING;
                         }
                         break;
@@ -398,7 +398,7 @@ namespace ChickenUnknown.Screen {
             }
         } 
         public override void Draw(SpriteBatch _spriteBatch) {
-            _spriteBatch.Draw(bg, CenterElementWithHeight(bg,0) , Color.White);
+            _spriteBatch.Draw(BG, CenterElementWithHeight(bg,0) , Color.White);
             _spriteBatch.Draw(SwingTexture, new Rectangle(185, UI.FLOOR_Y-378-216, SwingTexture.Width, SwingTexture.Height), Color.White);
             if(Player.Instance.SpecailAbiltyCooldown < 0 && !Player.Instance.IsUsingSpecialAbility)
                 _spriteBatch.Draw(AbilityButton, new Vector2(70, 290) ,null , Color.White, 0f, GetCenterOrigin(AbilityButton), 1f, SpriteEffects.None, 0); 
@@ -414,22 +414,22 @@ namespace ChickenUnknown.Screen {
             for(int i = 0; i < Swing.ChickenList.Count ; i++)
 				Swing.ChickenList[i].Draw(_spriteBatch, Pixeloid);
             if(Player.Instance.BarricadeHP > 0){
-                _spriteBatch.Draw(barricade, new Rectangle(403, UI.FLOOR_Y - barricade.Height, barricade.Width, barricade.Height), Color.White);
+                _spriteBatch.Draw(Barricade, new Rectangle(403, UI.FLOOR_Y - Barricade.Height, Barricade.Width, Barricade.Height), Color.White);
             }
             for(int i = 0; i < ZombieList.Count ; i++)
 				ZombieList[i].Draw(_spriteBatch, Pixeloid);
-            _spriteBatch.Draw(wall, new Rectangle(173, UI.FLOOR_Y-378, wall.Width, wall.Height), Color.White);
+            _spriteBatch.Draw(Wall, new Rectangle(173, UI.FLOOR_Y-378, Wall.Width, Wall.Height), Color.White);
             _spriteBatch.DrawString(Pixeloid, "HP : " + Player.Instance.BarricadeHP, new Vector2(UI.BARRICADE_X-100 ,800), GrayBlack);
             DrawHUD(_spriteBatch);
         }
         
         public void DrawHUD(SpriteBatch _spriteBatch){
             // _spriteBatch.Draw(bg, CenterElementWithHeight(bg,0) , Color.White);
-            _spriteBatch.Draw(HUD_Chicken_Counter, new Vector2(58, 95) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            _spriteBatch.Draw(ChickenCounter, new Vector2(58, 95) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
             if(_playState == PlayState.PAUSE)
-                _spriteBatch.Draw(HUD_Resume_Button, new Vector2(1824, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);     
+                _spriteBatch.Draw(ResumeButton, new Vector2(1824, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);     
                 else 
-                _spriteBatch.Draw(HUD_Pause_Button, new Vector2(1824, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
+                _spriteBatch.Draw(PauseButton, new Vector2(1824, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
 
             _spriteBatch.DrawString(Pixeloid,"Score : " + Player.Instance.Score, new Vector2(58, 32), GrayBlack);
             _spriteBatch.DrawString(Pixeloid, Swing.NumOfChicken.ToString(), new Vector2(206, 113), GrayBlack);
@@ -438,10 +438,10 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.DrawString(Pixeloid, "" + Time, new Vector2(UI.DIMENSION_X/2, 32) , GrayBlack, 0f,new Vector2(timeTextWidth.X/2, 0), 1f, SpriteEffects.None, 0);
             _spriteBatch.Draw(ExpBarRectangle, new Vector2(1484, 32) ,ExpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);        
             _spriteBatch.DrawString(Pixeloid,"" + Player.Instance.Exp + " / " + (int)Player.Instance.MaxExp, new Vector2(1484, 80), GrayBlack);
-            _spriteBatch.Draw(HUD_Level_Bar, new Vector2(1484, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
+            _spriteBatch.Draw(LevelBar, new Vector2(1484, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
             switch(_playState){
                 case PlayState.LEVELUP:
-                    _spriteBatch.Draw(Popup_levelup, new Vector2(288, 108),Color.White);
+                    _spriteBatch.Draw(PopUpLevelUp, new Vector2(288, 108),Color.White);
                     if(CanSelectPower){
                         _spriteBatch.Draw(ItemList[SelectablePower.IndexOf(RandomPower[0].ToString())], new Vector2(344, 372),Color.White);
                         _spriteBatch.Draw(ItemList[SelectablePower.IndexOf(RandomPower[1].ToString())], new Vector2(792, 372),Color.White);
@@ -454,12 +454,12 @@ namespace ChickenUnknown.Screen {
                         width = Pixeloid.MeasureString(""+RandomPower[2]);
                         _spriteBatch.DrawString(Pixeloid, ""+RandomPower[2], new Vector2(1408f, 330) , GrayBlack, 0f,GetCenterText(width), 1f, SpriteEffects.None, 0);
                     }
-                    _spriteBatch.Draw(Select_button, new Vector2(378, 753),Color.White);
-                    _spriteBatch.Draw(Select_button, new Vector2(826, 753),Color.White);
-                    _spriteBatch.Draw(Select_button, new Vector2(1274, 753),Color.White);
+                    _spriteBatch.Draw(SelectButton, new Vector2(378, 753),Color.White);
+                    _spriteBatch.Draw(SelectButton, new Vector2(826, 753),Color.White);
+                    _spriteBatch.Draw(SelectButton, new Vector2(1274, 753),Color.White);
                 break;
                 case PlayState.GACHA:
-                    _spriteBatch.Draw(Item_drop_frame, new Vector2(288, 108),Color.White);
+                    _spriteBatch.Draw(PopUpItemDrop, new Vector2(288, 108),Color.White);
                     if(ChestIsOpen){
                         Vector2 width = Pixeloid.MeasureString(""+ RandomedGacha);
                         _spriteBatch.DrawString(Pixeloid, ""+ RandomedGacha, new Vector2(960-40, 230) , GrayBlack, 0f,GetCenterText(width), 1f, SpriteEffects.None, 0);
@@ -471,7 +471,7 @@ namespace ChickenUnknown.Screen {
                     }
                 break;
                 case PlayState.PAUSE:
-                    _spriteBatch.Draw(HUD_Pause_Button, new Vector2(UI.DIMENSION_X/2, UI.DIMENSION_Y/2) ,null , Color.White, 0f, GetCenterOrigin(HUD_Pause_Button), 2f, SpriteEffects.None, 0);     
+                    _spriteBatch.Draw(PauseButton, new Vector2(UI.DIMENSION_X/2, UI.DIMENSION_Y/2) ,null , Color.White, 0f, GetCenterOrigin(PauseButton), 2f, SpriteEffects.None, 0);     
                 break;
             }
             switch(_gameState){
