@@ -11,7 +11,7 @@ namespace ChickenUnknown.Screen {
 	class SettingScreen : IGameScreen {
         private SpriteFont Arial;
 
-        public Texture2D ArrowLeft,ArrowRight,SettingBar,SettingClose,SettingDraft,SettingFrame,SettingPointer;
+        public Texture2D ArrowLeft,ArrowRight,SettingBar,SettingClose,BG,SettingFrame,SettingPointer;
         private SoundEffect Click,HoverMenu;
 
         private Song ThemeSong;
@@ -34,7 +34,7 @@ namespace ChickenUnknown.Screen {
             ArrowRight = Content.Load<Texture2D>("SettingScreen/setting_arrow_right");
             SettingBar = Content.Load<Texture2D>("SettingScreen/setting_bar");
             SettingClose = Content.Load<Texture2D>("SettingScreen/setting_close");
-            SettingDraft = Content.Load<Texture2D>("SettingScreen/setting_draft");
+            BG = Content.Load<Texture2D>("SettingScreen/bg");
             SettingFrame = Content.Load<Texture2D>("SettingScreen/setting_frame");
             SettingPointer = Content.Load<Texture2D>("SettingScreen/setting_pointer");
             //Sound
@@ -62,22 +62,22 @@ namespace ChickenUnknown.Screen {
 		}
         
         public void DrawHUD(SpriteBatch _spriteBatch){
-        _spriteBatch.Draw(SettingDraft, CenterElementWithHeight(SettingDraft,0) , Color.White);
-        
-        _spriteBatch.Draw(SettingFrame, CenterElementWithHeight(SettingFrame,0) , Color.White);
-        _spriteBatch.Draw(SettingBar, new Rectangle(611, 328, SettingBar.Width, SettingBar.Height), Color.White);  
-        _spriteBatch.Draw(ArrowLeft, new Rectangle(555, 314, ArrowLeft.Width, ArrowLeft.Height), Color.White);  
-        _spriteBatch.Draw(ArrowRight, new Rectangle(1309, 314, ArrowRight.Width, ArrowRight.Height), Color.White);
-        PosSFXVol=(Singleton.Instance.SFXVolume)*6.98;
-        PosPointerSFX=((int)(PosSFXVol-14))+611;
-        _spriteBatch.Draw(SettingPointer, new Rectangle(PosPointerSFX, 314, SettingPointer.Width, SettingPointer.Height), Color.White);
-        _spriteBatch.Draw(SettingBar, new Rectangle(611, 497, SettingBar.Width, SettingBar.Height), Color.White);  
-        _spriteBatch.Draw(ArrowLeft, new Rectangle(555, 483, ArrowLeft.Width, ArrowLeft.Height), Color.White);  
-        _spriteBatch.Draw(ArrowRight, new Rectangle(1309, 483, ArrowRight.Width, ArrowRight.Height), Color.White);
-        PosMusicVol=Singleton.Instance.MusicVolume*6.98;
-        PosPointerMusic=((int)(PosMusicVol-14))+611;
-        _spriteBatch.Draw(SettingPointer, new Rectangle(PosPointerMusic, 483, SettingPointer.Width, SettingPointer.Height), Color.White);
-        _spriteBatch.Draw(SettingClose, new Rectangle(836, 903, SettingClose.Width, SettingClose.Height), Color.White);
+            _spriteBatch.Draw(BG, CenterElementWithHeight(BG,0) , Color.White);
+            
+            _spriteBatch.Draw(SettingFrame, CenterElementWithHeight(SettingFrame,0) , Color.White);
+            _spriteBatch.Draw(SettingBar, new Rectangle(611, 328, SettingBar.Width, SettingBar.Height), Color.White);  
+            _spriteBatch.Draw(ArrowLeft, new Rectangle(555, 314, ArrowLeft.Width, ArrowLeft.Height), Color.White);  
+            _spriteBatch.Draw(ArrowRight, new Rectangle(1309, 314, ArrowRight.Width, ArrowRight.Height), Color.White);
+            PosSFXVol=(Singleton.Instance.SFXVolume)*6.98;
+            PosPointerSFX=((int)(PosSFXVol-14))+611;
+            _spriteBatch.Draw(SettingPointer, new Rectangle(PosPointerSFX, 314, SettingPointer.Width, SettingPointer.Height), Color.White);
+            _spriteBatch.Draw(SettingBar, new Rectangle(611, 497, SettingBar.Width, SettingBar.Height), Color.White);  
+            _spriteBatch.Draw(ArrowLeft, new Rectangle(555, 483, ArrowLeft.Width, ArrowLeft.Height), Color.White);  
+            _spriteBatch.Draw(ArrowRight, new Rectangle(1309, 483, ArrowRight.Width, ArrowRight.Height), Color.White);
+            PosMusicVol=Singleton.Instance.MusicVolume*6.98;
+            PosPointerMusic=((int)(PosMusicVol-14))+611;
+            _spriteBatch.Draw(SettingPointer, new Rectangle(PosPointerMusic, 483, SettingPointer.Width, SettingPointer.Height), Color.White);
+            _spriteBatch.Draw(SettingClose, new Rectangle(836, 903, SettingClose.Width, SettingClose.Height), Color.White);
         }
 
         public void DrawLog(SpriteBatch _spriteBatch){

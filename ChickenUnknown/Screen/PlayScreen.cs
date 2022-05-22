@@ -20,7 +20,7 @@ namespace ChickenUnknown.Screen {
                         AmountTexture,LuckTexture,ATKTexture,PenTexture,ScaleTexture,SpeedTexture,
                         ExplosionEffect,AbilityButton,AbilityButtonInactive,
                         StretchAreaTexture, NormalZombieTexture, TankZombieTexture, RunnerZombieTexture,
-                        hud_chicken_conter, hud_level_bar, hud_pause,
+                        HUD_Chicken_Counter, HUD_Level_Bar, HUD_Pause_Button,
                         bg, barricade, wall, Popup_levelup, Item_drop_frame,
                         Select_button, HpBarTexture,
                         ChestCloseTexture,ChestOpenTexture,
@@ -57,7 +57,7 @@ namespace ChickenUnknown.Screen {
             PLAYING, WINNING, LOSING
         }
         public enum PlayState{
-            PLAYING, LEVELUP, GACHA
+            PLAYING, LEVELUP, GACHA, PAUSE
         }
         public void Initial() {
             _gameState = GameState.PLAYING;
@@ -67,7 +67,6 @@ namespace ChickenUnknown.Screen {
                         NormalFlyChickenTexture,SpecialFlyChickenTexture,
                         NormalWalkChickenTexture,SpecialWalkChickenTexture,
                         ExplosionEffect) {
-                
             };
             ZombieList = new List<Zombie>();
             AddSpawnQueueZombie(Zombie.ZombieType.TANK,1);
@@ -83,9 +82,9 @@ namespace ChickenUnknown.Screen {
             AbilityButton = Content.Load<Texture2D>("PlayScreen/boomButton_Ready");
             AbilityButtonInactive = Content.Load<Texture2D>("PlayScreen/boomButton_notReady");
 
-            hud_chicken_conter = Content.Load<Texture2D>("PlayScreen/hud_chicken_counter");
-            hud_level_bar = Content.Load<Texture2D>("PlayScreen/hud_level_bar");
-            hud_pause = Content.Load<Texture2D>("PlayScreen/hud_pause");
+            HUD_Chicken_Counter = Content.Load<Texture2D>("PlayScreen/hud_chicken_counter");
+            HUD_Level_Bar = Content.Load<Texture2D>("PlayScreen/HUD_Level_Bar");
+            HUD_Pause_Button = Content.Load<Texture2D>("PlayScreen/hud_pause");
 
             AmountTexture = Content.Load<Texture2D>("PlayScreen/+amount");
             LuckTexture = Content.Load<Texture2D>("PlayScreen/+lck");
@@ -107,6 +106,7 @@ namespace ChickenUnknown.Screen {
 
             SwingTexture = Content.Load<Texture2D>("PlayScreen/slingshot");
             StretchAreaTexture = Content.Load<Texture2D>("PlayScreen/StretchArea");
+
             NormalZombieTexture = Content.Load<Texture2D>("PlayScreen/zombie_nm");
             RunnerZombieTexture = Content.Load<Texture2D>("PlayScreen/zombie_runner");
             TankZombieTexture = Content.Load<Texture2D>("PlayScreen/zombie_tank");
@@ -155,9 +155,7 @@ namespace ChickenUnknown.Screen {
         public void InitializeHpBar(){
 			int width = 100;
             int height = 5;
-            
             HpBarTexture = new Texture2D(GetGraphicsDeviceManager().GraphicsDevice, width, height);
-			
             Color[] data = new Color[width*height];
             for(int i=0; i < data.Length; ++i)
                 data[i] = Color.DarkRed;
@@ -167,11 +165,9 @@ namespace ChickenUnknown.Screen {
             base.UnloadContent();
         }
         public override void Update(GameTime gameTime) {
-
             GetMouseInput();
             switch(_gameState){
                 case GameState.PLAYING:
-                    Cheater();
                     switch(_playState){
                         case PlayState.PLAYING:
                             SpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
@@ -202,6 +198,9 @@ namespace ChickenUnknown.Screen {
                             CheckWinning();
                             if(MouseOnElement(70 - AbilityButton.Width / 2, 70+ AbilityButton.Width / 2, 290 - AbilityButton.Height/2,290 + AbilityButton.Height/2) && IsClick() && Player.Instance.SpecailAbiltyCooldown <= 0){
                                 Player.Instance.IsUsingSpecialAbility = !Player.Instance.IsUsingSpecialAbility;
+                            }
+                            if(MouseOnElement(1824 , 1824 + HUD_Pause_Button.Width, 32, 32 + HUD_Pause_Button.Height) && IsClick()){
+                                _playState = PlayState.PAUSE;
                             }
                         break;
                         case PlayState.LEVELUP:
@@ -289,6 +288,11 @@ namespace ChickenUnknown.Screen {
                                 ChestScale = 1f;
                                 // ChestRotateTimer = ChestMaxRotateTimer;
                             }
+                        }
+                        break;
+                        case PlayState.PAUSE:
+                        if(MouseOnElement(1824 , 1824 + HUD_Pause_Button.Width, 32, 32 + HUD_Pause_Button.Height) && IsClick()){
+                            _playState = PlayState.PLAYING;
                         }
                         break;
                     }
@@ -392,8 +396,8 @@ namespace ChickenUnknown.Screen {
         
         public void DrawHUD(SpriteBatch _spriteBatch){
             // _spriteBatch.Draw(bg, CenterElementWithHeight(bg,0) , Color.White);
-            _spriteBatch.Draw(hud_chicken_conter, new Vector2(58, 95) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
-
+            _spriteBatch.Draw(HUD_Chicken_Counter, new Vector2(58, 95) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+            _spriteBatch.Draw(HUD_Pause_Button, new Vector2(1824, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
             _spriteBatch.DrawString(Pixeloid,"Score : " + Player.Instance.Score, new Vector2(58, 32), GrayBlack);
             _spriteBatch.DrawString(Pixeloid, Swing.NumOfChicken.ToString(), new Vector2(206, 113), GrayBlack);
             _spriteBatch.DrawString(Pixeloid,"Lv. : " + Player.Instance.Level, new Vector2(1241, 32), GrayBlack);
@@ -402,7 +406,7 @@ namespace ChickenUnknown.Screen {
 
             _spriteBatch.Draw(ExpBarRectangle, new Vector2(1484, 32) ,ExpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);        
             _spriteBatch.DrawString(Pixeloid,"" + Player.Instance.Exp + " / " + (int)Player.Instance.MaxExp, new Vector2(1484, 80), GrayBlack);
-            _spriteBatch.Draw(hud_level_bar, new Vector2(1484, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
+            _spriteBatch.Draw(HUD_Level_Bar, new Vector2(1484, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
             switch(_playState){
                 case PlayState.LEVELUP:
                     _spriteBatch.Draw(Popup_levelup, new Vector2(288, 108),Color.White);
@@ -433,29 +437,23 @@ namespace ChickenUnknown.Screen {
                 case GameState.WINNING:
                     _spriteBatch.Draw(Win, new Vector2(744,372) , Color.White);
                     //Menu
-                    if(MouseOnMainMenuButton) {
+                    if(MouseOnMainMenuButton) 
                         _spriteBatch.Draw(MainMenuHover, new Vector2(802,600) , Color.White);
-                    }
-                    else {
+                    else 
                         _spriteBatch.Draw(MainMenuButton, new Vector2(802,600) , Color.White);
-                    }
                 break;
                 case GameState.LOSING:
                     _spriteBatch.Draw(Lost, new Vector2(636,372) , Color.White);
                     //Menu
-                    if(MouseOnMainMenuButton) {
+                    if(MouseOnMainMenuButton) 
                         _spriteBatch.Draw(MainMenuHover, new Vector2(926,600) , Color.White);
-                    }
-                    else {
+                    else 
                         _spriteBatch.Draw(MainMenuButton, new Vector2(926,600), Color.White);
-                    }
                     //Retry
-                    if(MouseOnRetryButton) {
+                    if(MouseOnRetryButton) 
                         _spriteBatch.Draw(Retryhover, new Vector2(678,600),Color.White);
-                    }
-                    else {
+                    else 
                         _spriteBatch.Draw(RetryButton, new Vector2(678,600), Color.White);
-                    }
                 break;
                 default:
                 break;
@@ -502,22 +500,6 @@ namespace ChickenUnknown.Screen {
         public Vector2 CenterElementWithHeight(Texture2D element,int height){
             return new Vector2(Singleton.Instance.Dimension.X / 2 - (element.Width / 2) ,height );
         }
-        public void Cheater(){
-            if (Singleton.Instance.currentKB.IsKeyUp(Keys.O) && Singleton.Instance.previousKB.IsKeyDown(Keys.O))             
-                Player.Instance.Exp += 10; 
-            if (Singleton.Instance.currentKB.IsKeyUp(Keys.G) && Singleton.Instance.previousKB.IsKeyDown(Keys.G))             
-                UpdatePower("scale");
-            if (Singleton.Instance.currentKB.IsKeyUp(Keys.Space) && Singleton.Instance.previousKB.IsKeyDown(Keys.Space))
-                if(Player.Instance.SpecailAbiltyCooldown < 0)
-                    Player.Instance.IsUsingSpecialAbility = !Player.Instance.IsUsingSpecialAbility; 
-            if (Singleton.Instance.currentKB.IsKeyUp(Keys.C) && Singleton.Instance.previousKB.IsKeyDown(Keys.C))
-                if(_playState == PlayState.GACHA){
-                    _playState = PlayState.PLAYING;
-                    ChestRotation = 0f;
-                    ChestScale = 0f;
-                    ChestRotateTimer = 0f;
-                }
-        }
         public void UpdatePower(String power){
             switch (power) {
                 case "Amount":
@@ -544,6 +526,7 @@ namespace ChickenUnknown.Screen {
             }
         }
         public void AddSpawnQueueZombie(Zombie.ZombieType type, int amount){
+            // Spawn Factory
             switch(type){
                 case Zombie.ZombieType.NORMAL:
                 for(int i = 0 ; i < amount ; i++)
@@ -567,11 +550,10 @@ namespace ChickenUnknown.Screen {
         }
         public void CheckSpawnZombie(){
             // Default Is 180f - 3 minute
-            var SpawnInterval = 10f;
+            var SpawnInterval = 180f;
             if(SpawnTimer >= SpawnInterval){
                 switch(SpawnLevel){
                     case 1:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
                     break;
                     case 2:
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
@@ -598,6 +580,7 @@ namespace ChickenUnknown.Screen {
         }
 
         public float ZombieSpawnRate(){
+            // minus initial spawn
             switch(SpawnLevel - 1){
                 case 1:
                 return 2f;  

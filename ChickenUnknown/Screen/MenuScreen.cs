@@ -20,7 +20,7 @@ namespace ChickenUnknown.Screen {
 		public override void LoadContent() {
 			base.LoadContent();
             Arial = Content.Load<SpriteFont>("Arial");
-            BG = Content.Load<Texture2D>("MenuScreen/draft_menu_bg");
+            BG = Content.Load<Texture2D>("MenuScreen/bg");
             Title = Content.Load<Texture2D>("MenuScreen/draft_game_title");
             StartButton = Content.Load<Texture2D>("MenuScreen/draft_start_button");
             StartHover = Content.Load<Texture2D>("MenuScreen/draft_start_button_hover");
