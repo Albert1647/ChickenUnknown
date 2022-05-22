@@ -21,7 +21,7 @@ namespace ChickenUnknown
 		public float ChickenSpeed = 5f;
 		public int Damage = 8;
 		public bool IsUsingSpecialAbility = false;
-		public float SpecailAbiltyDamage = 100;
+		public float SpecailAbiltyDamage = 50;
 		public float SpecailAbiltyCooldown = 30f;
 		public float SpecailAbiltyMaxCooldown = 30f;
 		public float SpecailAbilityAoE = 400f;
