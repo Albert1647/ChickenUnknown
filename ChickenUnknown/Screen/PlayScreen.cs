@@ -676,25 +676,32 @@ namespace ChickenUnknown.Screen {
             if(SpawnTimer >= SpawnInterval){
                 switch(SpawnLevel){
                     case 1:
-                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,1);
-                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER,1);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,1);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,5);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,5);
                         SpawnLevel += 1;
                     break;
                     case 2:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,6);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER,6);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,10);
                         SpawnLevel += 1;
                     break;
                     case 3:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,4);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER,10);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,5);
                         SpawnLevel += 1;
                     break;
                     case 4:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,10);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER,4);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,5);
                         SpawnLevel += 1;
                     break;
                     case 5:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,25);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,10);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER,10);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,5);
                         SpawnLevel += 1;
                     break;
                     default:
