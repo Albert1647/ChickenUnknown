@@ -14,18 +14,21 @@ namespace ChickenUnknown.GameObjects {
 							NormalFlyChickenTexture,SpecialFlyChickenTexture,
 							NormalWalkChickenTexture,SpecialWalkChickenTexture,
 							ExplosionEffect;
+
+		public SoundEffect ChickenBomb,ChickenSFX,Stretch,Hitting,ZombieBiting,ZombieDie,ZombieSpawn;
 		private Vector2 OldChickenPos;
 		private float OldAimAngle;
         private float AimAngle;
 		private Vector2 CENTER_OF_SWING = new Vector2(230, 475); 
 		private int MAXSPEED = 1300;
 		public static List<Chicken> ChickenList = new List<Chicken>();
+		public static List<SoundEffect> SFXZombie,SFXChicken;
 		public static int NumOfChicken;
 		public Swing(Texture2D swingTexture,Texture2D stretchAreaTexture,
 						Texture2D normalChickenTexture,Texture2D specialChickenTexture,
 					  	Texture2D normalFlyChickenTexture,Texture2D specialFlyChickenTexture,
 						Texture2D  normalWalkChickenTexture,Texture2D specialWalkChickenTexture,
-						Texture2D explosionEffect) : base(swingTexture)
+						Texture2D explosionEffect,SoundEffect stretch,List<SoundEffect> SFXZombie,List<SoundEffect> SFXchicken) : base(swingTexture)
 		{
             StretchAreaTexture = stretchAreaTexture;
 			NormalChickenTexture = normalChickenTexture;
@@ -36,6 +39,10 @@ namespace ChickenUnknown.GameObjects {
 			SpecialFlyChickenTexture = specialFlyChickenTexture;
 			ExplosionEffect = explosionEffect;
 			NumOfChicken = Player.Instance.StartQuantity; // initial Start quantity
+			NumOfChicken = Player.Instance.StartQuantity;
+			Stretch = stretch;
+			SFXChicken=SFXchicken;
+			ChickenSFX=SFXChicken[1];
 		}
 		
 		public override void Update(GameTime gameTime) {
@@ -44,15 +51,16 @@ namespace ChickenUnknown.GameObjects {
 				AimAngle = (float)Math.Atan2(Singleton.Instance.MouseCurrent.Y - CENTER_OF_SWING.Y, Singleton.Instance.MouseCurrent.X - CENTER_OF_SWING.X);
 				if(!Singleton.Instance.IsAiming){
 					// play sound here : Start aim
+					Stretch.Play();
 				}
 				if (NumOfChicken > 0) {
 					Singleton.Instance.IsAiming = true;
 					if(IsMouseUp()){
+						ChickenSFX.Play();
 						Singleton.Instance.IsAiming = false;
 						Chicken chicken;
 						if(Player.Instance.IsUsingSpecialAbility){
-							// New Shooted Chicken and start bomb cooldown
-							chicken = new Chicken(SpecialChickenTexture, SpecialWalkChickenTexture, SpecialFlyChickenTexture, ExplosionEffect) {
+							chicken = new Chicken(SpecialChickenTexture, SpecialWalkChickenTexture, SpecialFlyChickenTexture, ExplosionEffect, SFXChicken) {
 								_pos = new Vector2(OldChickenPos.X, OldChickenPos.Y),
 								Angle = OldAimAngle + MathHelper.Pi,
 								FlyingRotation = OldAimAngle,
@@ -65,8 +73,7 @@ namespace ChickenUnknown.GameObjects {
 							Player.Instance.IsUsingSpecialAbility = false;
 							Player.Instance.SpecailAbiltyCooldown = Player.Instance.SpecailAbiltyMaxCooldown;
 						} else {
-							//  New Shooted Chicken 
-							chicken = new Chicken(NormalChickenTexture, NormalWalkChickenTexture, NormalFlyChickenTexture, ExplosionEffect) {
+							chicken = new Chicken(NormalChickenTexture, NormalWalkChickenTexture, NormalFlyChickenTexture, ExplosionEffect, SFXChicken) {
 								_pos = new Vector2(OldChickenPos.X, OldChickenPos.Y),
 								Angle = OldAimAngle + MathHelper.Pi,
 								FlyingRotation = OldAimAngle,
