@@ -48,7 +48,7 @@ namespace ChickenUnknown.GameObjects {
 				AimAngle = (float)Math.Atan2(Singleton.Instance.MouseCurrent.Y - CENTER_OF_SWING.Y, Singleton.Instance.MouseCurrent.X - CENTER_OF_SWING.X);
 				if(!Singleton.Instance.IsAiming){
 					// play sound here : Start aim
-					Stretch.Play();
+					if (NumOfChicken > 0) {Stretch.Play();}
 				}
 				if (NumOfChicken > 0) {
 					Singleton.Instance.IsAiming = true;
