@@ -16,7 +16,7 @@ namespace ChickenUnknown
 		public float TreasureChestChance = 5f;
 		public float ChickenAddedHitBox = 0f;
 		public float Scale = 0f;
-		public int StartQuantity = 3;
+		public int StartQuantity = 2;
 		public int Knockback = 0;
 		public float ChickenSpeed = 5f;
 		public int Damage = 10;

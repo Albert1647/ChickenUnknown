@@ -18,7 +18,7 @@ namespace ChickenUnknown
 		public const int AddQuantity = 1;
 		public const int Knockback = 1;
 		public const float AddedExpPerLevel = 1.15f;
-		public const float SpecailAbiltyDamage = 100;
+		public const float SpecailAbiltyDamage = 50;
 		public const float SpecailAbiltyCooldown = 5f;
 		public const float SpecailAbiltyAoE= 5f;
 	}

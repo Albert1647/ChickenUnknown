@@ -587,6 +587,7 @@ namespace ChickenUnknown.Screen {
                 ExpBarRect.Width = 0;
                 Player.Instance.Level += 1;
                 Player.Instance.Exp = 0;
+                // Add Damage Per Level Here
                 Player.Instance.MaxExp *= PlayerUpgrade.AddedExpPerLevel;
                 _playState = PlayState.LEVELUP;
             }
@@ -683,52 +684,52 @@ namespace ChickenUnknown.Screen {
             if(SpawnTimer >= SpawnInterval){
                 switch(SpawnLevel){
                     case 1:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
-                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,1);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 15);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 1);
                         SpawnLevel += 1;
                         SpawnTimer = 0;
                     break;
                     case 2:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,10);
-                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,1);
-                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER,1);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,10);
-                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,2);
-                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER,2);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,10);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 10);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 1);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 1);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 10);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 10);
                         SpawnLevel += 1;
                         SpawnTimer = 0;
                     break;
                     case 3:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,5);
-                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER,2);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,10);
-                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER,6);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 10);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 6);
                         SpawnLevel += 1;
                         SpawnTimer = 0;
                     break;
                     case 4:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,3);
-                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,2);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,3);
-                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,2);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,3);
-                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,2);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,4);
-                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER,2);
-                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 3);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 3);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 3);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 4);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
                         SpawnLevel += 1;
                         SpawnTimer = 0;
                     break;
                     case 5:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,10);
-                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,2);
-                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER,3);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,5);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,5);
-                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER,4);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,5);
-                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,5);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 10);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 3);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 4);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 5);
                         SpawnLevel += 1;
                         SpawnTimer = 0;
                     break;
