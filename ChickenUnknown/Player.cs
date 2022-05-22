@@ -13,7 +13,7 @@ namespace ChickenUnknown
 		public int Level = 1;
 		public int BarricadeHP = 200;
 		public float PenetrationChance = 1f;
-		public float TreasureChestChance = 2f;
+		public float TreasureChestChance = 1f;
 		public float ChickenAddedHitBox = 0f;
 		public float Scale = 0f;
 		public int StartQuantity = 2;

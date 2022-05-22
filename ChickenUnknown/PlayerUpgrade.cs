@@ -11,8 +11,8 @@ namespace ChickenUnknown
     {
 		// Player Upgrade Per Level
 		public const float Attack = 1.07f;
-		public const float PenetrationChance = 8f;
-		public const float Luck = 0.8f;
+		public const float PenetrationChance = 7f;
+		public const float Luck = 0.08f;
 		public const float Scale = 0.1f;
 		public const float ChickenSpeed = 0.5f;
 		public const int AddQuantity = 1;

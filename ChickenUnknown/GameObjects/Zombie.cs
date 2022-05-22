@@ -125,7 +125,6 @@ namespace ChickenUnknown.GameObjects {
         }
 		public int GetZombieHp(){
 			var baseHp = 0;
-			var levelHp = 0;
             switch(Type){
 				case ZombieType.NORMAL:
 					baseHp = 30;
@@ -133,16 +132,16 @@ namespace ChickenUnknown.GameObjects {
 						case 1:
 						break;
 						case 2:
-							levelHp += 5;
+							baseHp = 42;
 						break;
 						case 3:
-							levelHp += 15;
+							baseHp = 53;
 						break;
 						case 4:
-							levelHp += 20;
+							baseHp = 64;
 						break;
 						case 5:
-							levelHp += 25;
+							baseHp = 71;
 						break;
 						default:
 						break;
@@ -152,18 +151,19 @@ namespace ChickenUnknown.GameObjects {
 					baseHp = 80;
 					switch(PlayScreen.SpawnLevel){
 						case 1:
+							baseHp = 80;
 						break;
 						case 2:
-							levelHp += 10;
+							baseHp = 95;
 						break;
 						case 3:
-							levelHp += 25;
+							baseHp = 110;
 						break;
 						case 4:
-							levelHp += 40;
+							baseHp = 130;
 						break;
 						case 5:
-							levelHp += 60;
+							baseHp = 150;
 						break;
 						default:
 						break;
@@ -173,17 +173,19 @@ namespace ChickenUnknown.GameObjects {
 					baseHp = 40;
 					switch(PlayScreen.SpawnLevel){
 						case 1:
+							baseHp = 40;
 						break;
 						case 2:
+							baseHp = 45;
 						break;
 						case 3:
-							levelHp += 10;
+							baseHp = 58;
 						break;
 						case 4:
-							levelHp += 10;
+							baseHp = 68;
 						break;
 						case 5:
-							levelHp += 20;
+							baseHp = 76;
 						break;
 						default:
 						break;
@@ -193,7 +195,7 @@ namespace ChickenUnknown.GameObjects {
 					baseHp = 20;
 				break;
 			}
-			return baseHp + levelHp;
+			return baseHp;
         }
 		public int GetZombieExpReward(){
 			var ExpReward = 0;
@@ -231,15 +233,17 @@ namespace ChickenUnknown.GameObjects {
         }
 		public float GetZombieSpeed(){
 			var Speed = 0f;
+			var SpawnLevel = PlayScreen.SpawnLevel;
+
             switch(Type){
 				case ZombieType.NORMAL:
-					Speed = 0.4f;
+					Speed = 0.47f + PlayScreen.SpawnLevel - 1;
 				break;
 				case ZombieType.TANK:
-					Speed = 0.25f;
+					Speed = 0.29f + PlayScreen.SpawnLevel - 1;
 				break;
 				case ZombieType.RUNNER:
-					Speed = 0.65f;
+					Speed = 0.72f + PlayScreen.SpawnLevel - 1;
 				break;
 				default:
 				break;

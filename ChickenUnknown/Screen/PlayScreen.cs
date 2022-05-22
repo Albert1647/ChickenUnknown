@@ -227,6 +227,7 @@ namespace ChickenUnknown.Screen {
                 case GameState.PLAYING:
                     switch(_playState){
                         case PlayState.PLAYING:
+                            Cheater();
                             LevelUping=true;
                             SpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
                             ZombieSpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
@@ -266,16 +267,17 @@ namespace ChickenUnknown.Screen {
                             if(!CanSelectPower){
                                 Random randomPower = new Random();
                                 ArrayList allPower;
-                                allPower = new ArrayList()
-                                {
-                                    "Luck",
-                                    "Damage",
-                                    "Penetration",
-                                    "Scale",
-                                    "Speed",
-                                    "Amount"
-                                };
                                 if(Player.Instance.Level % 3 == 0){
+                                    allPower = new ArrayList()
+                                    {
+                                        "Luck",
+                                        "Damage",
+                                        "Penetration",
+                                        "Scale",
+                                        "Speed",
+                                        "Amount"
+                                    };
+                                } else {
                                     allPower = new ArrayList()
                                     {
                                         "Luck",
@@ -286,10 +288,11 @@ namespace ChickenUnknown.Screen {
                                         // delete amount
                                     };
                                 }
+
                                 var temp = allPower;
-                                for ( int i=0 ; i < 3 ; i++) {
-                                    int randomIndex = randomPower.Next(allPower.Count);
-                                    RandomPower.Add(allPower[randomIndex]);
+                                for (int i = 0 ; i < 3 ; i++) {
+                                    int randomIndex = randomPower.Next(temp.Count);
+                                    RandomPower.Add(temp[randomIndex]);
                                     temp.RemoveAt(randomIndex); 
                                 }
                                 CanSelectPower = true;
@@ -406,6 +409,9 @@ namespace ChickenUnknown.Screen {
                         break;
                         case PlayState.PAUSE:
                         if(MouseOnElement(1824 , 1824 + PauseButton.Width, 32, 32 + PauseButton.Height) && IsClick()){
+                            _playState = PlayState.PLAYING;
+                        }
+                        if(MouseOnElement(UI.DIMENSION_X/2 - PauseButton.Width/2 , UI.DIMENSION_X/2 + PauseButton.Width/2, UI.DIMENSION_Y/2 - PauseButton.Width/2, UI.DIMENSION_Y/2 + PauseButton.Width/2) && IsClick()){
                             _playState = PlayState.PLAYING;
                         }
                         break;
@@ -570,7 +576,7 @@ namespace ChickenUnknown.Screen {
                     }
                 break;
                 case PlayState.PAUSE:
-                    LevelUping=true;
+                    LevelUping = true;
                     _spriteBatch.Draw(PauseButton, new Vector2(UI.DIMENSION_X/2, UI.DIMENSION_Y/2) ,null , Color.White, 0f, GetCenterOrigin(PauseButton), 2f, SpriteEffects.None, 0);     
                 break;
             }
@@ -605,7 +611,7 @@ namespace ChickenUnknown.Screen {
             Time = string.Format("{0:D2}:{1:D2}", //for example if you want Millisec => "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms"  ,t.Milliseconds
                 TimeSpan.Minutes, 
                 TimeSpan.Seconds);
-        }
+            }
         public void UpdateExp(){
             ExpBarRect.Width = (int)(((float)(Player.Instance.Exp/Player.Instance.MaxExp))* MaxExpWidth);
             if (ExpBarRect.Width >= MaxExpWidth) {
@@ -648,6 +654,11 @@ namespace ChickenUnknown.Screen {
         }
         public Vector2 CenterElementWithHeight(Texture2D element,int height){
             return new Vector2(Singleton.Instance.Dimension.X / 2 - (element.Width / 2) ,height );
+        }
+        public void Cheater(){
+            if (Singleton.Instance.currentKB.IsKeyUp(Keys.Q) && Singleton.Instance.previousKB.IsKeyDown(Keys.Q)) {                
+				Player.Instance.Exp += 100; 
+			}
         }
         public void UpdatePower(String power){
             switch (power) {
