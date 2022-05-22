@@ -33,7 +33,8 @@ namespace ChickenUnknown.Screen {
         private bool    MouseOnMainMenuButton, MouseOnRetryButton, HoverMainMenu, HoverRetry, 
                         MouseOnSelectButtonOne, HoverSelectOne,
                         MouseOnSelectButtonTwo, HoverSelectTwo,
-                        MouseOnSelectButtonThree, HoverSelectThree;
+                        MouseOnSelectButtonThree, HoverSelectThree,
+                        LevelUping;
 
         public List<Texture2D> ChickenTextureList;
         public List<Texture2D> ZombieTextureList;
@@ -489,7 +490,7 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.Draw(LevelBar, new Vector2(1484, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
             switch(_playState){
                 case PlayState.LEVELUP:
-                    LevelUp.Play();
+                    if(LevelUping){ LevelUp.Play();LevelUping=false;}                
                     _spriteBatch.Draw(PopUpLevelUp, new Vector2(288, 108),Color.White);
                     if(CanSelectPower){
                         _spriteBatch.Draw(ItemList[SelectablePower.IndexOf(RandomPower[0].ToString())], new Vector2(344, 372),Color.White);
@@ -526,6 +527,7 @@ namespace ChickenUnknown.Screen {
                     }
                 break;
                 case PlayState.GACHA:
+                    LevelUping=true;
                     _spriteBatch.Draw(PopUpItemDrop, new Vector2(288, 108),Color.White);
                     if(ChestIsOpen){
                         Vector2 width = Pixeloid.MeasureString(""+ RandomedGacha);
@@ -538,6 +540,7 @@ namespace ChickenUnknown.Screen {
                     }
                 break;
                 case PlayState.PAUSE:
+                    LevelUping=true;
                     _spriteBatch.Draw(PauseButton, new Vector2(UI.DIMENSION_X/2, UI.DIMENSION_Y/2) ,null , Color.White, 0f, GetCenterOrigin(PauseButton), 2f, SpriteEffects.None, 0);     
                 break;
             }
