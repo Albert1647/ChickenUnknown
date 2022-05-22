@@ -687,6 +687,18 @@
 /processorParam:TextureFormat=Color
 /build:PlayScreen/levelup_select_hover.png
 
+#begin PlayScreen/resume.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PlayScreen/resume.png
+
 #begin PlayScreen/slingshot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -795,6 +807,18 @@
 /processorParam:TextureFormat=Color
 /build:SettingScreen/bg.png
 
+#begin SettingScreen/close_hover.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:SettingScreen/close_hover.png
+
 #begin SettingScreen/setting_arrow_left.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -842,18 +866,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:SettingScreen/setting_close.png
-
-#begin SettingScreen/setting_draft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:SettingScreen/setting_draft.png
 
 #begin SettingScreen/setting_frame.png
 /importer:TextureImporter
@@ -932,6 +944,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sound/Stretch.mp3
+
+#begin Sound/Theme.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sound/Theme.mp3
 
 #begin Sound/ThemeTest.mp3
 /importer:Mp3Importer

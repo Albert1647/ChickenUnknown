@@ -9,6 +9,7 @@ namespace ChickenUnknown
 {
     class Player
     {
+		// Player Stat
 		public int Level;
 		public int BarricadeHP = 200;
 		public float PenetrationChance = 10f;

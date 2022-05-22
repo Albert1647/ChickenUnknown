@@ -25,21 +25,18 @@ namespace ChickenUnknown.GameObjects {
 		public static List<SoundEffect> SFXZombie,SFXChicken;
 		public static int NumOfChicken;
 		public Swing(Texture2D swingTexture,Texture2D stretchAreaTexture,
-						Texture2D normalChickenTexture,Texture2D specialChickenTexture,
-					  	Texture2D normalFlyChickenTexture,Texture2D specialFlyChickenTexture,
-						Texture2D  normalWalkChickenTexture,Texture2D specialWalkChickenTexture,
+						List<Texture2D> ChickenTextureList,
 						Texture2D explosionEffect,SoundEffect stretch,List<SoundEffect> SFXZombie,List<SoundEffect> SFXchicken) : base(swingTexture)
 		{
             StretchAreaTexture = stretchAreaTexture;
-			NormalChickenTexture = normalChickenTexture;
-			NormalFlyChickenTexture = normalFlyChickenTexture;
-			NormalWalkChickenTexture = normalWalkChickenTexture;
-			SpecialWalkChickenTexture = specialWalkChickenTexture;
-			SpecialChickenTexture = specialChickenTexture;
-			SpecialFlyChickenTexture = specialFlyChickenTexture;
+			NormalChickenTexture = ChickenTextureList[0];
+			NormalFlyChickenTexture = ChickenTextureList[1];
+			NormalWalkChickenTexture = ChickenTextureList[2];
+			SpecialChickenTexture = ChickenTextureList[3];
+			SpecialFlyChickenTexture = ChickenTextureList[4];
+			SpecialWalkChickenTexture = ChickenTextureList[5];
 			ExplosionEffect = explosionEffect;
 			NumOfChicken = Player.Instance.StartQuantity; // initial Start quantity
-			NumOfChicken = Player.Instance.StartQuantity;
 			Stretch = stretch;
 			SFXChicken=SFXchicken;
 			ChickenSFX=SFXChicken[1];

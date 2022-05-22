@@ -13,6 +13,7 @@ namespace ChickenUnknown.Screen {
         private Texture2D StartButton, StartHover, SettingButton, SettingHover, ExitButton, ExitHover,
         BG,Title;
         private SoundEffect Click,HoverMenu;
+        private Song ThemeSong;
         private bool MouseOnStartButton, MouseOnSettingButton, MouseOnExitButton, HoverStart, HoverSetting, HoverExit;
         public void Initial() {
 
@@ -29,6 +30,12 @@ namespace ChickenUnknown.Screen {
             ExitButton = Content.Load<Texture2D>("MenuScreen/exit");
             ExitHover = Content.Load<Texture2D>("MenuScreen/exit_hover");
             //Sound
+            ThemeSong = Content.Load<Song>("Sound/Theme");
+            MediaPlayer.IsRepeating = true;
+            if(Singleton.Instance.BGMStart==false){
+                MediaPlayer.Play(ThemeSong);
+                Singleton.Instance.BGMStart=true;
+                }
             Click = Content.Load<SoundEffect>("Sound/Click");
             HoverMenu = Content.Load<SoundEffect>("Sound/MenuSelect");
             Initial();

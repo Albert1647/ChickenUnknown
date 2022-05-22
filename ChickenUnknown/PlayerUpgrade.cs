@@ -9,6 +9,7 @@ namespace ChickenUnknown
 {
     class PlayerUpgrade
     {
+		// Player Upgrade Per Level
 		public const int Attack = 10;
 		public const float PenetrationChance = 10f;
 		public const float Luck = 1f;

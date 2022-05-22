@@ -13,7 +13,6 @@ namespace ChickenUnknown.GameObjects {
 		}
 		
 		public virtual void Update(GameTime gameTime) {
-
 		}
 		public virtual void Draw(SpriteBatch spriteBatch) {
 		}
