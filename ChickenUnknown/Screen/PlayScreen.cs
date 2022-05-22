@@ -109,15 +109,20 @@ namespace ChickenUnknown.Screen {
             ScaleTexture = Content.Load<Texture2D>("PlayScreen/+scale");
             SpeedTexture = Content.Load<Texture2D>("PlayScreen/+speed");
             ItemList = new List<Texture2D>(){
-                AmountTexture,
                 LuckTexture,
                 ATKTexture,
                 PenTexture,
                 ScaleTexture,
-                SpeedTexture
+                SpeedTexture,
+                AmountTexture
             };
             SelectablePower = new List<String>()  {
-                "Amount","Luck","Damage","Penetration","Scale","Speed"
+                "Luck",
+                "Damage",
+                "Penetration",
+                "Scale",
+                "Speed",
+                "Amount"
             };
 
             SwingTexture = Content.Load<Texture2D>("PlayScreen/slingshot");
@@ -260,10 +265,27 @@ namespace ChickenUnknown.Screen {
                             
                             if(!CanSelectPower){
                                 Random randomPower = new Random();
-                                var allPower = new ArrayList()
+                                ArrayList allPower;
+                                allPower = new ArrayList()
                                 {
-                                    "Amount","Luck","Damage","Penetration","Scale","Speed"
+                                    "Luck",
+                                    "Damage",
+                                    "Penetration",
+                                    "Scale",
+                                    "Speed",
+                                    "Amount"
                                 };
+                                if(Player.Instance.Level % 3 == 0){
+                                    allPower = new ArrayList()
+                                    {
+                                        "Luck",
+                                        "Damage",
+                                        "Penetration",
+                                        "Scale",
+                                        "Speed",
+                                        // delete amount
+                                    };
+                                }
                                 var temp = allPower;
                                 for ( int i=0 ; i < 3 ; i++) {
                                     int randomIndex = randomPower.Next(allPower.Count);
@@ -340,7 +362,12 @@ namespace ChickenUnknown.Screen {
                             Random randomPower = new Random();
                             var allPower = new ArrayList()
                             {
-                                "Amount","Luck","Damage","Penetration","Scale","Speed"
+                                "Luck",
+                                "Damage",
+                                "Penetration",
+                                "Scale",
+                                "Speed",
+                                "Amount"
                             };
                             int randomIndex = randomPower.Next(allPower.Count);
                             RandomedGacha = allPower[randomIndex].ToString();
@@ -587,6 +614,10 @@ namespace ChickenUnknown.Screen {
                 ExpBarRect.Width = 0;
                 Player.Instance.Level += 1;
                 Player.Instance.Exp = 0;
+                Player.Instance.SpecailAbiltyMaxCooldown -= PlayerUpgrade.SpecailAbiltyCooldown;
+                if(Player.Instance.Level % 8 == 0){
+                    Player.Instance.SpecailAbiltyDamage += PlayerUpgrade.SpecailAbiltyDamage;
+                }
                 // Add Damage Per Level Here
                 Player.Instance.MaxExp *= PlayerUpgrade.AddedExpPerLevel;
                 _playState = PlayState.LEVELUP;
@@ -626,7 +657,7 @@ namespace ChickenUnknown.Screen {
                     Swing.NumOfChicken += PlayerUpgrade.AddQuantity;
                     break;
                 case "Damage":
-                    Player.Instance.Damage += PlayerUpgrade.Attack;
+                    Player.Instance.Damage *= PlayerUpgrade.Attack;
                     break;
                 case "Luck":
                     if(Player.Instance.TreasureChestChance < 100)

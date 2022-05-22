@@ -133,15 +133,16 @@ namespace ChickenUnknown.GameObjects {
 						case 1:
 						break;
 						case 2:
+							levelHp += 5;
 						break;
 						case 3:
-							levelHp += 10;
+							levelHp += 15;
 						break;
 						case 4:
-							levelHp += 10;
+							levelHp += 20;
 						break;
 						case 5:
-							levelHp += 20;
+							levelHp += 25;
 						break;
 						default:
 						break;
@@ -153,15 +154,16 @@ namespace ChickenUnknown.GameObjects {
 						case 1:
 						break;
 						case 2:
+							levelHp += 10;
 						break;
 						case 3:
-							levelHp += 20;
+							levelHp += 25;
 						break;
 						case 4:
-							levelHp += 20;
+							levelHp += 40;
 						break;
 						case 5:
-							levelHp += 40;
+							levelHp += 60;
 						break;
 						default:
 						break;
