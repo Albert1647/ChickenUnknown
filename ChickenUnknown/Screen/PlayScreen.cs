@@ -684,52 +684,72 @@ namespace ChickenUnknown.Screen {
             if(SpawnTimer >= SpawnInterval){
                 switch(SpawnLevel){
                     case 1:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 15);
-                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 1);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 13);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 3);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 5);
                         SpawnLevel += 1;
                         SpawnTimer = 0;
                     break;
                     case 2:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 10);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 8);
                         AddSpawnQueueZombie(Zombie.ZombieType.TANK, 1);
-                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 1);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 10);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 3);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
                         AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
-                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 2);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 10);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 3);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 3);
                         SpawnLevel += 1;
                         SpawnTimer = 0;
                     break;
                     case 3:
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
                         AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 10);
                         AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 6);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 1);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 3);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 2);
                         SpawnLevel += 1;
                         SpawnTimer = 0;
                     break;
                     case 4:
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 3);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 3);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 4);
                         AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 3);
-                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
-                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 3);
-                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 2);
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 4);
                         AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 2);
                         AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 1);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 2);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 4);
                         SpawnLevel += 1;
                         SpawnTimer = 0;
                     break;
                     case 5:
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 4);
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 10);
                         AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
                         AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 3);
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK, 3);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 5);
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
-                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 4);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 5);
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
                         AddSpawnQueueZombie(Zombie.ZombieType.TANK, 5);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 5);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 3);
                         SpawnLevel += 1;
                         SpawnTimer = 0;
                     break;
@@ -747,15 +767,15 @@ namespace ChickenUnknown.Screen {
             // minus initial spawn
             switch(SpawnLevel - 1){
                 case 1:
-                return 2f;  
+                return 7f;  
                 case 2:
-                return 2f;  
+                return 6f;  
                 case 3:
-                return 2f;  
+                return 5f;  
                 case 4:
-                return 2f;  
+                return 4f;  
                 case 5:
-                return 2f;  
+                return 3f;  
                 default:
                 return 2f;  
             }
