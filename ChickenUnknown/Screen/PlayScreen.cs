@@ -45,7 +45,8 @@ namespace ChickenUnknown.Screen {
         public Color GrayBlack = new Color(55, 55, 55);
         public float ZombieSpawnTimer = 0f;
         public float ShowTime = 0f;
-        public float SpawnTimer = 10f; // time to initial first wave
+        public float SpawnTimer; // time to initial first wave
+        public float SpawnInterval = 180f; // time to initial first wave
         public TimeSpan TimeSpan;
         public string Time;
         public String SelectPower;
@@ -84,6 +85,7 @@ namespace ChickenUnknown.Screen {
                                 Stretch,SFXZombie,SFXChicken) {
                 
             };
+            SpawnTimer = SpawnInterval;
             // Initial
             ZombieList = new List<Zombie>();
         }
@@ -673,7 +675,6 @@ namespace ChickenUnknown.Screen {
         }
         public void CheckSpawnZombie(){
             // Default Is 180f - 3 minute
-            var SpawnInterval = 180f;
             if(SpawnTimer >= SpawnInterval){
                 switch(SpawnLevel){
                     case 1:
