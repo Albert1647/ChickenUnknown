@@ -489,6 +489,7 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.Draw(LevelBar, new Vector2(1484, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
             switch(_playState){
                 case PlayState.LEVELUP:
+                    LevelUp.Play();
                     _spriteBatch.Draw(PopUpLevelUp, new Vector2(288, 108),Color.White);
                     if(CanSelectPower){
                         _spriteBatch.Draw(ItemList[SelectablePower.IndexOf(RandomPower[0].ToString())], new Vector2(344, 372),Color.White);
@@ -644,27 +645,21 @@ namespace ChickenUnknown.Screen {
                         NormalZombieTexture,
                         NormalZombieTexture2
                     };
-                    ZombieQueue.Add(new Zombie(ZombieTextureList, HpBarTexture, Zombie.ZombieType.NORMAL, SFXZombie){
-                        IsActive = true,
-                    });
+                    ZombieQueue.Add(new Zombie(ZombieTextureList, HpBarTexture, Zombie.ZombieType.NORMAL, SFXZombie));
                 break;
                 case Zombie.ZombieType.TANK:
                     ZombieTextureList = new List<Texture2D>(){
                         TankZombieTexture,
                         TankZombieTexture2
                     };
-                    ZombieQueue.Add(new Zombie(ZombieTextureList, HpBarTexture, Zombie.ZombieType.TANK, SFXZombie){
-                        IsActive = true,
-                    });
+                    ZombieQueue.Add(new Zombie(ZombieTextureList, HpBarTexture, Zombie.ZombieType.TANK, SFXZombie));
                 break;
                 case Zombie.ZombieType.RUNNER:
                     ZombieTextureList = new List<Texture2D>(){
                             RunnerZombieTexture,
                             RunnerZombieTexture2
                     };
-                    ZombieQueue.Add(new Zombie(ZombieTextureList, HpBarTexture, Zombie.ZombieType.RUNNER, SFXZombie){
-                        IsActive = true
-                    });
+                    ZombieQueue.Add(new Zombie(ZombieTextureList, HpBarTexture, Zombie.ZombieType.RUNNER, SFXZombie));
                 break;
                 default:
                 break;
