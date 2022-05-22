@@ -945,6 +945,12 @@
 /processorParam:Quality=Best
 /build:Sound/Stretch.mp3
 
+#begin Sound/Theme.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sound/Theme.mp3
+
 #begin Sound/ThemeTest.mp3
 /importer:Mp3Importer
 /processor:SongProcessor

@@ -14,9 +14,7 @@ namespace ChickenUnknown.Screen {
         public Texture2D ArrowLeft,ArrowRight,SettingBar,SettingClose,BG,SettingFrame,SettingPointer;
         private SoundEffect Click,HoverMenu;
 
-        private Song ThemeSong;
-
-        public double PosSFXVol,PosMusicVol;
+        public double PostSFXVol,PostMusicVol;
         public int PosPointerSFX,PosPointerMusic,TempMouseCurrentX,NewMouseCurrentX;
 
         private bool  HoverButton1,HoverButton2,HoverButton3,HoverButton4,CloseButton,IsDragPointer1,IsDragPointer2;
@@ -38,10 +36,6 @@ namespace ChickenUnknown.Screen {
             SettingFrame = Content.Load<Texture2D>("SettingScreen/setting_frame");
             SettingPointer = Content.Load<Texture2D>("SettingScreen/setting_pointer");
             //Sound
-            ThemeSong = Content.Load<Song>("Sound/ThemeTest");
-            MediaPlayer.IsRepeating = true;
-            MediaPlayer.Volume=0.2f;
-            MediaPlayer.Play(ThemeSong);
             Click = Content.Load<SoundEffect>("Sound/Click");
             HoverMenu = Content.Load<SoundEffect>("Sound/MenuSelect");
 
@@ -68,14 +62,14 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.Draw(SettingBar, new Rectangle(611, 328, SettingBar.Width, SettingBar.Height), Color.White);  
             _spriteBatch.Draw(ArrowLeft, new Rectangle(555, 314, ArrowLeft.Width, ArrowLeft.Height), Color.White);  
             _spriteBatch.Draw(ArrowRight, new Rectangle(1309, 314, ArrowRight.Width, ArrowRight.Height), Color.White);
-            PosSFXVol=(Singleton.Instance.SFXVolume)*6.98;
-            PosPointerSFX=((int)(PosSFXVol-14))+611;
+            PostSFXVol=(Singleton.Instance.SFXVolume)*6.98;
+            PosPointerSFX=((int)(PostSFXVol-14))+611;
             _spriteBatch.Draw(SettingPointer, new Rectangle(PosPointerSFX, 314, SettingPointer.Width, SettingPointer.Height), Color.White);
             _spriteBatch.Draw(SettingBar, new Rectangle(611, 497, SettingBar.Width, SettingBar.Height), Color.White);  
             _spriteBatch.Draw(ArrowLeft, new Rectangle(555, 483, ArrowLeft.Width, ArrowLeft.Height), Color.White);  
             _spriteBatch.Draw(ArrowRight, new Rectangle(1309, 483, ArrowRight.Width, ArrowRight.Height), Color.White);
-            PosMusicVol=Singleton.Instance.MusicVolume*6.98;
-            PosPointerMusic=((int)(PosMusicVol-14))+611;
+            PostMusicVol=Singleton.Instance.MusicVolume*6.98;
+            PosPointerMusic=((int)(PostMusicVol-14))+611;
             _spriteBatch.Draw(SettingPointer, new Rectangle(PosPointerMusic, 483, SettingPointer.Width, SettingPointer.Height), Color.White);
             _spriteBatch.Draw(SettingClose, new Rectangle(836, 903, SettingClose.Width, SettingClose.Height), Color.White);
         }
@@ -167,7 +161,7 @@ namespace ChickenUnknown.Screen {
                 }
                 if(IsClick()){
                     Click.Play();
-                    MediaPlayer.Pause();
+                    //MediaPlayer.Pause();
                     ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.MenuScreen);
                 }
             } else {

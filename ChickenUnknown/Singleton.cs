@@ -18,6 +18,7 @@ namespace ChickenUnknown
 		public GraphicsDeviceManager _graphics;
 		//Volume
 		public float MusicVolume = 50,SFXVolume = 50;
+		public bool BGMStart=false;
         private static Singleton instance;
 		public static Singleton Instance
 		{
