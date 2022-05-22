@@ -759,18 +759,6 @@
 /processorParam:TextureFormat=Color
 /build:PlayScreen/zombie_nm.png
 
-#begin PlayScreen/zombie_nm.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:PlayScreen/zombie_nm.png
-
 #begin PlayScreen/zombie_runner.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -782,18 +770,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:PlayScreen/zombie_runner.png
-
-#begin PlayScreen/zombie_tank.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:PlayScreen/zombie_tank.png
 
 #begin PlayScreen/zombie_tank.png
 /importer:TextureImporter
