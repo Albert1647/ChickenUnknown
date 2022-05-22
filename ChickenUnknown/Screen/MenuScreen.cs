@@ -21,13 +21,13 @@ namespace ChickenUnknown.Screen {
 			base.LoadContent();
             Arial = Content.Load<SpriteFont>("Arial");
             BG = Content.Load<Texture2D>("MenuScreen/bg");
-            Title = Content.Load<Texture2D>("MenuScreen/draft_game_title");
-            StartButton = Content.Load<Texture2D>("MenuScreen/draft_start_button");
-            StartHover = Content.Load<Texture2D>("MenuScreen/draft_start_button_hover");
-            SettingButton = Content.Load<Texture2D>("MenuScreen/draft_option_button");
-            SettingHover = Content.Load<Texture2D>("MenuScreen/draft_option_button_hover");
-            ExitButton = Content.Load<Texture2D>("MenuScreen/draft_exit_button");
-            ExitHover = Content.Load<Texture2D>("MenuScreen/draft_exit_button_hover");
+            Title = Content.Load<Texture2D>("MenuScreen/logo");
+            StartButton = Content.Load<Texture2D>("MenuScreen/start");
+            StartHover = Content.Load<Texture2D>("MenuScreen/start_hover");
+            SettingButton = Content.Load<Texture2D>("MenuScreen/setting");
+            SettingHover = Content.Load<Texture2D>("MenuScreen/setting_hover");
+            ExitButton = Content.Load<Texture2D>("MenuScreen/exit");
+            ExitHover = Content.Load<Texture2D>("MenuScreen/exit_hover");
             //Sound
             Click = Content.Load<SoundEffect>("Sound/Click");
             HoverMenu = Content.Load<SoundEffect>("Sound/MenuSelect");

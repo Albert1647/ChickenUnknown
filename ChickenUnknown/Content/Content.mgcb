@@ -32,7 +32,7 @@
 /processorParam:TextureFormat=Color
 /build:MenuScreen/bg.png
 
-#begin MenuScreen/draft_exit_button.png
+#begin MenuScreen/exit.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -42,9 +42,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:MenuScreen/draft_exit_button.png
+/build:MenuScreen/exit.png
 
-#begin MenuScreen/draft_exit_button_hover.png
+#begin MenuScreen/exit_hover.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -54,9 +54,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:MenuScreen/draft_exit_button_hover.png
+/build:MenuScreen/exit_hover.png
 
-#begin MenuScreen/draft_game_title.png
+#begin MenuScreen/logo.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -66,9 +66,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:MenuScreen/draft_game_title.png
+/build:MenuScreen/logo.png
 
-#begin MenuScreen/draft_menu_bg.png
+#begin MenuScreen/setting.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -78,9 +78,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:MenuScreen/draft_menu_bg.png
+/build:MenuScreen/setting.png
 
-#begin MenuScreen/draft_option_button.png
+#begin MenuScreen/setting_hover.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -90,9 +90,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:MenuScreen/draft_option_button.png
+/build:MenuScreen/setting_hover.png
 
-#begin MenuScreen/draft_option_button_hover.png
+#begin MenuScreen/start.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -102,9 +102,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:MenuScreen/draft_option_button_hover.png
+/build:MenuScreen/start.png
 
-#begin MenuScreen/draft_start_button.png
+#begin MenuScreen/start_hover.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -114,19 +114,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:MenuScreen/draft_start_button.png
-
-#begin MenuScreen/draft_start_button_hover.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:MenuScreen/draft_start_button_hover.png
+/build:MenuScreen/start_hover.png
 
 #begin Pixeloid.spritefont
 /importer:FontDescriptionImporter
