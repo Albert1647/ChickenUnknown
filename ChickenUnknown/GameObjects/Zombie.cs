@@ -141,7 +141,7 @@ namespace ChickenUnknown.GameObjects {
 							baseHp = 60;
 						break;
 						case 5:
-							baseHp = 68;
+							baseHp = 67;
 						break;
 						default:
 						break;
@@ -160,10 +160,10 @@ namespace ChickenUnknown.GameObjects {
 							baseHp = 109;
 						break;
 						case 4:
-							baseHp = 123;
+							baseHp = 122;
 						break;
 						case 5:
-							baseHp = 136;
+							baseHp = 133;
 						break;
 						default:
 						break;
@@ -182,10 +182,10 @@ namespace ChickenUnknown.GameObjects {
 							baseHp = 56;
 						break;
 						case 4:
-							baseHp = 63;
+							baseHp = 62;
 						break;
 						case 5:
-							baseHp = 74;
+							baseHp = 72;
 						break;
 						default:
 						break;
