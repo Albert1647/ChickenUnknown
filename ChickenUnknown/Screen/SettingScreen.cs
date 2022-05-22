@@ -173,7 +173,7 @@ namespace ChickenUnknown.Screen {
             } else {
                 CloseButton = false;
             }
-            if(MouseOnElement(PosPointerSFX, PosPointerSFX+28, 314,314+55)||IsDragPointer1){
+            if(MouseOnElement(PosPointerSFX, PosPointerSFX+28, 314,314+55)||MouseOnElement(611,1309,328,356)||IsDragPointer1){
                 //OnPointer1=true;
                 if(IsClick()){
                     if(IsDragPointer1 == false){
@@ -200,7 +200,7 @@ namespace ChickenUnknown.Screen {
             } else {
                //OnPointer1 = false;
             }
-            if(MouseOnElement(PosPointerMusic, PosPointerMusic+28, 483,483+55)||IsDragPointer2){
+            if(MouseOnElement(PosPointerMusic, PosPointerMusic+28, 483,483+55)||MouseOnElement(611,1309,497,525)||IsDragPointer2){
                 //OnPointer1=true;
                 if(IsClick()){
                     if(IsDragPointer2 == false){

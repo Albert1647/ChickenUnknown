@@ -49,9 +49,12 @@ namespace ChickenUnknown.Screen {
         private float ChestMaxRotateTimer = 1.5f;
         private float ChestRotation = 0f;
         private float ChestScale = 0f;
+        public SoundEffect Click,HoverMenu,ChickenBomb,ChickenSFX,Stretch,LevelUp,Hitting,NewItem,ZombieBiting,ZombieDie,ZombieSpawn;
         public GameState _gameState;
         public static int SpawnLevel = 1;
         public static List<Zombie> ZombieList;
+
+        public static List<SoundEffect> SFXZombie,SFXChicken;
         public static PlayState _playState;
         public enum GameState{
             PLAYING, WINNING, LOSING
@@ -66,7 +69,8 @@ namespace ChickenUnknown.Screen {
                         NormalChickenTexture,SpecialChickenTexture,
                         NormalFlyChickenTexture,SpecialFlyChickenTexture,
                         NormalWalkChickenTexture,SpecialWalkChickenTexture,
-                        ExplosionEffect) {
+                        ExplosionEffect,Stretch,SFXZombie,SFXChicken) {
+                
             };
             ZombieList = new List<Zombie>();
             AddSpawnQueueZombie(Zombie.ZombieType.TANK,1);
@@ -137,6 +141,29 @@ namespace ChickenUnknown.Screen {
             MainMenuHover = Content.Load<Texture2D>("PlayScreen/button_main_menu_hover");
             RetryButton = Content.Load<Texture2D>("PlayScreen/button_retry");
             Retryhover = Content.Load<Texture2D>("PlayScreen/button_retry_hover");
+
+            //Sound
+            Click = Content.Load<SoundEffect>("Sound/Click");
+            HoverMenu = Content.Load<SoundEffect>("Sound/MenuSelect");
+            ChickenBomb = Content.Load<SoundEffect>("Sound/Bomb");
+            ChickenSFX = Content.Load<SoundEffect>("Sound/Chicken1");
+            Stretch = Content.Load<SoundEffect>("Sound/Stretch");
+            LevelUp = Content.Load<SoundEffect>("Sound/LevelUp");
+            Hitting = Content.Load<SoundEffect>("Sound/Hitting");
+            NewItem = Content.Load<SoundEffect>("Sound/NewItem");
+            ZombieBiting = Content.Load<SoundEffect>("Sound/ZombieBiting");
+            ZombieDie = Content.Load<SoundEffect>("Sound/ZombieDie");
+            ZombieSpawn = Content.Load<SoundEffect>("Sound/ZombieSpawn");
+            SFXZombie = new List<SoundEffect>{
+                ZombieBiting,
+                ZombieDie,
+                ZombieSpawn
+            };
+            SFXChicken = new List<SoundEffect>{
+                ChickenBomb,
+                ChickenSFX,
+                Hitting,
+            };
 
             InitializeExpBar();
             InitializeHpBar();
@@ -530,17 +557,17 @@ namespace ChickenUnknown.Screen {
             switch(type){
                 case Zombie.ZombieType.NORMAL:
                 for(int i = 0 ; i < amount ; i++)
-                    ZombieQueue.Add(new Zombie(NormalZombieTexture, HpBarTexture, Zombie.ZombieType.NORMAL){
+                    ZombieQueue.Add(new Zombie(NormalZombieTexture, HpBarTexture, Zombie.ZombieType.NORMAL,SFXZombie){
                         IsActive = true,
                     });
                 break;
                 case Zombie.ZombieType.TANK:
-                    ZombieQueue.Add(new Zombie(TankZombieTexture, HpBarTexture, Zombie.ZombieType.TANK){
+                    ZombieQueue.Add(new Zombie(TankZombieTexture, HpBarTexture, Zombie.ZombieType.TANK,SFXZombie){
                         IsActive = true,
                     });
                 break;
                 case Zombie.ZombieType.RUNNER:
-                    ZombieQueue.Add(new Zombie(RunnerZombieTexture, HpBarTexture, Zombie.ZombieType.RUNNER){
+                    ZombieQueue.Add(new Zombie(RunnerZombieTexture, HpBarTexture, Zombie.ZombieType.RUNNER,SFXZombie){
                         IsActive = true
                     });
                 break;

@@ -21,17 +21,21 @@ namespace ChickenUnknown.GameObjects {
 		public bool IsActive;
 		public float AnimationTimer = 0.4f;
 		private Vector2 ExplosionPos;
+		public SoundEffect ChickenBomb,ChickenSFX,Stretch,Hitting,ZombieBiting,ZombieDie,ZombieSpawn;
 		public bool IsSpecial = false;
 		public bool IsExplode = false;
 		// public bool SwitchFrame = false;
 		// public List<Texture2D> WalkingAnimation;
 		// public List<Texture2D> FlyingAnimation;
 		// public Chicken(Texture2D chickenTexture, Texture2D chickenBombTexture, List<Texture2D> walkingAnimation, List<Texture2D> flyingAnimation) : base(chickenTexture){
-		public Chicken(Texture2D chickenTexture,Texture2D chickenWalkTexture, Texture2D chickenFlyTexture, Texture2D explopsionEffect) : base(chickenTexture){
-			ChickenRadius = (chickenTexture.Width) / 2; // to calculate hitbox
+		public Chicken(Texture2D chickenTexture,Texture2D chickenWalkTexture, Texture2D chickenFlyTexture, Texture2D explopsionEffect, List<SoundEffect> SFXChicken) : base(chickenTexture){
+			ChickenRadius = (chickenTexture.Width) / 2;
 			ChickenWalkTexture = chickenWalkTexture;
 			ChickenFlyTexture = chickenFlyTexture;
 			ExplopsionEffect = explopsionEffect;
+			ChickenBomb = SFXChicken[0];
+			ChickenSFX = SFXChicken[1];
+			Hitting = SFXChicken[2];
 		}
 		public override void Update(GameTime gameTime) {
 			if(IsExplode){
@@ -69,6 +73,7 @@ namespace ChickenUnknown.GameObjects {
 			if(_pos.X > 1920 || _pos.X < 0 || _pos.Y > UI.FLOOR_Y){
 				if(IsSpecial){
 					// If Bomb hit groud - render bomb frame on ground
+					ChickenBomb.Play();
 					IsExplode = true;
 					_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
 					ExplosionPos = _pos;
@@ -77,6 +82,7 @@ namespace ChickenUnknown.GameObjects {
 					IsWalking = true;
 				}
 				// make chicken walk on ground
+				Hitting.Play();
 				_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
 				IsFlying = false;
 				IsWalking = true;
@@ -112,8 +118,10 @@ namespace ChickenUnknown.GameObjects {
 						IsFlying = false;
 						_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
 						IsWalking = true;
+						ChickenBomb.Play();
 						HitZombieWithAoE();
 					} else {
+						Hitting.Play();
 						HitZombieAtIndex(i);
 					}
 					continue;

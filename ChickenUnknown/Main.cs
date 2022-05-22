@@ -26,7 +26,7 @@ namespace ChickenUnknown
             Singleton.Instance._graphics.PreferredBackBufferHeight = (int)Singleton.Instance.Dimension.Y;   // set this value to the desired height of your window
             Singleton.Instance._graphics.ApplyChanges();
 
-            //  Singleton.Instance._graphics.ToggleFullScreen();
+             //Singleton.Instance._graphics.ToggleFullScreen();
 
             base.Initialize();
         }

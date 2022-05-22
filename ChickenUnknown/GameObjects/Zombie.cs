@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
 using ChickenUnknown.Screen;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +11,7 @@ namespace ChickenUnknown.GameObjects {
     	public class Zombie : IGameObject {
 		public Texture2D HpTexture;
 		public Rectangle HpBarRect;
+		public SoundEffect ChickenBomb,ChickenSFX,Stretch,Hitting,ZombieBiting,ZombieDie,ZombieSpawn;
 		public float HP, MaxHp;
 		public int ATK;
 		public int GroundToOrigin;
@@ -25,7 +27,7 @@ namespace ChickenUnknown.GameObjects {
 		public enum ZombieType{
 			NORMAL, TANK, RUNNER
 		}
-		public Zombie(Texture2D zombieTexture, Texture2D hpBarTexture, ZombieType type) : base(zombieTexture){
+		public Zombie(Texture2D zombieTexture, Texture2D hpBarTexture, ZombieType type,List<SoundEffect> SFXZombie) : base(zombieTexture){
 			GroundToOrigin = zombieTexture.Height/2; // use to spawn up to ground
 			_pos = new Vector2(1920, UI.FLOOR_Y - GroundToOrigin);
 			Type = type;
@@ -40,6 +42,10 @@ namespace ChickenUnknown.GameObjects {
 			// random hp bar position
 			Random rand = new Random();
 			hpYDiff = rand.Next(20);
+			//Sound
+			ZombieBiting = SFXZombie[0];
+			ZombieDie = SFXZombie[1];
+			ZombieSpawn = SFXZombie[2];
 		}
 		public override void Update(GameTime gameTime) {
 			if(IsActive){
@@ -54,6 +60,7 @@ namespace ChickenUnknown.GameObjects {
 			if(IsEating){
 				AttackCooldownTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
 				if(AttackCooldownTimer > AttackCooldown){
+					ZombieBiting.Play();
 					Player.Instance.BarricadeHP -= ATK;
 					AttackCooldownTimer = 0;
 				}
@@ -65,6 +72,7 @@ namespace ChickenUnknown.GameObjects {
 		}
 		public void CheckIsDead() {
 			if(HP <= 0){
+				ZombieDie.Play();
 				Player.Instance.Exp += ExpReward;
 				RandomTreasureChest();
 				Player.Instance.Score += 100;

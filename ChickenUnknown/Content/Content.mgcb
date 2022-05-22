@@ -879,11 +879,41 @@
 /processorParam:TextureFormat=Color
 /build:SettingScreen/setting_pointer.png
 
+#begin Sound/Bomb.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/Bomb.mp3
+
+#begin Sound/Chicken1.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/Chicken1.mp3
+
+#begin Sound/Chicken2.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/Chicken2.mp3
+
 #begin Sound/Click.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sound/Click.mp3
+
+#begin Sound/Hitting.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/Hitting.mp3
+
+#begin Sound/LevelUp.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/LevelUp.mp3
 
 #begin Sound/MenuSelect.mp3
 /importer:Mp3Importer
@@ -891,9 +921,39 @@
 /processorParam:Quality=Best
 /build:Sound/MenuSelect.mp3
 
+#begin Sound/NewItem.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/NewItem.mp3
+
+#begin Sound/Stretch.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/Stretch.mp3
+
 #begin Sound/ThemeTest.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Sound/ThemeTest.mp3
+
+#begin Sound/ZombieBiting.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/ZombieBiting.mp3
+
+#begin Sound/ZombieDie.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/ZombieDie.mp3
+
+#begin Sound/ZombieSpawn.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/ZombieSpawn.mp3
 
