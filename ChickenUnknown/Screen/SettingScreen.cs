@@ -9,9 +9,9 @@ using Microsoft.Xna.Framework.Media;
 
 namespace ChickenUnknown.Screen {
 	class SettingScreen : IGameScreen {
-        private SpriteFont Arial;
+        private SpriteFont Pixeloid;
 
-        public Texture2D ArrowLeft,ArrowRight,SettingBar,SettingClose,BG,SettingFrame,SettingPointer;
+        public Texture2D ArrowLeft,ArrowRight,SettingBar,SettingClose,SettingCloseHover,BG,SettingFrame,SettingPointer;
         private SoundEffect Click,HoverMenu;
 
         public double PostSFXVol,PostMusicVol;
@@ -26,12 +26,13 @@ namespace ChickenUnknown.Screen {
 		}
 		public override void LoadContent() {
 			base.LoadContent();
-            Arial = Content.Load<SpriteFont>("Arial");
+            Pixeloid = Content.Load<SpriteFont>("Pixeloid");
 
             ArrowLeft = Content.Load<Texture2D>("SettingScreen/setting_arrow_left");
             ArrowRight = Content.Load<Texture2D>("SettingScreen/setting_arrow_right");
             SettingBar = Content.Load<Texture2D>("SettingScreen/setting_bar");
             SettingClose = Content.Load<Texture2D>("SettingScreen/setting_close");
+            SettingCloseHover = Content.Load<Texture2D>("SettingScreen/close_hover");
             BG = Content.Load<Texture2D>("SettingScreen/bg");
             SettingFrame = Content.Load<Texture2D>("SettingScreen/setting_frame");
             SettingPointer = Content.Load<Texture2D>("SettingScreen/setting_pointer");
@@ -59,38 +60,39 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.Draw(BG, CenterElementWithHeight(BG,0) , Color.White);
             
             _spriteBatch.Draw(SettingFrame, CenterElementWithHeight(SettingFrame,0) , Color.White);
+            _spriteBatch.DrawString(Pixeloid, "Sound Effect Volume : " +(int)(Singleton.Instance.SFXVolume) , new Vector2(555,246), Color.Black);
             _spriteBatch.Draw(SettingBar, new Rectangle(611, 328, SettingBar.Width, SettingBar.Height), Color.White);  
-            _spriteBatch.Draw(ArrowLeft, new Rectangle(555, 314, ArrowLeft.Width, ArrowLeft.Height), Color.White);  
+            _spriteBatch.Draw(ArrowLeft, new Rectangle(565, 314, ArrowLeft.Width, ArrowLeft.Height), Color.White);  
             _spriteBatch.Draw(ArrowRight, new Rectangle(1309, 314, ArrowRight.Width, ArrowRight.Height), Color.White);
             PostSFXVol=(Singleton.Instance.SFXVolume)*6.98;
             PosPointerSFX=((int)(PostSFXVol-14))+611;
             _spriteBatch.Draw(SettingPointer, new Rectangle(PosPointerSFX, 314, SettingPointer.Width, SettingPointer.Height), Color.White);
+            _spriteBatch.DrawString(Pixeloid, "Music Volume : " + (int)(Singleton.Instance.MusicVolume) , new Vector2(555,415), Color.Black);
             _spriteBatch.Draw(SettingBar, new Rectangle(611, 497, SettingBar.Width, SettingBar.Height), Color.White);  
-            _spriteBatch.Draw(ArrowLeft, new Rectangle(555, 483, ArrowLeft.Width, ArrowLeft.Height), Color.White);  
+            _spriteBatch.Draw(ArrowLeft, new Rectangle(565, 483, ArrowLeft.Width, ArrowLeft.Height), Color.White);  
             _spriteBatch.Draw(ArrowRight, new Rectangle(1309, 483, ArrowRight.Width, ArrowRight.Height), Color.White);
             PostMusicVol=Singleton.Instance.MusicVolume*6.98;
             PosPointerMusic=((int)(PostMusicVol-14))+611;
             _spriteBatch.Draw(SettingPointer, new Rectangle(PosPointerMusic, 483, SettingPointer.Width, SettingPointer.Height), Color.White);
-            _spriteBatch.Draw(SettingClose, new Rectangle(836, 903, SettingClose.Width, SettingClose.Height), Color.White);
+            if(CloseButton!){_spriteBatch.Draw(SettingCloseHover, new Rectangle(836, 780, SettingClose.Width, SettingClose.Height), Color.White);
+            }else{_spriteBatch.Draw(SettingClose, new Rectangle(836, 780, SettingClose.Width, SettingClose.Height), Color.White);}
         }
 
         public void DrawLog(SpriteBatch _spriteBatch){
-            _spriteBatch.DrawString(Arial, "X = " + Singleton.Instance.MouseCurrent.X , new Vector2(0,0), Color.Black);
-            _spriteBatch.DrawString(Arial, "Y = " + Singleton.Instance.MouseCurrent.Y, new Vector2(0, 20), Color.Black);
-            _spriteBatch.DrawString(Arial, "Is Click " + IsClick(), new Vector2(0,40), Color.Black);
-            _spriteBatch.DrawString(Arial, "Is Dragging " + IsDragging(), new Vector2(0,60), Color.Black);
-            _spriteBatch.DrawString(Arial, "SFXVolume = " + Singleton.Instance.SFXVolume, new Vector2(0, 80), Color.Black);
-            _spriteBatch.DrawString(Arial, "MusicVolume = " + Singleton.Instance.MusicVolume , new Vector2(0,100), Color.Black);
-            _spriteBatch.DrawString(Arial, "PosPointerSFX = " + PosPointerSFX , new Vector2(0,120), Color.Black);
-            _spriteBatch.DrawString(Arial, "tempMouseCurrentX = " + TempMouseCurrentX , new Vector2(0,160), Color.Black);
-            _spriteBatch.DrawString(Arial, "tempsfx = " + tempsfx , new Vector2(0,180), Color.Black);
-            _spriteBatch.DrawString(Arial, "NewMouseCurrentX = " + NewMouseCurrentX , new Vector2(0,200), Color.Black);
-            _spriteBatch.DrawString(Arial, "IsDragPointer = " + IsDragPointer1 , new Vector2(0,220), Color.Black);
-            _spriteBatch.DrawString(Arial, "Sound Effect Volume : " +(int)(Singleton.Instance.SFXVolume) , new Vector2(555,246), Color.Black);
-            _spriteBatch.DrawString(Arial, "Music Volume : " + (int)(Singleton.Instance.MusicVolume) , new Vector2(555,415), Color.Black);
+            _spriteBatch.DrawString(Pixeloid, "X = " + Singleton.Instance.MouseCurrent.X , new Vector2(0,0), Color.Black);
+            _spriteBatch.DrawString(Pixeloid, "Y = " + Singleton.Instance.MouseCurrent.Y, new Vector2(0, 20), Color.Black);
+            // _spriteBatch.DrawString(Pixeloid, "Is Click " + IsClick(), new Vector2(0,40), Color.Black);
+            // _spriteBatch.DrawString(Pixeloid, "Is Dragging " + IsDragging(), new Vector2(0,60), Color.Black);
+            // _spriteBatch.DrawString(Pixeloid, "SFXVolume = " + Singleton.Instance.SFXVolume, new Vector2(0, 80), Color.Black);
+            // _spriteBatch.DrawString(Pixeloid, "MusicVolume = " + Singleton.Instance.MusicVolume , new Vector2(0,100), Color.Black);
+            // _spriteBatch.DrawString(Pixeloid, "PosPointerSFX = " + PosPointerSFX , new Vector2(0,120), Color.Black);
+            // _spriteBatch.DrawString(Pixeloid, "tempMouseCurrentX = " + TempMouseCurrentX , new Vector2(0,160), Color.Black);
+            // _spriteBatch.DrawString(Pixeloid, "tempsfx = " + tempsfx , new Vector2(0,180), Color.Black);
+            // _spriteBatch.DrawString(Pixeloid, "NewMouseCurrentX = " + NewMouseCurrentX , new Vector2(0,200), Color.Black);
+            // _spriteBatch.DrawString(Pixeloid, "IsDragPointer = " + IsDragPointer1 , new Vector2(0,220), Color.Black);
         }
         public void ButtonsUpdate(){
-            if(MouseOnElement(555, 555+56, 314,314+56)){
+            if(MouseOnElement(565, 565+56, 314,314+56)){
                 if(HoverButton1 == false){
                     HoverMenu.Play();
                     HoverButton1 = true;
@@ -122,7 +124,7 @@ namespace ChickenUnknown.Screen {
             } else{
                 HoverButton2 = false;
             }
-            if(MouseOnElement(555, 555+56, 483,483+56)){
+            if(MouseOnElement(565, 565+56, 483,483+56)){
                 if(HoverButton3 == false){
                     HoverMenu.Play();
                     HoverButton3 = true;
@@ -154,7 +156,7 @@ namespace ChickenUnknown.Screen {
             } else {
                 HoverButton4 = false;
             }
-            if(MouseOnElement(836, 836+248, 903,903+248)){
+            if(MouseOnElement(836, 836+248, 780,780+248)){
                 if(CloseButton == false){
                     HoverMenu.Play();
                     CloseButton = true;
