@@ -220,6 +220,7 @@ namespace ChickenUnknown.Screen {
                 case GameState.PLAYING:
                     switch(_playState){
                         case PlayState.PLAYING:
+                            LevelUping=true;
                             SpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
                             ZombieSpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
                             ShowTime += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
