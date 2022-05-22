@@ -648,26 +648,31 @@ namespace ChickenUnknown.Screen {
             // Spawn Factory
             switch(type){
                 case Zombie.ZombieType.NORMAL:
-                for(int i = 0 ; i < amount ; i++)
+                for(int i = 0 ; i < amount ; i++){
                     ZombieTextureList = new List<Texture2D>(){
                         NormalZombieTexture,
                         NormalZombieTexture2
                     };
                     ZombieQueue.Add(new Zombie(ZombieTextureList, HpBarTexture, Zombie.ZombieType.NORMAL, SFXZombie));
+                }
                 break;
                 case Zombie.ZombieType.TANK:
+                for(int i = 0 ; i < amount ; i++){
                     ZombieTextureList = new List<Texture2D>(){
                         TankZombieTexture,
                         TankZombieTexture2
                     };
                     ZombieQueue.Add(new Zombie(ZombieTextureList, HpBarTexture, Zombie.ZombieType.TANK, SFXZombie));
+                }
                 break;
                 case Zombie.ZombieType.RUNNER:
+                for(int i = 0 ; i < amount ; i++){
                     ZombieTextureList = new List<Texture2D>(){
                             RunnerZombieTexture,
                             RunnerZombieTexture2
                     };
                     ZombieQueue.Add(new Zombie(ZombieTextureList, HpBarTexture, Zombie.ZombieType.RUNNER, SFXZombie));
+                }
                 break;
                 default:
                 break;
