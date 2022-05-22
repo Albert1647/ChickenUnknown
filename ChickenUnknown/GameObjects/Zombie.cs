@@ -51,6 +51,7 @@ namespace ChickenUnknown.GameObjects {
 			ZombieBiting = SFXZombie[0];
 			ZombieDie = SFXZombie[1];
 			ZombieSpawn = SFXZombie[2];
+			IsActive = true;
 		}
 		public override void Update(GameTime gameTime) {
 			if(IsActive){
