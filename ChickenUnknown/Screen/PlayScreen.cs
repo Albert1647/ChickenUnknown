@@ -228,7 +228,6 @@ namespace ChickenUnknown.Screen {
                 case GameState.PLAYING:
                     switch(_playState){
                         case PlayState.PLAYING:
-                            Cheater();
                             LevelUping=true;
                             SpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
                             ZombieSpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
@@ -617,21 +616,7 @@ namespace ChickenUnknown.Screen {
                 TimeSpan.Minutes, 
                 TimeSpan.Seconds);
             }
-        public void UpdateExp(){
-            ExpBarRect.Width = (int)(((float)(Player.Instance.Exp/Player.Instance.MaxExp))* MaxExpWidth);
-            if (ExpBarRect.Width >= MaxExpWidth) {
-                ExpBarRect.Width = 0;
-                Player.Instance.Level += 1;
-                Player.Instance.Exp = 0;
-                Player.Instance.SpecailAbiltyMaxCooldown -= PlayerUpgrade.SpecailAbiltyCooldown;
-                if(Player.Instance.Level % 8 == 0){
-                    Player.Instance.SpecailAbiltyDamage += PlayerUpgrade.SpecailAbiltyDamage;
-                }
-                // Add Damage Per Level Here
-                Player.Instance.MaxExp *= PlayerUpgrade.AddedExpPerLevel;
-                _playState = PlayState.LEVELUP;
-            }
-        }
+        
         public GraphicsDeviceManager GetGraphicsDeviceManager(){
             return Singleton.Instance.gdm;
         }
@@ -660,10 +645,20 @@ namespace ChickenUnknown.Screen {
         public Vector2 CenterElementWithHeight(Texture2D element,int height){
             return new Vector2(Singleton.Instance.Dimension.X / 2 - (element.Width / 2) ,height );
         }
-        public void Cheater(){
-            if (Singleton.Instance.currentKB.IsKeyUp(Keys.Q) && Singleton.Instance.previousKB.IsKeyDown(Keys.Q)) {                
-				Player.Instance.Exp += 100; 
-			}
+        public void UpdateExp(){
+            ExpBarRect.Width = (int)(((float)(Player.Instance.Exp/Player.Instance.MaxExp))* MaxExpWidth);
+            if (ExpBarRect.Width >= MaxExpWidth) {
+                ExpBarRect.Width = 0;
+                Player.Instance.Level += 1;
+                Player.Instance.Exp = 0;
+                Player.Instance.SpecailAbiltyMaxCooldown -= PlayerUpgrade.SpecailAbiltyCooldown;
+                if(Player.Instance.Level % 8 == 0){
+                    Player.Instance.SpecailAbiltyDamage += PlayerUpgrade.SpecailAbiltyDamage;
+                }
+                // Add Damage Per Level Here
+                Player.Instance.MaxExp *= PlayerUpgrade.AddedExpPerLevel;
+                _playState = PlayState.LEVELUP;
+            }
         }
         public void UpdatePower(String power){
             switch (power) {
