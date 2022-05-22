@@ -258,6 +258,7 @@ namespace ChickenUnknown.Screen {
                                 Player.Instance.IsUsingSpecialAbility = !Player.Instance.IsUsingSpecialAbility;
                             }
                             if(MouseOnElement(1824 , 1824 + PauseButton.Width, 32, 32 + PauseButton.Height) && IsClick()){
+                                MediaPlayer.Pause();
                                 _playState = PlayState.PAUSE;
                             }
                         break;
@@ -359,6 +360,7 @@ namespace ChickenUnknown.Screen {
 
                         case PlayState.GACHA:
                         if(!GachaIsRandom){
+                            NewItem.Play();
                             Random randomPower = new Random();
                             var allPower = new ArrayList()
                             {
@@ -406,6 +408,7 @@ namespace ChickenUnknown.Screen {
                         break;
                         case PlayState.PAUSE:
                         if(MouseOnElement(1824 , 1824 + PauseButton.Width, 32, 32 + PauseButton.Height) && IsClick()){
+                            MediaPlayer.Resume();
                             _playState = PlayState.PLAYING;
                         }
                         break;
