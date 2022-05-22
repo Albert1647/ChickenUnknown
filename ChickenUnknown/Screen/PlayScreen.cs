@@ -228,6 +228,7 @@ namespace ChickenUnknown.Screen {
                 case GameState.PLAYING:
                     switch(_playState){
                         case PlayState.PLAYING:
+                            Cheater();
                             LevelUping=true;
                             SpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
                             ZombieSpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
@@ -674,6 +675,8 @@ namespace ChickenUnknown.Screen {
                     break;
                 case "Scale":
                     Player.Instance.Scale += PlayerUpgrade.Scale;
+                    Player.Instance.Damage *= PlayerUpgrade.ScaleDamage;
+                    Player.Instance.Knockback += PlayerUpgrade.ScaleKnockback;
                     Player.Instance.ChickenAddedHitBox = (NormalChickenTexture.Width / 2)* Player.Instance.Scale;
                     break;
                 case "Penetration":
@@ -683,6 +686,11 @@ namespace ChickenUnknown.Screen {
                 case "Speed":
                     Player.Instance.ChickenSpeed += PlayerUpgrade.ChickenSpeed;
                     break;
+            }
+        }
+        public void Cheater(){
+            if (Singleton.Instance.currentKB.IsKeyUp(Keys.Q) && Singleton.Instance.previousKB.IsKeyDown(Keys.Q)) {                
+                Player.Instance.Exp += 100; 
             }
         }
         public void AddSpawnQueueZombie(Zombie.ZombieType type, int amount){

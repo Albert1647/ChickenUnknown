@@ -237,13 +237,13 @@ namespace ChickenUnknown.GameObjects {
 
             switch(Type){
 				case ZombieType.NORMAL:
-					Speed = 0.47f + (PlayScreen.SpawnLevel - 1) * 0.1f;
+					Speed = 0.47f + (PlayScreen.SpawnLevel - 1) * 0.07f;
 				break;
 				case ZombieType.TANK:
-					Speed = 0.29f + (PlayScreen.SpawnLevel - 1) * 0.1f;
+					Speed = 0.29f + (PlayScreen.SpawnLevel - 1) * 0.07f;
 				break;
 				case ZombieType.RUNNER:
-					Speed = 0.72f + (PlayScreen.SpawnLevel - 1) * 0.1f;
+					Speed = 0.72f + (PlayScreen.SpawnLevel - 1) * 0.07f;
 				break;
 				default:
 				break;

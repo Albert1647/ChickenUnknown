@@ -43,7 +43,6 @@ namespace ChickenUnknown.Managers {
 		public void Update(GameTime gameTime) {
 			CurrentGameScreen.Update(gameTime);
 		}
-
 		// update screen on current screen class
 		public void Draw(SpriteBatch spriteBatch) {
 			CurrentGameScreen.Draw(spriteBatch);
