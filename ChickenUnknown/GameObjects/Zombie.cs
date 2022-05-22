@@ -233,13 +233,13 @@ namespace ChickenUnknown.GameObjects {
 			var Speed = 0f;
             switch(Type){
 				case ZombieType.NORMAL:
-					Speed = 0.7f;
-				break;
-				case ZombieType.TANK:
 					Speed = 0.4f;
 				break;
+				case ZombieType.TANK:
+					Speed = 0.25f;
+				break;
 				case ZombieType.RUNNER:
-					Speed = 1.2f;
+					Speed = 0.65f;
 				break;
 				default:
 				break;
