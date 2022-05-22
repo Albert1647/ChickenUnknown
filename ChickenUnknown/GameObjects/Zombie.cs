@@ -22,13 +22,18 @@ namespace ChickenUnknown.GameObjects {
 		public int ExpReward;
 		public float AttackCooldownTimer = 5f;
 		public float AttackCooldown;
+		public float AnimationTimer = 0f;
+		public float AnimationPerFrame = 0.48f;
+		public bool SwitchAnimation;
 		private int hpYDiff;
 		public ZombieType Type;
+		List<Texture2D> ZombieTextureList;
 		public enum ZombieType{
 			NORMAL, TANK, RUNNER
 		}
-		public Zombie(Texture2D zombieTexture, Texture2D hpBarTexture, ZombieType type,List<SoundEffect> SFXZombie) : base(zombieTexture){
-			GroundToOrigin = zombieTexture.Height/2; // use to spawn up to ground
+		public Zombie(List<Texture2D> zombieTextureList, Texture2D hpBarTexture, ZombieType type,List<SoundEffect> SFXZombie) : base(zombieTextureList[0]){
+			ZombieTextureList = zombieTextureList;
+			GroundToOrigin = zombieTextureList[0].Height/2; // use to spawn up to ground
 			_pos = new Vector2(1920, UI.FLOOR_Y - GroundToOrigin);
 			Type = type;
 			HP = GetZombieHp(); // zombie type dependent
@@ -38,7 +43,7 @@ namespace ChickenUnknown.GameObjects {
 			Speed = GetZombieSpeed(); // zombie type dependent
 			AttackCooldown = 5f; // initial 5f to start attack immediately then reset cooldown
 			HpTexture = hpBarTexture; 
-			HpBarRect = new Rectangle(0, 0, zombieTexture.Width, HpTexture.Height);
+			HpBarRect = new Rectangle(0, 0, zombieTextureList[0].Width, HpTexture.Height);
 			// random hp bar position
 			Random rand = new Random();
 			hpYDiff = rand.Next(20);
@@ -65,6 +70,11 @@ namespace ChickenUnknown.GameObjects {
 					AttackCooldownTimer = 0;
 				}
 			}
+			AnimationTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+			if(AnimationTimer > AnimationPerFrame){
+				SwitchAnimation = !SwitchAnimation;
+				AnimationTimer = 0f;
+			}
 			UpdateHpBar();
 		}
 		public void UpdateHpBar(){
@@ -80,7 +90,10 @@ namespace ChickenUnknown.GameObjects {
 			}
 		}
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
-			_spriteBatch.Draw(_texture, _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
+			if(!SwitchAnimation)
+				_spriteBatch.Draw(ZombieTextureList[0], _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
+				else
+				_spriteBatch.Draw(ZombieTextureList[1], _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
 			Random rand = new Random();
 			_spriteBatch.Draw(HpTexture, new Vector2(_pos.X-_texture.Width / 2, _pos.Y-120-hpYDiff), HpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);  
 		}

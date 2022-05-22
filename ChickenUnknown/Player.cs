@@ -22,8 +22,8 @@ namespace ChickenUnknown
 		public int Damage = 10;
 		public bool IsUsingSpecialAbility = false;
 		public float SpecailAbiltyDamage = 100;
-		public float SpecailAbiltyCooldown = 5f;
-		public float SpecailAbiltyMaxCooldown = 5f;
+		public float SpecailAbiltyCooldown = 30f;
+		public float SpecailAbiltyMaxCooldown = 30f;
 		public float SpecailAbilityAoE = 400f;
 		public float Exp = 0, MaxExp = 150;
 		public int Score = 0;
