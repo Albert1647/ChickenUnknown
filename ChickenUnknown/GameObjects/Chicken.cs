@@ -180,9 +180,7 @@ namespace ChickenUnknown.GameObjects {
 		}
 		// When Zombie Is Hit -> -HP, -POS X if knockback, RandomPen if any
 		public void HitZombieAtIndex(int index){
-			if(Player.Instance.PenetrationChance > 0){
-				RandomPenetration(index);
-			}
+			RandomPenetration(index);
 			PlayScreen.ZombieList[index]._pos.X += Player.Instance.Knockback;
 			PlayScreen.ZombieList[index].HP -= Player.Instance.Damage;
 		}

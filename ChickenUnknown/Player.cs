@@ -12,7 +12,7 @@ namespace ChickenUnknown
 		// Player Stat
 		public int Level;
 		public int BarricadeHP = 200;
-		public float PenetrationChance = 10f;
+		public float PenetrationChance = 0f;
 		public float TreasureChestChance = 5f;
 		public float ChickenAddedHitBox = 0f;
 		public float Scale = 0f;
