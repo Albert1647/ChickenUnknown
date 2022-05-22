@@ -14,19 +14,19 @@ namespace ChickenUnknown.Screen {
     class PlayScreen : IGameScreen {
         private SpriteFont Pixeloid;
         public Texture2D ExpBarRectangle, SwingTexture, 
-                        NormalChickenTexture,SpecialChickenTexture,
-                        NormalFlyChickenTexture,SpecialFlyChickenTexture,
-                        NormalWalkChickenTexture,SpecialWalkChickenTexture,
-                        AmountTexture,LuckTexture,ATKTexture,PenTexture,ScaleTexture,SpeedTexture,
-                        ExplosionEffect,AbilityButton,AbilityButtonInactive,
+                        NormalChickenTexture, SpecialChickenTexture, 
+                        NormalFlyChickenTexture, SpecialFlyChickenTexture, 
+                        NormalWalkChickenTexture, SpecialWalkChickenTexture, 
+                        AmountTexture, LuckTexture, ATKTexture, PenTexture, ScaleTexture, SpeedTexture, 
+                        ExplosionEffect, AbilityButton, AbilityButtonInactive, 
                         StretchAreaTexture, NormalZombieTexture, TankZombieTexture, RunnerZombieTexture,
                         ChickenCounter, LevelBar, PauseButton, ResumeButton,
                         BG, Barricade, Wall, PopUpLevelUp, PopUpItemDrop,
                         SelectButton, HpBarTexture,
-                        ChestCloseTexture,ChestOpenTexture,
-                        Lost,Win,
+                        ChestCloseTexture, ChestOpenTexture,
+                        Lost, Win,
                         SelectButtonHover, 
-                        MainMenuButton,MainMenuHover,RetryButton,Retryhover;
+                        MainMenuButton, MainMenuHover, RetryButton, Retryhover;
         private bool    MouseOnMainMenuButton, MouseOnRetryButton, HoverMainMenu, HoverRetry, 
                         MouseOnSelectButtonOne, HoverSelectOne,
                         MouseOnSelectButtonTwo, HoverSelectTwo,
@@ -56,7 +56,8 @@ namespace ChickenUnknown.Screen {
         private float ChestMaxRotateTimer = 1.5f;
         private float ChestRotation = 0f;
         private float ChestScale = 0f;
-        public SoundEffect Click,HoverMenu,ChickenBomb,ChickenSFX,Stretch,LevelUp,Hitting,NewItem,ZombieBiting,ZombieDie,ZombieSpawn;
+        public SoundEffect Click, HoverMenu, ChickenBomb, ChickenSFX, Stretch, 
+                            LevelUp, Hitting, NewItem, ZombieBiting, ZombieDie, ZombieSpawn;
         public GameState _gameState;
         public static int SpawnLevel = 1;
         public static List<Zombie> ZombieList;
