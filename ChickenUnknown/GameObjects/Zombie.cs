@@ -41,6 +41,7 @@ namespace ChickenUnknown.GameObjects {
 			ATK = GetZombieATK(); // zombie type dependent
 			ExpReward = GetZombieExpReward(); // zombie type dependent
 			Speed = GetZombieSpeed(); // zombie type dependent
+			AnimationPerFrame = GetZombieAnimationFrame();
 			AttackCooldown = 5f; // initial 5f to start attack immediately then reset cooldown
 			HpTexture = hpBarTexture; 
 			HpBarRect = new Rectangle(0, 0, zombieTextureList[0].Width, HpTexture.Height);
@@ -109,6 +110,18 @@ namespace ChickenUnknown.GameObjects {
 
 		public Vector2 GetCenterOrigin(Texture2D texture){
             return new Vector2(texture.Width / 2, texture.Height / 2);
+        }
+		public float GetZombieAnimationFrame(){
+			switch(Type){
+				case ZombieType.NORMAL:
+				return 0.48f;
+				case ZombieType.TANK:
+				return 0.48f;
+				case ZombieType.RUNNER:
+				return 0.48f;
+				default:
+				return 0.48f;
+			}
         }
 		public int GetZombieHp(){
 			var baseHp = 0;
