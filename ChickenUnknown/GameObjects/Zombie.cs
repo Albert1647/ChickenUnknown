@@ -65,17 +65,17 @@ namespace ChickenUnknown.GameObjects {
 					AttackCooldownTimer = 0;
 				}
 			}
-			UpdateHp();
+			UpdateHpBar();
 		}
-		public void UpdateHp(){
+		public void UpdateHpBar(){
 			HpBarRect.Width = (int)(((float)(HP / MaxHp)) * _texture.Width );
 		}
 		public void CheckIsDead() {
 			if(HP <= 0){
 				ZombieDie.Play();
 				Player.Instance.Exp += ExpReward;
-				RandomTreasureChest();
 				Player.Instance.Score += 100;
+				RandomTreasureChest();
 				PlayScreen.ZombieList.RemoveAt(PlayScreen.ZombieList.IndexOf(this));
 			}
 		}

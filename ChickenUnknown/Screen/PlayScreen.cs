@@ -27,13 +27,15 @@ namespace ChickenUnknown.Screen {
                         Lost,Win,
                         MainMenuButton,MainMenuHover,RetryButton,Retryhover;
         private bool    MouseOnMainMenuButton, MouseOnRetryButton, HoverMainMenu, HoverRetry;
+        public List<Texture2D> ChickenTextureList;
+
         public Rectangle ExpBarRect;
         private Swing Swing;
         public List<Zombie> ZombieQueue = new List<Zombie>();
         public Color GrayBlack = new Color(55, 55, 55);
         public float ZombieSpawnTimer = 0f;
         public float ShowTime = 0f;
-        public float SpawnTimer = 0f;
+        public float SpawnTimer = 10f; // time to initial first wave
         public TimeSpan TimeSpan;
         public string Time;
         public String SelectPower;
@@ -65,17 +67,14 @@ namespace ChickenUnknown.Screen {
         public void Initial() {
             _gameState = GameState.PLAYING;
             _playState = PlayState.PLAYING;
-            Swing = new Swing(SwingTexture,StretchAreaTexture,
-                        NormalChickenTexture,SpecialChickenTexture,
-                        NormalFlyChickenTexture,SpecialFlyChickenTexture,
-                        NormalWalkChickenTexture,SpecialWalkChickenTexture,
-                        ExplosionEffect,Stretch,SFXZombie,SFXChicken) {
+            Swing = new Swing(SwingTexture, StretchAreaTexture,
+                                ChickenTextureList, // require 6 texture 
+                                ExplosionEffect,
+                                Stretch,SFXZombie,SFXChicken) {
                 
             };
+            // Initial
             ZombieList = new List<Zombie>();
-            AddSpawnQueueZombie(Zombie.ZombieType.TANK,1);
-            AddSpawnQueueZombie(Zombie.ZombieType.RUNNER,1);
-            AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,1);
             SpawnLevel += 1;
         }
         public override void LoadContent() {
@@ -122,6 +121,14 @@ namespace ChickenUnknown.Screen {
             SpecialChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_Boom_on_sling");
             SpecialFlyChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_Boom_on_air");
             SpecialWalkChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_Boom_run");
+            ChickenTextureList = new List<Texture2D>(){
+                NormalChickenTexture,
+                NormalFlyChickenTexture,
+                NormalWalkChickenTexture,
+                SpecialChickenTexture,
+                SpecialFlyChickenTexture,
+                SpecialWalkChickenTexture
+            };
             ExplosionEffect = Content.Load<Texture2D>("PlayScreen/explosion");
 
             bg = Content.Load<Texture2D>("PlayScreen/bg");
@@ -166,8 +173,8 @@ namespace ChickenUnknown.Screen {
                 Hitting,
             };
 
-            InitializeExpBar();
-            InitializeHpBar();
+            InitializeExpBar(); // initial EXPbar Texture
+            InitializeHpBar(); // initial HPbar Texture
             Initial();
         }
         public void InitializeExpBar(){
@@ -412,7 +419,7 @@ namespace ChickenUnknown.Screen {
             for(int i = 0; i < ZombieList.Count ; i++)
 				ZombieList[i].Draw(_spriteBatch, Pixeloid);
             _spriteBatch.Draw(wall, new Rectangle(173, UI.FLOOR_Y-378, wall.Width, wall.Height), Color.White);
-            _spriteBatch.DrawString(Pixeloid, "Hp : " + Player.Instance.BarricadeHP, new Vector2(UI.BARRICADE_X-100 ,800), GrayBlack);
+            _spriteBatch.DrawString(Pixeloid, "HP : " + Player.Instance.BarricadeHP, new Vector2(UI.BARRICADE_X-100 ,800), GrayBlack);
             DrawHUD(_spriteBatch);
         }
         
@@ -591,7 +598,9 @@ namespace ChickenUnknown.Screen {
             if(SpawnTimer >= SpawnInterval){
                 switch(SpawnLevel){
                     case 1:
-                        // Add on Initial() 
+                        AddSpawnQueueZombie(Zombie.ZombieType.TANK,1);
+                        AddSpawnQueueZombie(Zombie.ZombieType.RUNNER,1);
+                        AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,1);
                     break;
                     case 2:
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
