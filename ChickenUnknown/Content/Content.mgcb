@@ -747,6 +747,18 @@
 /processorParam:TextureFormat=Color
 /build:PlayScreen/treasure_box_opened.png
 
+#begin PlayScreen/village.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:PlayScreen/village.png
+
 #begin PlayScreen/wall.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -806,18 +818,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:PlayScreen/zombie_runner2.png
-
-#begin PlayScreen/zombie_tank.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:PlayScreen/zombie_tank.png
 
 #begin PlayScreen/zombie_tank.png
 /importer:TextureImporter

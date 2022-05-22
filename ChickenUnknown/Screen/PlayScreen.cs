@@ -19,7 +19,7 @@ namespace ChickenUnknown.Screen {
                         NormalWalkChickenTexture, SpecialWalkChickenTexture, 
                         AmountTexture, LuckTexture, ATKTexture, PenTexture, ScaleTexture, SpeedTexture, 
                         ExplosionEffect, AbilityButton, AbilityButtonInactive, 
-                        StretchAreaTexture,
+                        StretchAreaTexture,Village,
                         NormalZombieTexture,NormalZombieTexture2,
                         TankZombieTexture,TankZombieTexture2,
                         RunnerZombieTexture,RunnerZombieTexture2,
@@ -152,6 +152,7 @@ namespace ChickenUnknown.Screen {
             ExplosionEffect = Content.Load<Texture2D>("PlayScreen/explosion");
 
             BG = Content.Load<Texture2D>("PlayScreen/bg");
+            Village = Content.Load<Texture2D>("PlayScreen/village");
             Barricade = Content.Load<Texture2D>("PlayScreen/Barricade");
             Wall = Content.Load<Texture2D>("PlayScreen/wall");
             PopUpLevelUp = Content.Load<Texture2D>("PlayScreen/levelup");
@@ -487,6 +488,7 @@ namespace ChickenUnknown.Screen {
         } 
         public override void Draw(SpriteBatch _spriteBatch) {
             _spriteBatch.Draw(BG, CenterElementWithHeight(BG,0) , Color.White);
+            _spriteBatch.Draw(Village, new Vector2(0, 348) , Color.White);
             _spriteBatch.Draw(SwingTexture, new Rectangle(185, UI.FLOOR_Y-378-216, SwingTexture.Width, SwingTexture.Height), Color.White);
             if(Player.Instance.SpecailAbiltyCooldown < 0 && !Player.Instance.IsUsingSpecialAbility)
                 _spriteBatch.Draw(AbilityButton, new Vector2(70, 290) ,null , Color.White, 0f, GetCenterOrigin(AbilityButton), 1f, SpriteEffects.None, 0); 

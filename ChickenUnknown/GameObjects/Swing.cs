@@ -105,7 +105,7 @@ namespace ChickenUnknown.GameObjects {
 			for(int i = 0; i < NumOfChicken - 1 && i < 5; i++){
 				_spriteBatch.Draw(NormalChickenTexture, new Vector2(130,650+(i * ChickenTexture.Height + 20)) ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
 			}
-
+	
 		}
 		public bool IsMouseDown(){
             return Singleton.Instance.MouseCurrent.LeftButton == ButtonState.Pressed;
