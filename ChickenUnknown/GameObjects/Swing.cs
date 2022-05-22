@@ -19,7 +19,6 @@ namespace ChickenUnknown.GameObjects {
         private float AimAngle;
 		private Vector2 CENTER_OF_SWING = new Vector2(230, 475); 
 		private int MAXSPEED = 1300;
-		private int HITBOX;
 		public static List<Chicken> ChickenList = new List<Chicken>();
 		public static int NumOfChicken;
 		public Swing(Texture2D swingTexture,Texture2D stretchAreaTexture,
@@ -36,12 +35,12 @@ namespace ChickenUnknown.GameObjects {
 			SpecialChickenTexture = specialChickenTexture;
 			SpecialFlyChickenTexture = specialFlyChickenTexture;
 			ExplosionEffect = explosionEffect;
-			HITBOX = normalChickenTexture.Width / 2;
-			NumOfChicken = Player.Instance.StartQuantity;
+			NumOfChicken = Player.Instance.StartQuantity; // initial Start quantity
 		}
 		
 		public override void Update(GameTime gameTime) {
             if ((IsShootable() && IsMouseDown()) || Singleton.Instance.IsAiming) {
+				// chicken(on mouse) aim to center of swing
 				AimAngle = (float)Math.Atan2(Singleton.Instance.MouseCurrent.Y - CENTER_OF_SWING.Y, Singleton.Instance.MouseCurrent.X - CENTER_OF_SWING.X);
 				if(!Singleton.Instance.IsAiming){
 					// play sound here : Start aim
@@ -52,6 +51,7 @@ namespace ChickenUnknown.GameObjects {
 						Singleton.Instance.IsAiming = false;
 						Chicken chicken;
 						if(Player.Instance.IsUsingSpecialAbility){
+							// New Shooted Chicken and start bomb cooldown
 							chicken = new Chicken(SpecialChickenTexture, SpecialWalkChickenTexture, SpecialFlyChickenTexture, ExplosionEffect) {
 								_pos = new Vector2(OldChickenPos.X, OldChickenPos.Y),
 								Angle = OldAimAngle + MathHelper.Pi,
@@ -63,8 +63,9 @@ namespace ChickenUnknown.GameObjects {
 							};
 							ChickenList.Add(chicken);
 							Player.Instance.IsUsingSpecialAbility = false;
-							Player.Instance.SpecailAbiltyCooldown = 5f;
+							Player.Instance.SpecailAbiltyCooldown = Player.Instance.SpecailAbiltyMaxCooldown;
 						} else {
+							//  New Shooted Chicken 
 							chicken = new Chicken(NormalChickenTexture, NormalWalkChickenTexture, NormalFlyChickenTexture, ExplosionEffect) {
 								_pos = new Vector2(OldChickenPos.X, OldChickenPos.Y),
 								Angle = OldAimAngle + MathHelper.Pi,
@@ -76,6 +77,7 @@ namespace ChickenUnknown.GameObjects {
 							};
 							ChickenList.Add(chicken);
 						}
+						// Substract Available Chicken
 						NumOfChicken -= 1;
 					}
 				}

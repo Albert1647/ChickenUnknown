@@ -26,17 +26,18 @@ namespace ChickenUnknown.GameObjects {
 			NORMAL, TANK, RUNNER
 		}
 		public Zombie(Texture2D zombieTexture, Texture2D hpBarTexture, ZombieType type) : base(zombieTexture){
-			GroundToOrigin = zombieTexture.Height/2;
+			GroundToOrigin = zombieTexture.Height/2; // use to spawn up to ground
 			_pos = new Vector2(1920, UI.FLOOR_Y - GroundToOrigin);
 			Type = type;
-			HP = GetZombieHp();
+			HP = GetZombieHp(); // zombie type dependent
 			MaxHp = HP;
-			ATK = GetZombieATK();
-			ExpReward = GetZombieExpReward();
-			Speed = GetZombieSpeed();
-			AttackCooldown = 5f;
-			HpTexture = hpBarTexture;
+			ATK = GetZombieATK(); // zombie type dependent
+			ExpReward = GetZombieExpReward(); // zombie type dependent
+			Speed = GetZombieSpeed(); // zombie type dependent
+			AttackCooldown = 5f; // initial 5f to start attack immediately then reset cooldown
+			HpTexture = hpBarTexture; 
 			HpBarRect = new Rectangle(0, 0, zombieTexture.Width, HpTexture.Height);
+			// random hp bar position
 			Random rand = new Random();
 			hpYDiff = rand.Next(20);
 		}
@@ -44,9 +45,9 @@ namespace ChickenUnknown.GameObjects {
 			if(IsActive){
 				CheckIsDead();
 				if(_pos.X < 480 && Player.Instance.BarricadeHP > 0){
-					IsEating = true;
+					IsEating = true; // -Player Barricade HP
 				} else {
-					_pos.X -= Speed;
+					_pos.X -= Speed; // Walk to player
 					IsEating = false;
 				}
 			}
@@ -73,7 +74,6 @@ namespace ChickenUnknown.GameObjects {
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
 			_spriteBatch.Draw(_texture, _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
 			Random rand = new Random();
-			
 			_spriteBatch.Draw(HpTexture, new Vector2(_pos.X-_texture.Width / 2, _pos.Y-120-hpYDiff), HpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);  
 		}
 

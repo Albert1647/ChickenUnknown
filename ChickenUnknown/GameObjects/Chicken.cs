@@ -28,12 +28,10 @@ namespace ChickenUnknown.GameObjects {
 		// public List<Texture2D> FlyingAnimation;
 		// public Chicken(Texture2D chickenTexture, Texture2D chickenBombTexture, List<Texture2D> walkingAnimation, List<Texture2D> flyingAnimation) : base(chickenTexture){
 		public Chicken(Texture2D chickenTexture,Texture2D chickenWalkTexture, Texture2D chickenFlyTexture, Texture2D explopsionEffect) : base(chickenTexture){
-			ChickenRadius = (chickenTexture.Width) / 2;
+			ChickenRadius = (chickenTexture.Width) / 2; // to calculate hitbox
 			ChickenWalkTexture = chickenWalkTexture;
 			ChickenFlyTexture = chickenFlyTexture;
 			ExplopsionEffect = explopsionEffect;
-			// WalkingAnimation = walkingAnimation;
-			// FlyingAnimation = flyingAnimation;
 		}
 		public override void Update(GameTime gameTime) {
 			if(IsExplode){
@@ -44,19 +42,22 @@ namespace ChickenUnknown.GameObjects {
 				}
 			}
 			if(IsFlying){
+				// Physics
 				Velocity.X = (float)Math.Cos(Angle) * Speed;
 				Velocity.Y = (float)Math.Sin(Angle) * Speed;
 				Acceleration.Y += GRAVITY;
 				Velocity += Acceleration * gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-				var oldPos = _pos;
+				var oldPos = _pos; // save pos to calculate arc / draw chicken in circle
 				_pos += Velocity * gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+				// End Physics
 				FlyingRotation = (float)Math.Atan2(oldPos.Y - _pos.Y, oldPos.X - _pos.X);
 				DetectCollision();
 			}
 			if(IsWalking){
+				// ChickenWalk to home
 				_pos.X -= Player.Instance.ChickenSpeed;
 				if(_pos.X < UI.BARRICADE_X){
-					// IsWalking = false;
+					// Remove shooted chicken from screen
 					Swing.ChickenList.RemoveAt(Swing.ChickenList.IndexOf(this));
 					Swing.NumOfChicken += 1;
 				}
@@ -67,6 +68,7 @@ namespace ChickenUnknown.GameObjects {
 			DetectZombieCollision();
 			if(_pos.X > 1920 || _pos.X < 0 || _pos.Y > UI.FLOOR_Y){
 				if(IsSpecial){
+					// If Bomb hit groud - render bomb frame on ground
 					IsExplode = true;
 					_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
 					ExplosionPos = _pos;
@@ -74,13 +76,15 @@ namespace ChickenUnknown.GameObjects {
 					IsFlying = false;
 					IsWalking = true;
 				}
+				// make chicken walk on ground
 				_pos = new Vector2(_pos.X, UI.FLOOR_Y - ChickenRadius - Player.Instance.ChickenAddedHitBox);
 				IsFlying = false;
 				IsWalking = true;
+				
 				ResetZombieHit();
 			}
 		}
-		
+		// reset zombie hit after being hit - not best solution
 		public void ResetZombieHit(){
 			for(int i = 0; i < PlayScreen.ZombieList.Count; i++){
 				PlayScreen.ZombieList[i].IsHit = false;
@@ -101,6 +105,7 @@ namespace ChickenUnknown.GameObjects {
 				pos.Y -= (float)texture.Height / 2;
 				if(IsCollsionZombie(_pos, _texture, pos, texture)){
 					if(IsSpecial){
+						// render bomb frame
 						ExplosionPos = new Vector2(_pos.X,_pos.Y);
 						IsExplode = true;
 						PlayScreen.ZombieList[i].IsHit = true;
@@ -116,6 +121,7 @@ namespace ChickenUnknown.GameObjects {
 				pos.Y += (float)texture.Height / 2;
 				if(IsCollsionZombie(_pos, _texture, pos, texture)){
 					if(IsSpecial){
+						// render bomb frame
 						ExplosionPos = new Vector2(_pos.X,_pos.Y);
 						IsExplode = true;
 						PlayScreen.ZombieList[i].IsHit = true;
@@ -131,6 +137,7 @@ namespace ChickenUnknown.GameObjects {
 				pos.Y += (float)texture.Height / 2;
 				if(IsCollsionZombie(_pos, _texture, pos, texture)){
 					if(IsSpecial){
+						// render bomb frame
 						ExplosionPos = new Vector2(_pos.X,_pos.Y);
 						IsExplode = true;
 						PlayScreen.ZombieList[i].IsHit = true;
@@ -163,11 +170,15 @@ namespace ChickenUnknown.GameObjects {
 				ResetZombieHit();
 			}
 		}
+		// When Zombie Is Hit -> -HP, -POS X if knockback, RandomPen if any
 		public void HitZombieAtIndex(int index){
-			RandomPenetration(index);
+			if(Player.Instance.PenetrationChance > 0){
+				RandomPenetration(index);
+			}
 			PlayScreen.ZombieList[index]._pos.X += Player.Instance.Knockback;
 			PlayScreen.ZombieList[index].HP -= Player.Instance.Damage;
 		}
+		// hit logic When using bomb Ability
 		public void HitZombieWithAoE(){
 			for(int i = 0; i < PlayScreen.ZombieList.Count; i++){
 				var pos = PlayScreen.ZombieList[i]._pos;
@@ -177,15 +188,17 @@ namespace ChickenUnknown.GameObjects {
 				}
 			}
 		}
+		// Calculate Distance from bomb
 		public bool IsInAOERadius(Vector2 chicken, Vector2 zombie){
 			return (int)Math.Sqrt(Math.Pow(chicken.X - zombie.X, 2) + Math.Pow(chicken.Y - zombie.Y, 2)) <= Player.Instance.SpecailAbilityAoE;
 		}
 
+		// Calculate Distance Chicken to (every) zombie
 		public bool IsCollsionZombie(Vector2 chicken, Texture2D chickenTexture, Vector2 zombie,Texture2D zombieTexture){
 			var contactDistance = ChickenRadius + Player.Instance.ChickenAddedHitBox + zombieTexture.Width/2;
 			return (int)Math.Sqrt(Math.Pow(chicken.X - zombie.X, 2) + Math.Pow(chicken.Y - zombie.Y, 2)) <= contactDistance;
 		}
-
+		
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
 			if(IsWalking){
 				_spriteBatch.Draw(ChickenWalkTexture, _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f + Player.Instance.Scale, SpriteEffects.FlipHorizontally, 0);
