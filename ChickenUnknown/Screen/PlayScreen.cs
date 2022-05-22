@@ -482,6 +482,7 @@ namespace ChickenUnknown.Screen {
             _spriteBatch.Draw(LevelBar, new Vector2(1484, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
             switch(_playState){
                 case PlayState.LEVELUP:
+                    LevelUp.Play();
                     _spriteBatch.Draw(PopUpLevelUp, new Vector2(288, 108),Color.White);
                     if(CanSelectPower){
                         _spriteBatch.Draw(ItemList[SelectablePower.IndexOf(RandomPower[0].ToString())], new Vector2(344, 372),Color.White);
