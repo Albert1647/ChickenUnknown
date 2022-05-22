@@ -20,7 +20,7 @@ namespace ChickenUnknown.Screen {
                         AmountTexture,LuckTexture,ATKTexture,PenTexture,ScaleTexture,SpeedTexture,
                         ExplosionEffect,AbilityButton,AbilityButtonInactive,
                         StretchAreaTexture, NormalZombieTexture, TankZombieTexture, RunnerZombieTexture,
-                        HUD_Chicken_Counter, HUD_Level_Bar, HUD_Pause_Button,
+                        HUD_Chicken_Counter, HUD_Level_Bar, HUD_Pause_Button, HUD_Resume_Button,
                         bg, barricade, wall, Popup_levelup, Item_drop_frame,
                         Select_button, HpBarTexture,
                         ChestCloseTexture,ChestOpenTexture,
@@ -89,6 +89,7 @@ namespace ChickenUnknown.Screen {
             HUD_Chicken_Counter = Content.Load<Texture2D>("PlayScreen/hud_chicken_counter");
             HUD_Level_Bar = Content.Load<Texture2D>("PlayScreen/HUD_Level_Bar");
             HUD_Pause_Button = Content.Load<Texture2D>("PlayScreen/hud_pause");
+            HUD_Resume_Button = Content.Load<Texture2D>("PlayScreen/resume");
 
             AmountTexture = Content.Load<Texture2D>("PlayScreen/+amount");
             LuckTexture = Content.Load<Texture2D>("PlayScreen/+lck");
@@ -411,26 +412,23 @@ namespace ChickenUnknown.Screen {
             for(int i = 0; i < ZombieList.Count ; i++)
 				ZombieList[i].Draw(_spriteBatch, Pixeloid);
             _spriteBatch.Draw(wall, new Rectangle(173, UI.FLOOR_Y-378, wall.Width, wall.Height), Color.White);
-            DrawLog(_spriteBatch);
-            DrawHUD(_spriteBatch);
-        }
-        
-        public void DrawLog(SpriteBatch _spriteBatch){
             _spriteBatch.DrawString(Pixeloid, "Hp : " + Player.Instance.BarricadeHP, new Vector2(UI.BARRICADE_X-100 ,800), GrayBlack);
-            _spriteBatch.DrawString(Pixeloid, "X = " + Singleton.Instance.MouseCurrent.X , new Vector2(0,0), Color.Black);
-            _spriteBatch.DrawString(Pixeloid, "Y = " + Singleton.Instance.MouseCurrent.Y, new Vector2(0, 20), Color.Black);
+            DrawHUD(_spriteBatch);
         }
         
         public void DrawHUD(SpriteBatch _spriteBatch){
             // _spriteBatch.Draw(bg, CenterElementWithHeight(bg,0) , Color.White);
             _spriteBatch.Draw(HUD_Chicken_Counter, new Vector2(58, 95) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
-            _spriteBatch.Draw(HUD_Pause_Button, new Vector2(1824, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
+            if(_playState == PlayState.PAUSE)
+                _spriteBatch.Draw(HUD_Resume_Button, new Vector2(1824, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);     
+                else 
+                _spriteBatch.Draw(HUD_Pause_Button, new Vector2(1824, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
+
             _spriteBatch.DrawString(Pixeloid,"Score : " + Player.Instance.Score, new Vector2(58, 32), GrayBlack);
             _spriteBatch.DrawString(Pixeloid, Swing.NumOfChicken.ToString(), new Vector2(206, 113), GrayBlack);
             _spriteBatch.DrawString(Pixeloid,"Lv. : " + Player.Instance.Level, new Vector2(1241, 32), GrayBlack);
             Vector2 timeTextWidth = Pixeloid.MeasureString(""+ Time);
             _spriteBatch.DrawString(Pixeloid, "" + Time, new Vector2(UI.DIMENSION_X/2, 32) , GrayBlack, 0f,new Vector2(timeTextWidth.X/2, 0), 1f, SpriteEffects.None, 0);
-
             _spriteBatch.Draw(ExpBarRectangle, new Vector2(1484, 32) ,ExpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);        
             _spriteBatch.DrawString(Pixeloid,"" + Player.Instance.Exp + " / " + (int)Player.Instance.MaxExp, new Vector2(1484, 80), GrayBlack);
             _spriteBatch.Draw(HUD_Level_Bar, new Vector2(1484, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
@@ -456,6 +454,8 @@ namespace ChickenUnknown.Screen {
                 case PlayState.GACHA:
                     _spriteBatch.Draw(Item_drop_frame, new Vector2(288, 108),Color.White);
                     if(ChestIsOpen){
+                        Vector2 width = Pixeloid.MeasureString(""+ RandomedGacha);
+                        _spriteBatch.DrawString(Pixeloid, ""+ RandomedGacha, new Vector2(960-40, 230) , GrayBlack, 0f,GetCenterText(width), 1f, SpriteEffects.None, 0);
                         // Texture2D Item = 
                         _spriteBatch.Draw(ChestOpenTexture, new Vector2(960, 540) ,null , Color.White, 0f, GetCenterOrigin(ChestOpenTexture), 1f, SpriteEffects.None, 0);     
                         _spriteBatch.Draw(ItemList[SelectablePower.IndexOf(RandomedGacha)], new Vector2(960-40, 540-100) ,null , Color.White, ChestRotation, GetCenterOrigin(ItemList[SelectablePower.IndexOf(RandomedGacha)]), ChestScale, SpriteEffects.None, 0);  
