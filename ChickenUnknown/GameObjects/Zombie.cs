@@ -132,16 +132,16 @@ namespace ChickenUnknown.GameObjects {
 						case 1:
 						break;
 						case 2:
-							baseHp = 42;
+							baseHp = 41;
 						break;
 						case 3:
-							baseHp = 53;
+							baseHp = 52;
 						break;
 						case 4:
-							baseHp = 64;
+							baseHp = 60;
 						break;
 						case 5:
-							baseHp = 71;
+							baseHp = 68;
 						break;
 						default:
 						break;
@@ -157,13 +157,13 @@ namespace ChickenUnknown.GameObjects {
 							baseHp = 95;
 						break;
 						case 3:
-							baseHp = 110;
+							baseHp = 109;
 						break;
 						case 4:
-							baseHp = 130;
+							baseHp = 123;
 						break;
 						case 5:
-							baseHp = 150;
+							baseHp = 136;
 						break;
 						default:
 						break;
@@ -176,16 +176,16 @@ namespace ChickenUnknown.GameObjects {
 							baseHp = 40;
 						break;
 						case 2:
-							baseHp = 45;
+							baseHp = 47;
 						break;
 						case 3:
-							baseHp = 58;
+							baseHp = 56;
 						break;
 						case 4:
-							baseHp = 68;
+							baseHp = 63;
 						break;
 						case 5:
-							baseHp = 76;
+							baseHp = 74;
 						break;
 						default:
 						break;
@@ -237,13 +237,13 @@ namespace ChickenUnknown.GameObjects {
 
             switch(Type){
 				case ZombieType.NORMAL:
-					Speed = 0.47f + (PlayScreen.SpawnLevel - 1) * 0.07f;
+					Speed = 0.46f + (PlayScreen.SpawnLevel - 1) * 0.06f;
 				break;
 				case ZombieType.TANK:
-					Speed = 0.29f + (PlayScreen.SpawnLevel - 1) * 0.07f;
+					Speed = 0.28f + (PlayScreen.SpawnLevel - 1) * 0.06f;
 				break;
 				case ZombieType.RUNNER:
-					Speed = 0.72f + (PlayScreen.SpawnLevel - 1) * 0.07f;
+					Speed = 0.71f + (PlayScreen.SpawnLevel - 1) * 0.06f;
 				break;
 				default:
 				break;
