@@ -91,7 +91,8 @@ namespace ChickenUnknown.GameObjects {
 			}
 		}
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
-			_spriteBatch.Draw(StretchAreaTexture, CENTER_OF_SWING ,null, Color.White, 0f, GetCenterOrigin(StretchAreaTexture), 1f, SpriteEffects.None, 0);
+			// Stretch area not in design
+			// _spriteBatch.Draw(StretchAreaTexture, CENTER_OF_SWING ,null, Color.White, 0f, GetCenterOrigin(StretchAreaTexture), 1f, SpriteEffects.None, 0);
 			Texture2D ChickenTexture = Player.Instance.IsUsingSpecialAbility ? SpecialChickenTexture : NormalChickenTexture;
 			if(NumOfChicken > 0){
 				if(!Singleton.Instance.IsAiming){

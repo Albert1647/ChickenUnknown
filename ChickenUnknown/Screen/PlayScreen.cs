@@ -417,8 +417,8 @@ namespace ChickenUnknown.Screen {
         
         public void DrawLog(SpriteBatch _spriteBatch){
             _spriteBatch.DrawString(Pixeloid, "Hp : " + Player.Instance.BarricadeHP, new Vector2(UI.BARRICADE_X-100 ,800), GrayBlack);
-            // _spriteBatch.DrawString(Pixeloid, "X = " + Singleton.Instance.MouseCurrent.X , new Vector2(0,0), Color.Black);
-            // _spriteBatch.DrawString(Pixeloid, "Y = " + Singleton.Instance.MouseCurrent.Y, new Vector2(0, 20), Color.Black);
+            _spriteBatch.DrawString(Pixeloid, "X = " + Singleton.Instance.MouseCurrent.X , new Vector2(0,0), Color.Black);
+            _spriteBatch.DrawString(Pixeloid, "Y = " + Singleton.Instance.MouseCurrent.Y, new Vector2(0, 20), Color.Black);
         }
         
         public void DrawHUD(SpriteBatch _spriteBatch){
@@ -441,9 +441,13 @@ namespace ChickenUnknown.Screen {
                         _spriteBatch.Draw(ItemList[SelectablePower.IndexOf(RandomPower[0].ToString())], new Vector2(344, 372),Color.White);
                         _spriteBatch.Draw(ItemList[SelectablePower.IndexOf(RandomPower[1].ToString())], new Vector2(792, 372),Color.White);
                         _spriteBatch.Draw(ItemList[SelectablePower.IndexOf(RandomPower[2].ToString())], new Vector2(1240, 372),Color.White);
-                        _spriteBatch.DrawString(Pixeloid,": " + RandomPower[0],new Vector2(344, 300),GrayBlack);
-                        _spriteBatch.DrawString(Pixeloid,": " + RandomPower[1],new Vector2(792, 300),GrayBlack);
-                        _spriteBatch.DrawString(Pixeloid,": " + RandomPower[2],new Vector2(1240, 300),GrayBlack);
+
+                        Vector2 width = Pixeloid.MeasureString(""+RandomPower[0]);
+                        _spriteBatch.DrawString(Pixeloid, ""+RandomPower[0], new Vector2(512f, 330) , GrayBlack, 0f,GetCenterText(width), 1f, SpriteEffects.None, 0);
+                        width = Pixeloid.MeasureString(""+RandomPower[1]);
+                        _spriteBatch.DrawString(Pixeloid,""+ RandomPower[1], new Vector2(960f, 330) , GrayBlack, 0f,GetCenterText(width), 1f, SpriteEffects.None, 0);
+                        width = Pixeloid.MeasureString(""+RandomPower[2]);
+                        _spriteBatch.DrawString(Pixeloid, ""+RandomPower[2], new Vector2(1408f, 330) , GrayBlack, 0f,GetCenterText(width), 1f, SpriteEffects.None, 0);
                     }
                     _spriteBatch.Draw(Select_button, new Vector2(378, 753),Color.White);
                     _spriteBatch.Draw(Select_button, new Vector2(826, 753),Color.White);
@@ -458,6 +462,9 @@ namespace ChickenUnknown.Screen {
                     } else {
                         _spriteBatch.Draw(ChestCloseTexture, new Vector2(960, 540) ,null , Color.White, 0f, GetCenterOrigin(ChestOpenTexture), 1f, SpriteEffects.None, 0);     
                     }
+                break;
+                case PlayState.PAUSE:
+                    _spriteBatch.Draw(HUD_Pause_Button, new Vector2(UI.DIMENSION_X/2, UI.DIMENSION_Y/2) ,null , Color.White, 0f, GetCenterOrigin(HUD_Pause_Button), 2f, SpriteEffects.None, 0);     
                 break;
             }
             switch(_gameState){
@@ -507,6 +514,9 @@ namespace ChickenUnknown.Screen {
         }
         public Vector2 GetCenterOrigin(Texture2D texture){
             return new Vector2(texture.Width/2, texture.Height/2);
+        }
+        public Vector2 GetCenterText(Vector2 width){
+            return new Vector2(width.X/2, width.Y/2);
         }
         public void GetMouseInput(){
             Singleton.Instance.MousePrevious = Singleton.Instance.MouseCurrent;
@@ -577,10 +587,11 @@ namespace ChickenUnknown.Screen {
         }
         public void CheckSpawnZombie(){
             // Default Is 180f - 3 minute
-            var SpawnInterval = 180f;
+            var SpawnInterval = 10f;
             if(SpawnTimer >= SpawnInterval){
                 switch(SpawnLevel){
                     case 1:
+                        // Add on Initial() 
                     break;
                     case 2:
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
