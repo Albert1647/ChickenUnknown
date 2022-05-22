@@ -86,7 +86,7 @@ namespace ChickenUnknown.Screen {
             AbilityButtonInactive = Content.Load<Texture2D>("PlayScreen/boomButton_notReady");
 
             ChickenCounter = Content.Load<Texture2D>("PlayScreen/hud_chicken_counter");
-            LevelBar = Content.Load<Texture2D>("PlayScreen/LevelBar");
+            LevelBar = Content.Load<Texture2D>("PlayScreen/HUD_Level_Bar");
             PauseButton = Content.Load<Texture2D>("PlayScreen/hud_pause");
             ResumeButton = Content.Load<Texture2D>("PlayScreen/resume");
 
@@ -398,7 +398,7 @@ namespace ChickenUnknown.Screen {
             }
         } 
         public override void Draw(SpriteBatch _spriteBatch) {
-            _spriteBatch.Draw(BG, CenterElementWithHeight(bg,0) , Color.White);
+            _spriteBatch.Draw(BG, CenterElementWithHeight(BG,0) , Color.White);
             _spriteBatch.Draw(SwingTexture, new Rectangle(185, UI.FLOOR_Y-378-216, SwingTexture.Width, SwingTexture.Height), Color.White);
             if(Player.Instance.SpecailAbiltyCooldown < 0 && !Player.Instance.IsUsingSpecialAbility)
                 _spriteBatch.Draw(AbilityButton, new Vector2(70, 290) ,null , Color.White, 0f, GetCenterOrigin(AbilityButton), 1f, SpriteEffects.None, 0); 
@@ -529,8 +529,8 @@ namespace ChickenUnknown.Screen {
             Singleton.Instance.MousePrevious = Singleton.Instance.MouseCurrent;
             Singleton.Instance.MouseCurrent = Mouse.GetState();
         }
-        public bool MouseOnTexture(int StartX, int StartY, Texture2D texture){
-            return (Singleton.Instance.MouseCurrent.X > StartX && Singleton.Instance.MouseCurrent.Y > StartY) && (Singleton.Instance.MouseCurrent.X < StartX + texture.Width && Singleton.Instance.MouseCurrent.Y < StartY + texture.Height);
+        public bool MouseOnTexture(int startX, int startY, Texture2D texture){
+            return (Singleton.Instance.MouseCurrent.X > startX && Singleton.Instance.MouseCurrent.Y > startY) && (Singleton.Instance.MouseCurrent.X < startX + texture.Width && Singleton.Instance.MouseCurrent.Y < startY + texture.Height);
         }
         public bool MouseOnElement(int x1, int x2, int y1, int y2){
             return (Singleton.Instance.MouseCurrent.X > x1 && Singleton.Instance.MouseCurrent.Y > y1) && (Singleton.Instance.MouseCurrent.X < x2 && Singleton.Instance.MouseCurrent.Y < y2);
