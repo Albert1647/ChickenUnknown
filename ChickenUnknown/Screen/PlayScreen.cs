@@ -75,7 +75,6 @@ namespace ChickenUnknown.Screen {
             };
             // Initial
             ZombieList = new List<Zombie>();
-            SpawnLevel += 1;
         }
         public override void LoadContent() {
             // Load Resource
@@ -601,27 +600,30 @@ namespace ChickenUnknown.Screen {
                         AddSpawnQueueZombie(Zombie.ZombieType.TANK,1);
                         AddSpawnQueueZombie(Zombie.ZombieType.RUNNER,1);
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,1);
+                        SpawnLevel += 1;
                     break;
                     case 2:
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,7);
+                        SpawnLevel += 1;
                     break;
                     case 3:
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
+                        SpawnLevel += 1;
                     break;
                     case 4:
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,15);
+                        SpawnLevel += 1;
                     break;
                     case 5:
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL,25);
+                        SpawnLevel += 1;
                     break;
                     default:
                     break;
                 }
                 SpawnTimer = 0;
                 // MaxSpawnLevel = 5
-                if(SpawnLevel <= 5){
-                    SpawnLevel += 1;
-                }
+                
             }
 
         }
