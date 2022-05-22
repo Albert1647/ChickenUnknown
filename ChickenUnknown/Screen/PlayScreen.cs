@@ -124,7 +124,7 @@ namespace ChickenUnknown.Screen {
             NormalZombieTexture = Content.Load<Texture2D>("PlayScreen/zombie_nm");
             NormalZombieTexture2 = Content.Load<Texture2D>("PlayScreen/zombie_nm2");
             RunnerZombieTexture = Content.Load<Texture2D>("PlayScreen/zombie_runner");
-            RunnerZombieTexture2 = Content.Load<Texture2D>("PlayScreen/zombie_runner");
+            RunnerZombieTexture2 = Content.Load<Texture2D>("PlayScreen/zombie_runner2");
             TankZombieTexture = Content.Load<Texture2D>("PlayScreen/zombie_tank");
             TankZombieTexture2 = Content.Load<Texture2D>("PlayScreen/zombie_tank");
 
