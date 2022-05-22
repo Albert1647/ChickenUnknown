@@ -10,7 +10,7 @@ namespace ChickenUnknown
     class Player
     {
 		// Player Stat Initial
-		public int Level = 0;
+		public int Level = 1;
 		public int BarricadeHP = 200;
 		public float PenetrationChance = 1f;
 		public float TreasureChestChance = 2f;

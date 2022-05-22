@@ -510,8 +510,6 @@ namespace ChickenUnknown.Screen {
                 else 
                 _spriteBatch.Draw(PauseButton, new Vector2(1824, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
 
-            _spriteBatch.DrawString(Pixeloid,"SpawnLevel : " + SpawnTimer, new Vector2(0, 0), GrayBlack);
-            _spriteBatch.DrawString(Pixeloid,"SpawnLevel : " + SpawnLevel, new Vector2(0, 20), GrayBlack);
             _spriteBatch.DrawString(Pixeloid,"Score : " + Player.Instance.Score, new Vector2(58, 32), GrayBlack);
             _spriteBatch.DrawString(Pixeloid, Swing.NumOfChicken.ToString(), new Vector2(206, 113), GrayBlack);
             _spriteBatch.DrawString(Pixeloid,"Lv. : " + Player.Instance.Level, new Vector2(1241, 32), GrayBlack);
