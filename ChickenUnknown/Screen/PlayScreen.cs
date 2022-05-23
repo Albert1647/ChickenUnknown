@@ -418,6 +418,7 @@ namespace ChickenUnknown.Screen {
                             _playState = PlayState.PLAYING;
                         }
                         if(MouseOnElement(UI.DIMENSION_X/2 - PauseButton.Width/2 , UI.DIMENSION_X/2 + PauseButton.Width/2, UI.DIMENSION_Y/2 - PauseButton.Width/2, UI.DIMENSION_Y/2 + PauseButton.Width/2) && IsClick()){
+                            MediaPlayer.Resume();
                             _playState = PlayState.PLAYING;
                         }
                         break;
