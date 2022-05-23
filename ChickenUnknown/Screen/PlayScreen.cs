@@ -506,7 +506,7 @@ namespace ChickenUnknown.Screen {
             for(int i = 0; i < Swing.ChickenList.Count ; i++)
 				Swing.ChickenList[i].Draw(_spriteBatch, Pixeloid);
             if(Player.Instance.BarricadeHP > 0){
-                _spriteBatch.Draw(Barricade, new Rectangle(403, UI.FLOOR_Y - Barricade.Height, Barricade.Width, Barricade.Height), Color.White);
+                _spriteBatch.Draw(Barricade, new Rectangle(353, 897, Barricade.Width, Barricade.Height), Color.White);
             }
             for(int i = 0; i < ZombieList.Count ; i++)
 				ZombieList[i].Draw(_spriteBatch, Pixeloid);
