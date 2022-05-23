@@ -26,8 +26,8 @@ namespace ChickenUnknown.GameObjects {
 		public bool IsSpecial = false;
 		public bool IsExplode = false;
 		public float AnimationTimer = 0f;
-		public float AnimationPerFrame = 0.48f;
-		public int TextureIndex = 0;
+		public float AnimationPerFrame = 0.48f; // time per frame change
+		public int TextureIndex = 0; //to swap texture
 		public Chicken(Texture2D chickenTexture,List<Texture2D> chickenWalkTexture, Texture2D chickenFlyTexture, Texture2D explopsionEffect, List<SoundEffect> SFXChicken) : base(chickenTexture){
 			ChickenRadius = (chickenTexture.Width) / 2;
 			ChickenWalkTexture = chickenWalkTexture;

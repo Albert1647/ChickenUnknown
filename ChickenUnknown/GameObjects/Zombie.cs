@@ -23,9 +23,9 @@ namespace ChickenUnknown.GameObjects {
 		public float AttackCooldownTimer = 5f;
 		public float AttackCooldown;
 		public float AnimationTimer = 0f;
-		public float AnimationPerFrame = 0.48f;
-		public int TextureIndex;
-		private int hpYDiff;
+		public float AnimationPerFrame = 0.48f; // time per frame change
+		public int TextureIndex; //to swap texture
+		private int hpYDiff; //to organize zombie hp when multiple zombie spawn
 		public ZombieType Type;
 		List<Texture2D> ZombieTextureList;
 		public enum ZombieType{
