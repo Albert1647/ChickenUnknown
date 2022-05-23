@@ -21,10 +21,10 @@ namespace ChickenUnknown.Managers {
 		public void LoadScreen(GameScreenName _ScreenName) {
 			switch (_ScreenName) {
 				case GameScreenName.MenuScreen:
-					ResetPlayer();
 					CurrentGameScreen = new MenuScreen();
 					break;
 				case GameScreenName.GameScreen:
+					ResetPlayer();
 					CurrentGameScreen = new PlayScreen();
 					break;
 				case GameScreenName.SettingScreen:

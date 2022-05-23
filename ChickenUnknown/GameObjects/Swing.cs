@@ -142,7 +142,7 @@ namespace ChickenUnknown.GameObjects {
 		private bool MouseIsOnStretchAreaTexture(){
 			var mousePos = new Vector2(Singleton.Instance.MouseCurrent.X, Singleton.Instance.MouseCurrent.Y);
 			var stretchAreaRadius = StretchAreaTexture.Width/2;
-			return (int)Math.Sqrt(Math.Pow(mousePos.X - CENTER_OF_SWING.X, 2) + Math.Pow(mousePos.Y - CENTER_OF_SWING.Y, 2)) <= stretchAreaRadius;
+			return (int)(Math.Pow(mousePos.X - CENTER_OF_SWING.X, 2) + Math.Pow(mousePos.Y - CENTER_OF_SWING.Y, 2)) <= Math.Pow(stretchAreaRadius, 2);
 		}
 		
 		private int GetMouseOnChickenDistance(){
