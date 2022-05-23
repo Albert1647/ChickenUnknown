@@ -16,7 +16,7 @@ namespace ChickenUnknown.Screen {
         public Texture2D ExpBarRectangle, SwingTexture, 
                         NormalChickenTexture, SpecialChickenTexture, 
                         NormalFlyChickenTexture, SpecialFlyChickenTexture, 
-                        NormalWalkChickenTexture,NormalWalkChickenTexture2, SpecialWalkChickenTexture,
+                        NormalWalkChickenTexture,NormalWalkChickenTexture2, SpecialWalkChickenTexture,SpecialWalkChickenTexture2,
                         AmountTexture, LuckTexture, ATKTexture, PenTexture, ScaleTexture, SpeedTexture, 
                         ExplosionEffect, AbilityButton, AbilityButtonInactive, 
                         StretchAreaTexture,Village,
@@ -141,6 +141,7 @@ namespace ChickenUnknown.Screen {
             SpecialChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_Boom_on_sling");
             SpecialFlyChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_Boom_on_air");
             SpecialWalkChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_Boom_run");
+            SpecialWalkChickenTexture2 = Content.Load<Texture2D>("PlayScreen/chicken_Boom_run2");
             ChickenTextureList = new List<Texture2D>(){
                 NormalChickenTexture,
                 NormalFlyChickenTexture,
@@ -148,7 +149,8 @@ namespace ChickenUnknown.Screen {
                 NormalWalkChickenTexture2,
                 SpecialChickenTexture,
                 SpecialFlyChickenTexture,
-                SpecialWalkChickenTexture
+                SpecialWalkChickenTexture,
+                SpecialWalkChickenTexture2
             };
             ExplosionEffect = Content.Load<Texture2D>("PlayScreen/explosion");
 

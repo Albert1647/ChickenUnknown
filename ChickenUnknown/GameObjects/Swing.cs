@@ -12,7 +12,7 @@ namespace ChickenUnknown.GameObjects {
         private Texture2D StretchAreaTexture,
 							NormalChickenTexture,SpecialChickenTexture,
 							NormalFlyChickenTexture,SpecialFlyChickenTexture,
-							NormalWalkChickenTexture,NormalWalkChickenTexture2,SpecialWalkChickenTexture,
+							NormalWalkChickenTexture,NormalWalkChickenTexture2,SpecialWalkChickenTexture,SpecialWalkChickenTexture2,
 							ExplosionEffect;
 
 		public SoundEffect ChickenSFX,Stretch;
@@ -20,7 +20,7 @@ namespace ChickenUnknown.GameObjects {
 		private float OldAimAngle;
         private float AimAngle;
 		private Vector2 CENTER_OF_SWING = new Vector2(230, 475); 
-		private int MAXSPEED = 1300;
+		private int MAXFORCE = 1300;
 		public static List<Chicken> ChickenList = new List<Chicken>();
 		public static List<SoundEffect> SFXChicken;
 		public static int NumOfChicken;
@@ -36,6 +36,7 @@ namespace ChickenUnknown.GameObjects {
 			SpecialChickenTexture = ChickenTextureList[4];
 			SpecialFlyChickenTexture = ChickenTextureList[5];
 			SpecialWalkChickenTexture = ChickenTextureList[6];
+			SpecialWalkChickenTexture2 = ChickenTextureList[7];
 			ExplosionEffect = explosionEffect;
 			NumOfChicken = Player.Instance.StartQuantity; // initial Start quantity
 			Stretch = stretch;
@@ -61,14 +62,14 @@ namespace ChickenUnknown.GameObjects {
 						
 						if(Player.Instance.IsUsingSpecialAbility){
 							List<Texture2D> WalkTexture = new List<Texture2D>(){
-								NormalWalkChickenTexture,
-								NormalWalkChickenTexture2
+								SpecialWalkChickenTexture,
+								SpecialWalkChickenTexture2
 							};
 							chicken = new Chicken(SpecialChickenTexture, WalkTexture, SpecialFlyChickenTexture, ExplosionEffect, SFXChicken) {
 								_pos = new Vector2(OldChickenPos.X, OldChickenPos.Y),
 								Angle = OldAimAngle + MathHelper.Pi,
 								FlyingRotation = OldAimAngle,
-								Speed = (int)(MAXSPEED * (GetMouseStretchDistance() >= StretchAreaTexture.Width/2 ? StretchAreaTexture.Width/2 : GetMouseStretchDistance()) / (StretchAreaTexture.Width/2)),
+								Force = (int)(MAXFORCE * (GetMouseStretchDistance() >= StretchAreaTexture.Width/2 ? StretchAreaTexture.Width/2 : GetMouseStretchDistance()) / (StretchAreaTexture.Width/2)),
 								IsFlying = true,
 								IsActive = true,
 								IsSpecial = true
@@ -85,7 +86,7 @@ namespace ChickenUnknown.GameObjects {
 								_pos = new Vector2(OldChickenPos.X, OldChickenPos.Y),
 								Angle = OldAimAngle + MathHelper.Pi,
 								FlyingRotation = OldAimAngle,
-								Speed = (int)(MAXSPEED * (GetMouseStretchDistance() >= StretchAreaTexture.Width/2 ? StretchAreaTexture.Width/2 : GetMouseStretchDistance()) / (StretchAreaTexture.Width/2)),
+								Force = (int)(MAXFORCE * (GetMouseStretchDistance() >= StretchAreaTexture.Width/2 ? StretchAreaTexture.Width/2 : GetMouseStretchDistance()) / (StretchAreaTexture.Width/2)),
 								IsFlying = true,
 								IsActive = true,
 								IsSpecial = false

@@ -10,7 +10,7 @@ namespace ChickenUnknown.GameObjects {
     	class Chicken : IGameObject {
 		public Texture2D ChickenFlyTexture, ExplopsionEffect;
 		public List<Texture2D> ChickenWalkTexture;
-		public float Speed;
+		public float Force;
 		public float FlyingRotation;
 		public float Angle;
 		public Vector2 Acceleration;
@@ -28,11 +28,6 @@ namespace ChickenUnknown.GameObjects {
 		public float AnimationTimer = 0f;
 		public float AnimationPerFrame = 0.48f;
 		public int TextureIndex = 0;
-		
-		// public bool SwitchFrame = false;
-		// public List<Texture2D> WalkingAnimation;
-		// public List<Texture2D> FlyingAnimation;
-		// public Chicken(Texture2D chickenTexture, Texture2D chickenBombTexture, List<Texture2D> walkingAnimation, List<Texture2D> flyingAnimation) : base(chickenTexture){
 		public Chicken(Texture2D chickenTexture,List<Texture2D> chickenWalkTexture, Texture2D chickenFlyTexture, Texture2D explopsionEffect, List<SoundEffect> SFXChicken) : base(chickenTexture){
 			ChickenRadius = (chickenTexture.Width) / 2;
 			ChickenWalkTexture = chickenWalkTexture;
@@ -52,8 +47,8 @@ namespace ChickenUnknown.GameObjects {
 			}
 			if(IsFlying){
 				// Physics
-				Velocity.X = (float)Math.Cos(Angle) * Speed;
-				Velocity.Y = (float)Math.Sin(Angle) * Speed;
+				Velocity.X = (float)Math.Cos(Angle) * Force;
+				Velocity.Y = (float)Math.Sin(Angle) * Force;
 				Acceleration.Y += GRAVITY;
 				Velocity += Acceleration * gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
 				var oldPos = _pos; // save pos to calculate arc / draw chicken in circle
