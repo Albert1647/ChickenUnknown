@@ -49,24 +49,24 @@ namespace ChickenUnknown.Managers {
 			CurrentGameScreen.Draw(spriteBatch);
 		}
 		public void ResetPlayer(){
-			Player.Instance.Level = 1;
-			Player.Instance.BarricadeHP = 200;
-			Player.Instance.PenetrationChance = 1f;
-			Player.Instance.TreasureChestChance = 2f;
-			Player.Instance.ChickenAddedHitBox = 0f;
-			Player.Instance.Scale = 0f;
-			Player.Instance.StartQuantity = 2;
-			Player.Instance.Knockback = 0;
-			Player.Instance.ChickenSpeed = 5f;
-			Player.Instance.Damage = 8;
-			Player.Instance.IsUsingSpecialAbility = false;
-			Player.Instance.SpecailAbiltyDamage = 50;
-			Player.Instance.SpecailAbiltyCooldown = 60f;
-			Player.Instance.SpecailAbiltyMaxCooldown = 60f;
-			Player.Instance.SpecailAbilityAoE = 400f;
-			Player.Instance.Exp = 0;
-			Player.Instance.MaxExp = 150;
-			Player.Instance.Score = 0;
+			Player.Instance.Level = PlayerStart.Level;
+			Player.Instance.BarricadeHP = PlayerStart.BarricadeHP;
+			Player.Instance.PenetrationChance = PlayerStart.PenetrationChance;
+			Player.Instance.TreasureChestChance = PlayerStart.TreasureChestChance;
+			Player.Instance.ChickenAddedHitBox = PlayerStart.ChickenAddedHitBox;
+			Player.Instance.Scale = PlayerStart.Scale;
+			Player.Instance.StartQuantity = PlayerStart.StartQuantity;
+			Player.Instance.Knockback = PlayerStart.Knockback;
+			Player.Instance.ChickenSpeed = PlayerStart.ChickenSpeed;
+			Player.Instance.Damage = PlayerStart.Damage;
+			Player.Instance.IsUsingSpecialAbility = PlayerStart.IsUsingSpecialAbility;
+			Player.Instance.SpecailAbiltyDamage = PlayerStart.SpecailAbiltyDamage;
+			Player.Instance.SpecailAbiltyCooldown = PlayerStart.SpecailAbiltyCooldown;
+			Player.Instance.SpecailAbiltyMaxCooldown = PlayerStart.SpecailAbiltyMaxCooldown;
+			Player.Instance.SpecailAbilityAoE = PlayerStart.SpecailAbilityAoE;
+			Player.Instance.Exp = PlayerStart.Exp;
+			Player.Instance.MaxExp = PlayerStart.MaxExp;
+			Player.Instance.Score = PlayerStart.Score;
 		}
 		// Screen Singleton
 		private static ScreenManager instance;

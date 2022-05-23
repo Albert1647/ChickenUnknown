@@ -9,24 +9,25 @@ namespace ChickenUnknown
 {
     class Player
     {
-		// Player Stat Initial
-		public int Level = 1;
-		public int BarricadeHP = 200;
-		public float PenetrationChance = 1f;
-		public float TreasureChestChance = 2f;
-		public float ChickenAddedHitBox = 0f;
-		public float Scale = 0f;
-		public int StartQuantity = 2;
-		public int Knockback = 0;
-		public float ChickenSpeed = 5f;
-		public float Damage = 8;
-		public bool IsUsingSpecialAbility = false;
-		public float SpecailAbiltyDamage = 50;
-		public float SpecailAbiltyCooldown = 60f;
-		public float SpecailAbiltyMaxCooldown = 60f;
-		public float SpecailAbilityAoE = 400f;
-		public float Exp = 0, MaxExp = 150;
-		public int Score = 0;
+		// Player Stat
+		public int Level = PlayerStart.Level;
+		public int BarricadeHP = PlayerStart.BarricadeHP;
+		public float PenetrationChance = PlayerStart.PenetrationChance;
+		public float TreasureChestChance = PlayerStart.TreasureChestChance;
+		public float ChickenAddedHitBox = PlayerStart.ChickenAddedHitBox;
+		public float Scale = PlayerStart.Scale;
+		public int StartQuantity = PlayerStart.StartQuantity;
+		public int Knockback = PlayerStart.Knockback;
+		public float ChickenSpeed = PlayerStart.ChickenSpeed;
+		public float Damage = PlayerStart.Damage;
+		public bool IsUsingSpecialAbility = PlayerStart.IsUsingSpecialAbility;
+		public float SpecailAbiltyDamage = PlayerStart.SpecailAbiltyDamage;
+		public float SpecailAbiltyCooldown = PlayerStart.SpecailAbiltyCooldown;
+		public float SpecailAbiltyMaxCooldown = PlayerStart.SpecailAbiltyMaxCooldown;
+		public float SpecailAbilityAoE = PlayerStart.SpecailAbilityAoE;
+		public float Exp = PlayerStart.Exp;
+		public float MaxExp = PlayerStart.MaxExp;
+		public int Score = PlayerStart.Score;
         private static Player instance;
 		public static Player Instance
 		{
