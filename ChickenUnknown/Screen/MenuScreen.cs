@@ -33,6 +33,7 @@ namespace ChickenUnknown.Screen {
             ThemeSong = Content.Load<Song>("Sound/Theme");
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Volume=((float)(Singleton.Instance.MusicVolume)/100)*0.5f;
+            SoundEffect.MasterVolume = ((float)(Singleton.Instance.SFXVolume)/100);
             if(Singleton.Instance.BGMStart==false){
                 MediaPlayer.Play(ThemeSong);
                 Singleton.Instance.BGMStart=true;
