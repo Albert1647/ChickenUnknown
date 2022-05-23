@@ -21,6 +21,7 @@ namespace ChickenUnknown.Managers {
 		public void LoadScreen(GameScreenName _ScreenName) {
 			switch (_ScreenName) {
 				case GameScreenName.MenuScreen:
+					ResetPlayer();
 					CurrentGameScreen = new MenuScreen();
 					break;
 				case GameScreenName.GameScreen:
@@ -46,6 +47,26 @@ namespace ChickenUnknown.Managers {
 		// update screen on current screen class
 		public void Draw(SpriteBatch spriteBatch) {
 			CurrentGameScreen.Draw(spriteBatch);
+		}
+		public void ResetPlayer(){
+			Player.Instance.Level = 1;
+			Player.Instance.BarricadeHP = 200;
+			Player.Instance.PenetrationChance = 1f;
+			Player.Instance.TreasureChestChance = 2f;
+			Player.Instance.ChickenAddedHitBox = 0f;
+			Player.Instance.Scale = 0f;
+			Player.Instance.StartQuantity = 2;
+			Player.Instance.Knockback = 0;
+			Player.Instance.ChickenSpeed = 5f;
+			Player.Instance.Damage = 8;
+			Player.Instance.IsUsingSpecialAbility = false;
+			Player.Instance.SpecailAbiltyDamage = 50;
+			Player.Instance.SpecailAbiltyCooldown = 60f;
+			Player.Instance.SpecailAbiltyMaxCooldown = 60f;
+			Player.Instance.SpecailAbilityAoE = 400f;
+			Player.Instance.Exp = 0;
+			Player.Instance.MaxExp = 150;
+			Player.Instance.Score = 0;
 		}
 		// Screen Singleton
 		private static ScreenManager instance;
