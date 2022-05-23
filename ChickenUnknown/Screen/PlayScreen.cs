@@ -154,7 +154,7 @@ namespace ChickenUnknown.Screen {
 
             BG = Content.Load<Texture2D>("PlayScreen/bg");
             Village = Content.Load<Texture2D>("PlayScreen/village");
-            Barricade = Content.Load<Texture2D>("PlayScreen/Barricade");
+            Barricade = Content.Load<Texture2D>("PlayScreen/barricade");
             Wall = Content.Load<Texture2D>("PlayScreen/wall");
             PopUpLevelUp = Content.Load<Texture2D>("PlayScreen/levelup");
 
