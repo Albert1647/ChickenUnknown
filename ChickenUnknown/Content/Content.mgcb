@@ -987,6 +987,18 @@
 /processorParam:Quality=Best
 /build:Sound/Click.mp3
 
+#begin Sound/GameOver.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/GameOver.mp3
+
+#begin Sound/GameWin.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sound/GameWin.wav
+
 #begin Sound/Hitting.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor

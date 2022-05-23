@@ -63,7 +63,7 @@ namespace ChickenUnknown.Screen {
         private float ChestRotation = 0f;
         private float ChestScale = 0f;
         public SoundEffect Click, HoverMenu, ChickenBomb, ChickenSFX, Stretch, 
-                            LevelUp, Hitting, NewItem, ZombieBiting, ZombieDie, ZombieSpawn;
+                            LevelUp, Hitting, NewItem, ZombieBiting, ZombieDie, ZombieSpawn,GameWinSFX,GameOverSFX;
         public GameState _gameState;
         public static List<Zombie> ZombieList;
 
@@ -188,6 +188,8 @@ namespace ChickenUnknown.Screen {
             ZombieBiting = Content.Load<SoundEffect>("Sound/ZombieBiting");
             ZombieDie = Content.Load<SoundEffect>("Sound/ZombieDie");
             ZombieSpawn = Content.Load<SoundEffect>("Sound/ZombieSpawn");
+            GameWinSFX = Content.Load<SoundEffect>("Sound/GameWin");
+            GameOverSFX = Content.Load<SoundEffect>("Sound/GameOver");
             SFXZombie = new List<SoundEffect>{
                 ZombieBiting,
                 ZombieDie,
@@ -428,14 +430,16 @@ namespace ChickenUnknown.Screen {
                 case GameState.LOSING:
                     //CheckMouseUI
                     //Retry
+                    MediaPlayer.Pause();                   
                     if(MouseOnElement(678, 678+204, 600,600+84)){
                         MouseOnRetryButton = true;
                         if(HoverRetry == false){
-                            // HoverMenu.Play();
+                            HoverMenu.Play();
                             HoverRetry = true;
                         }
                         if(IsClick()){
-                            // Click.Play();
+                            Click.Play();
+                            MediaPlayer.Resume();
                             ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.GameScreen);
                         }
                     } else {
@@ -446,11 +450,12 @@ namespace ChickenUnknown.Screen {
                     if(MouseOnElement(926, 926+316, 600,600+84)){
                         MouseOnMainMenuButton = true;
                         if(HoverMainMenu == false){
-                            // HoverMenu.Play();
+                            HoverMenu.Play();
                             HoverMainMenu = true;
                         }
                         if(IsClick()){
-                            // Click.Play();
+                            Click.Play();
+                            MediaPlayer.Resume();
                             ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.MenuScreen);
                         }
                     } else {
@@ -460,14 +465,16 @@ namespace ChickenUnknown.Screen {
                 break;
                 case GameState.WINNING:
                     //Main Menu
+                    MediaPlayer.Pause();
                     if(MouseOnElement(802, 802+316, 600,600+84)){
                         MouseOnMainMenuButton = true;
                         if(HoverMainMenu == false){
-                            // HoverMenu.Play();
+                            HoverMenu.Play();
                             HoverMainMenu = true;
                         }
                         if(IsClick()){
-                            // Click.Play();
+                            Click.Play();
+                            MediaPlayer.Resume();
                             ScreenManager.Instance.LoadScreen(ScreenManager.GameScreenName.MenuScreen);
                         }
                     } else {
@@ -481,13 +488,17 @@ namespace ChickenUnknown.Screen {
         }
         private void CheckLosing(){
             for(int i = 0; i < ZombieList.Count; i++)
-                if(ZombieList[i]._pos.X < UI.FORT_X)
+                if(ZombieList[i]._pos.X < UI.FORT_X){
                     _gameState = GameState.LOSING;
+                    GameOverSFX.Play();
+                }
+
         } 
         private void CheckWinning(){
             TimeSpan = TimeSpan.FromSeconds(ShowTime);
             if(TimeSpan.TotalMinutes > 15){
                 _gameState = GameState.WINNING;
+                GameWinSFX.Play();
             }
         } 
         public override void Draw(SpriteBatch _spriteBatch) {
