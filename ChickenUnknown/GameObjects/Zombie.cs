@@ -129,7 +129,7 @@ namespace ChickenUnknown.GameObjects {
             switch(Type){
 				case ZombieType.NORMAL:
 					baseHp = 30;
-					switch(PlayScreen.SpawnLevel){
+					switch(Player.Instance.SpawnLevel){
 						case 1:
 						break;
 						case 2:
@@ -150,7 +150,7 @@ namespace ChickenUnknown.GameObjects {
 				break;
 				case ZombieType.TANK:
 					baseHp = 80;
-					switch(PlayScreen.SpawnLevel){
+					switch(Player.Instance.SpawnLevel){
 						case 1:
 							baseHp = 80;
 						break;
@@ -172,7 +172,7 @@ namespace ChickenUnknown.GameObjects {
 				break;
 				case ZombieType.RUNNER:
 					baseHp = 40;
-					switch(PlayScreen.SpawnLevel){
+					switch(Player.Instance.SpawnLevel){
 						case 1:
 							baseHp = 40;
 						break;
@@ -234,7 +234,7 @@ namespace ChickenUnknown.GameObjects {
         }
 		public float GetZombieSpeed(){
 			var Speed = 0f;
-			var ZombieWaveLevel = PlayScreen.SpawnLevel - 1;
+			var ZombieWaveLevel = Player.Instance.SpawnLevel - 1;
 			float AddedSpeedPerLevel = 0.06f;
 
             switch(Type){
