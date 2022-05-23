@@ -234,17 +234,18 @@ namespace ChickenUnknown.GameObjects {
         }
 		public float GetZombieSpeed(){
 			var Speed = 0f;
-			var SpawnLevel = PlayScreen.SpawnLevel;
+			var ZombieWaveLevel = PlayScreen.SpawnLevel - 1;
+			float AddedSpeedPerLevel = 0.06f;
 
             switch(Type){
 				case ZombieType.NORMAL:
-					Speed = 0.46f + (PlayScreen.SpawnLevel - 1) * 0.06f;
+					Speed = 0.46f + (ZombieWaveLevel * AddedSpeedPerLevel);
 				break;
 				case ZombieType.TANK:
-					Speed = 0.28f + (PlayScreen.SpawnLevel - 1) * 0.06f;
+					Speed = 0.28f + (ZombieWaveLevel * AddedSpeedPerLevel);
 				break;
 				case ZombieType.RUNNER:
-					Speed = 0.71f + (PlayScreen.SpawnLevel - 1) * 0.06f;
+					Speed = 0.71f + (ZombieWaveLevel * AddedSpeedPerLevel);
 				break;
 				default:
 				break;

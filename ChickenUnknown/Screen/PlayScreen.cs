@@ -477,12 +477,12 @@ namespace ChickenUnknown.Screen {
             
             base.Update(gameTime);
         }
-        public void CheckLosing(){
+        private void CheckLosing(){
             for(int i = 0; i < ZombieList.Count; i++)
                 if(ZombieList[i]._pos.X < UI.FORT_X)
                     _gameState = GameState.LOSING;
         } 
-        public void CheckWinning(){
+        private void CheckWinning(){
             TimeSpan = TimeSpan.FromSeconds(ShowTime);
             if(TimeSpan.TotalMinutes > 15){
                 _gameState = GameState.WINNING;
@@ -516,22 +516,22 @@ namespace ChickenUnknown.Screen {
         }
         
         public void DrawHUD(SpriteBatch _spriteBatch){
-            // _spriteBatch.Draw(bg, CenterElementWithHeight(bg,0) , Color.White);
+            // Show Num Of Chicken
             _spriteBatch.Draw(ChickenCounter, new Vector2(58, 95) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
-            if(_playState == PlayState.PAUSE)
-                _spriteBatch.Draw(ResumeButton, new Vector2(1824, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);     
-                else 
-                _spriteBatch.Draw(PauseButton, new Vector2(1824, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
-
-            _spriteBatch.DrawString(Pixeloid,"Score : " + Player.Instance.Score, new Vector2(58, 32), GrayBlack);
+            
+            _spriteBatch.DrawString(Pixeloid, "Score : " + Player.Instance.Score, new Vector2(58, 32), GrayBlack);
             _spriteBatch.DrawString(Pixeloid, Swing.NumOfChicken.ToString(), new Vector2(206, 113), GrayBlack);
-            _spriteBatch.DrawString(Pixeloid,"Lv. : " + Player.Instance.Level, new Vector2(1241, 32), GrayBlack);
+            _spriteBatch.DrawString(Pixeloid, "Lv. : " + Player.Instance.Level, new Vector2(1241, 32), GrayBlack);
             Vector2 timeTextWidth = Pixeloid.MeasureString(""+ Time);
-            _spriteBatch.DrawString(Pixeloid, "" + Time, new Vector2(UI.DIMENSION_X/2, 32) , GrayBlack, 0f,new Vector2(timeTextWidth.X/2, 0), 1f, SpriteEffects.None, 0);
-            _spriteBatch.Draw(ExpBarRectangle, new Vector2(1484, 32) ,ExpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);        
-            _spriteBatch.DrawString(Pixeloid,"" + Player.Instance.Exp + " / " + (int)Player.Instance.MaxExp, new Vector2(1484, 80), GrayBlack);
+            _spriteBatch.DrawString(Pixeloid, "" + Time, new Vector2(UI.DIMENSION_X / 2, 32) , GrayBlack, 0f,new Vector2(timeTextWidth.X / 2, 0), 1f, SpriteEffects.None, 0);
+            _spriteBatch.Draw(ExpBarRectangle, new Vector2(1484, 32) , ExpBarRect, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);        
+            // Exp Text
+            // _spriteBatch.DrawString(Pixeloid,"" + Player.Instance.Exp + " / " + (int)Player.Instance.MaxExp, new Vector2(1484, 80), GrayBlack);
             _spriteBatch.Draw(LevelBar, new Vector2(1484, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
             switch(_playState){
+                case PlayState.PLAYING:
+                    _spriteBatch.Draw(PauseButton, new Vector2(1824, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0); 
+                break;
                 case PlayState.LEVELUP:
                     if(LevelUping){ LevelUp.Play();LevelUping=false;}                
                     _spriteBatch.Draw(PopUpLevelUp, new Vector2(288, 108),Color.White);
@@ -584,6 +584,7 @@ namespace ChickenUnknown.Screen {
                 break;
                 case PlayState.PAUSE:
                     LevelUping = true;
+                    _spriteBatch.Draw(ResumeButton, new Vector2(1824, 32) ,null , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);     
                     _spriteBatch.Draw(PauseButton, new Vector2(UI.DIMENSION_X/2, UI.DIMENSION_Y/2) ,null , Color.White, 0f, GetCenterOrigin(PauseButton), 2f, SpriteEffects.None, 0);     
                 break;
             }
@@ -613,14 +614,14 @@ namespace ChickenUnknown.Screen {
                 break;
             }
         }
-        public void UpdateDisplayTime(){
+        private void UpdateDisplayTime(){
             TimeSpan = TimeSpan.FromSeconds(ShowTime);
             Time = string.Format("{0:D2}:{1:D2}", //for example if you want Millisec => "{0:D2}h:{1:D2}m:{2:D2}s:{3:D3}ms"  ,t.Milliseconds
                 TimeSpan.Minutes, 
                 TimeSpan.Seconds);
             }
         
-        public GraphicsDeviceManager GetGraphicsDeviceManager(){
+        private GraphicsDeviceManager GetGraphicsDeviceManager(){
             return Singleton.Instance.gdm;
         }
         public Vector2 GetCenterOrigin(Texture2D texture){
@@ -629,26 +630,26 @@ namespace ChickenUnknown.Screen {
         public Vector2 GetCenterText(Vector2 width){
             return new Vector2(width.X/2, width.Y/2);
         }
-        public void GetMouseInput(){
+        private void GetMouseInput(){
             Singleton.Instance.MousePrevious = Singleton.Instance.MouseCurrent;
             Singleton.Instance.MouseCurrent = Mouse.GetState();
         }
         public bool MouseOnTexture(int startX, int startY, Texture2D texture){
             return (Singleton.Instance.MouseCurrent.X > startX && Singleton.Instance.MouseCurrent.Y > startY) && (Singleton.Instance.MouseCurrent.X < startX + texture.Width && Singleton.Instance.MouseCurrent.Y < startY + texture.Height);
         }
-        public bool MouseOnElement(int x1, int x2, int y1, int y2){
+        private bool MouseOnElement(int x1, int x2, int y1, int y2){
             return (Singleton.Instance.MouseCurrent.X > x1 && Singleton.Instance.MouseCurrent.Y > y1) && (Singleton.Instance.MouseCurrent.X < x2 && Singleton.Instance.MouseCurrent.Y < y2);
         }
-        public bool IsClick(){
+        private bool IsClick(){
             return Singleton.Instance.MouseCurrent.LeftButton == ButtonState.Pressed && Singleton.Instance.MousePrevious.LeftButton == ButtonState.Released;
         }
-        public bool IsDragging(){
+        private bool IsDragging(){
             return Singleton.Instance.MouseCurrent.LeftButton == ButtonState.Pressed;
         }
         public Vector2 CenterElementWithHeight(Texture2D element,int height){
             return new Vector2(Singleton.Instance.Dimension.X / 2 - (element.Width / 2) ,height );
         }
-        public void UpdateExp(){
+        private void UpdateExp(){
             ExpBarRect.Width = (int)(((float)(Player.Instance.Exp/Player.Instance.MaxExp))* MaxExpWidth);
             if (ExpBarRect.Width >= MaxExpWidth) {
                 ExpBarRect.Width = 0;
@@ -663,7 +664,7 @@ namespace ChickenUnknown.Screen {
                 _playState = PlayState.LEVELUP;
             }
         }
-        public void UpdatePower(String power){
+        private void UpdatePower(String power){
             switch (power) {
                 case "Amount":
                     Swing.NumOfChicken += PlayerUpgrade.AddQuantity;
@@ -695,7 +696,7 @@ namespace ChickenUnknown.Screen {
         //         Player.Instance.Exp += 100; 
         //     }
         // }
-        public void AddSpawnQueueZombie(Zombie.ZombieType type, int amount){
+        private void AddSpawnQueueZombie(Zombie.ZombieType type, int amount){
             // Spawn Factory
             switch(type){
                 case Zombie.ZombieType.NORMAL:
@@ -729,7 +730,7 @@ namespace ChickenUnknown.Screen {
                 break;
             }
         }
-        public void CheckSpawnZombie(){
+        private void CheckSpawnZombie(){
             // Default Is 180f - 3 minute
             if(SpawnTimer >= SpawnInterval){
                 switch(SpawnLevel){
@@ -813,7 +814,7 @@ namespace ChickenUnknown.Screen {
 
         }
 
-        public float ZombieSpawnRate(){
+        private float ZombieSpawnRate(){
             // minus initial spawn
             switch(SpawnLevel - 1){
                 case 1:

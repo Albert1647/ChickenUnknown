@@ -49,7 +49,8 @@ namespace ChickenUnknown.GameObjects {
 				AimAngle = (float)Math.Atan2(Singleton.Instance.MouseCurrent.Y - CENTER_OF_SWING.Y, Singleton.Instance.MouseCurrent.X - CENTER_OF_SWING.X);
 				if(!Singleton.Instance.IsAiming){
 					// play sound here : Start aim
-					if (NumOfChicken > 0) {Stretch.Play();}
+					if (NumOfChicken > 0) 
+						Stretch.Play();
 				}
 				if (NumOfChicken > 0) {
 					Singleton.Instance.IsAiming = true;
@@ -111,45 +112,45 @@ namespace ChickenUnknown.GameObjects {
 					_spriteBatch.Draw(ChickenTexture, new Vector2(OldChickenPos.X, OldChickenPos.Y) ,null, Color.White, OldAimAngle + MathHelper.Pi, GetCenterOrigin(ChickenTexture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
 				}
 			}
-			// Reloaded Chicken
-			for(int i = 0; i < NumOfChicken - 1 && i < 5; i++){
+			// ChickenQueue
+			for(int i = 0; i < NumOfChicken - 1 && i < 5; i++)
 				_spriteBatch.Draw(NormalChickenTexture, new Vector2(130,650+(i * ChickenTexture.Height + 20)) ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
-			}
+			
 
 		}
-		public bool IsMouseDown(){
+		private bool IsMouseDown(){
             return Singleton.Instance.MouseCurrent.LeftButton == ButtonState.Pressed;
         }
-		public bool IsMouseUp(){
+		private bool IsMouseUp(){
             return Singleton.Instance.MouseCurrent.LeftButton == ButtonState.Released;
         }
 
-		public void SaveChickenPosAngle(){
+		private void SaveChickenPosAngle(){
 			OldChickenPos =  new Vector2(Singleton.Instance.MouseCurrent.X, Singleton.Instance.MouseCurrent.Y);
 			OldAimAngle = (float)Math.Atan2(Singleton.Instance.MouseCurrent.Y - CENTER_OF_SWING.Y, Singleton.Instance.MouseCurrent.X - CENTER_OF_SWING.X);
 		}
 
-		public bool IsShootable(){
+		private bool IsShootable(){
 			var chickenRadius = NormalChickenTexture.Width/2;
 			return GetMouseOnChickenDistance() < chickenRadius;
 		}
 
-		public Vector2 GetCenterOrigin(Texture2D texture){
+		private Vector2 GetCenterOrigin(Texture2D texture){
             return new Vector2(texture.Width/2, texture.Height/2);
         }
 
-		public bool MouseIsOnStretchAreaTexture(){
+		private bool MouseIsOnStretchAreaTexture(){
 			var mousePos = new Vector2(Singleton.Instance.MouseCurrent.X, Singleton.Instance.MouseCurrent.Y);
 			var stretchAreaRadius = StretchAreaTexture.Width/2;
 			return (int)Math.Sqrt(Math.Pow(mousePos.X - CENTER_OF_SWING.X, 2) + Math.Pow(mousePos.Y - CENTER_OF_SWING.Y, 2)) <= stretchAreaRadius;
 		}
 		
-		public int GetMouseOnChickenDistance(){
+		private int GetMouseOnChickenDistance(){
 			var mousePos = new Vector2(Singleton.Instance.MouseCurrent.X, Singleton.Instance.MouseCurrent.Y);
 			return (int)Math.Sqrt(Math.Pow(mousePos.X - CENTER_OF_SWING.X, 2) + Math.Pow(mousePos.Y - CENTER_OF_SWING.Y, 2));
 		}
-
-		public int GetMouseStretchDistance(){
+		
+		private int GetMouseStretchDistance(){
 			var mousePos = new Vector2(Singleton.Instance.MouseCurrent.X, Singleton.Instance.MouseCurrent.Y);
 			return (int)Math.Sqrt(Math.Pow(mousePos.X - CENTER_OF_SWING.X, 2) + Math.Pow(mousePos.Y - CENTER_OF_SWING.Y, 2));
 		}
