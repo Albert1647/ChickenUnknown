@@ -15,14 +15,14 @@ namespace ChickenUnknown.GameObjects {
 							NormalWalkChickenTexture,NormalWalkChickenTexture2,SpecialWalkChickenTexture,
 							ExplosionEffect;
 
-		public SoundEffect ChickenBomb,ChickenSFX,Stretch,Hitting,ZombieBiting,ZombieDie,ZombieSpawn;
+		public SoundEffect ChickenSFX,Stretch;
 		private Vector2 OldChickenPos;
 		private float OldAimAngle;
         private float AimAngle;
 		private Vector2 CENTER_OF_SWING = new Vector2(230, 475); 
 		private int MAXSPEED = 1300;
 		public static List<Chicken> ChickenList = new List<Chicken>();
-		public static List<SoundEffect> SFXZombie,SFXChicken;
+		public static List<SoundEffect> SFXChicken;
 		public static int NumOfChicken;
 		public Swing(Texture2D swingTexture,Texture2D stretchAreaTexture,
 						List<Texture2D> ChickenTextureList,

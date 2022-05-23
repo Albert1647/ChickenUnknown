@@ -22,7 +22,7 @@ namespace ChickenUnknown.GameObjects {
 		public bool IsActive;
 		public float ExplodeTimer = 0.4f;
 		private Vector2 ExplosionPos;
-		public SoundEffect ChickenBomb,ChickenSFX,Stretch,Hitting,ZombieBiting,ZombieDie,ZombieSpawn;
+		public SoundEffect ChickenBomb,ChickenSFX,Hitting;
 		public bool IsSpecial = false;
 		public bool IsExplode = false;
 		public float AnimationTimer = 0f;
