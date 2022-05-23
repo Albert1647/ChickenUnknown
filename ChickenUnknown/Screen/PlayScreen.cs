@@ -65,7 +65,6 @@ namespace ChickenUnknown.Screen {
         public SoundEffect Click, HoverMenu, ChickenBomb, ChickenSFX, Stretch, 
                             LevelUp, Hitting, NewItem, ZombieBiting, ZombieDie, ZombieSpawn;
         public GameState _gameState;
-        public static int SpawnLevel = 1;
         public static List<Zombie> ZombieList;
 
         public static List<SoundEffect> SFXZombie,SFXChicken;
@@ -734,14 +733,14 @@ namespace ChickenUnknown.Screen {
         private void CheckSpawnZombie(){
             // Default Is 180f - 3 minute
             if(SpawnTimer >= SpawnInterval){
-                switch(SpawnLevel){
+                switch(Player.Instance.SpawnLevel){
                     case 1:
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 13);
                         AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 2);
                         AddSpawnQueueZombie(Zombie.ZombieType.TANK, 2);
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 3);
                         AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 5);
-                        SpawnLevel += 1;
+                        Player.Instance.SpawnLevel += 1;
                         SpawnTimer = 0;
                     break;
                     case 2:
@@ -753,7 +752,7 @@ namespace ChickenUnknown.Screen {
                         AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 3);
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
                         AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 3);
-                        SpawnLevel += 1;
+                        Player.Instance.SpawnLevel += 1;
                         SpawnTimer = 0;
                     break;
                     case 3:
@@ -766,7 +765,7 @@ namespace ChickenUnknown.Screen {
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 5);
                         AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 3);
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 2);
-                        SpawnLevel += 1;
+                        Player.Instance.SpawnLevel += 1;
                         SpawnTimer = 0;
                     break;
                     case 4:
@@ -785,7 +784,7 @@ namespace ChickenUnknown.Screen {
                         AddSpawnQueueZombie(Zombie.ZombieType.TANK, 1);
                         AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 2);
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 4);
-                        SpawnLevel += 1;
+                        Player.Instance.SpawnLevel += 1;
                         SpawnTimer = 0;
                     break;
                     case 5:
@@ -802,7 +801,7 @@ namespace ChickenUnknown.Screen {
                         AddSpawnQueueZombie(Zombie.ZombieType.TANK, 5);
                         AddSpawnQueueZombie(Zombie.ZombieType.RUNNER, 5);
                         AddSpawnQueueZombie(Zombie.ZombieType.NORMAL, 3);
-                        SpawnLevel += 1;
+                        Player.Instance.SpawnLevel += 1;
                         SpawnTimer = 0;
                     break;
                     default:
@@ -817,7 +816,7 @@ namespace ChickenUnknown.Screen {
 
         private float ZombieSpawnRate(){
             // minus initial spawn
-            switch(SpawnLevel - 1){
+            switch(Player.Instance.SpawnLevel - 1){
                 case 1:
                 return 7f;  
                 case 2:

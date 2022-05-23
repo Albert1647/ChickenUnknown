@@ -10,6 +10,7 @@ namespace ChickenUnknown
     class PlayerStart
     {
 		// Player on start / on reset when change screen
+		public const int SpawnLevel = 1;
 		public const int Level = 1;
 		public const int BarricadeHP = 200;
 		public const float PenetrationChance = 1f;

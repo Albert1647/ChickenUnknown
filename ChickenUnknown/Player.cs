@@ -10,6 +10,7 @@ namespace ChickenUnknown
     class Player
     {
 		// Player Stat
+		public int SpawnLevel = PlayerStart.SpawnLevel;
 		public int Level = PlayerStart.Level;
 		public int BarricadeHP = PlayerStart.BarricadeHP;
 		public float PenetrationChance = PlayerStart.PenetrationChance;

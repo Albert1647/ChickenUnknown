@@ -49,6 +49,7 @@ namespace ChickenUnknown.Managers {
 			CurrentGameScreen.Draw(spriteBatch);
 		}
 		public void ResetPlayer(){
+			Player.Instance.SpawnLevel = PlayerStart.SpawnLevel;
 			Player.Instance.Level = PlayerStart.Level;
 			Player.Instance.BarricadeHP = PlayerStart.BarricadeHP;
 			Player.Instance.PenetrationChance = PlayerStart.PenetrationChance;
