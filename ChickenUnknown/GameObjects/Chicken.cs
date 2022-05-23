@@ -8,7 +8,8 @@ using System.Diagnostics;
 
 namespace ChickenUnknown.GameObjects {
     	class Chicken : IGameObject {
-		public Texture2D ChickenWalkTexture, ChickenFlyTexture, ExplopsionEffect;
+		public Texture2D ChickenFlyTexture, ExplopsionEffect;
+		public List<Texture2D> ChickenWalkTexture;
 		public float Speed;
 		public float FlyingRotation;
 		public float Angle;
@@ -19,16 +20,20 @@ namespace ChickenUnknown.GameObjects {
 		private int GRAVITY = 981;
 		public float ChickenRadius;
 		public bool IsActive;
-		public float AnimationTimer = 0.4f;
+		public float ExplodeTimer = 0.4f;
 		private Vector2 ExplosionPos;
 		public SoundEffect ChickenBomb,ChickenSFX,Stretch,Hitting,ZombieBiting,ZombieDie,ZombieSpawn;
 		public bool IsSpecial = false;
 		public bool IsExplode = false;
+		public float AnimationTimer = 0f;
+		public float AnimationPerFrame = 0.48f;
+		public int TextureIndex = 0;
+		
 		// public bool SwitchFrame = false;
 		// public List<Texture2D> WalkingAnimation;
 		// public List<Texture2D> FlyingAnimation;
 		// public Chicken(Texture2D chickenTexture, Texture2D chickenBombTexture, List<Texture2D> walkingAnimation, List<Texture2D> flyingAnimation) : base(chickenTexture){
-		public Chicken(Texture2D chickenTexture,Texture2D chickenWalkTexture, Texture2D chickenFlyTexture, Texture2D explopsionEffect, List<SoundEffect> SFXChicken) : base(chickenTexture){
+		public Chicken(Texture2D chickenTexture,List<Texture2D> chickenWalkTexture, Texture2D chickenFlyTexture, Texture2D explopsionEffect, List<SoundEffect> SFXChicken) : base(chickenTexture){
 			ChickenRadius = (chickenTexture.Width) / 2;
 			ChickenWalkTexture = chickenWalkTexture;
 			ChickenFlyTexture = chickenFlyTexture;
@@ -39,10 +44,10 @@ namespace ChickenUnknown.GameObjects {
 		}
 		public override void Update(GameTime gameTime) {
 			if(IsExplode){
-				AnimationTimer -= (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
-				if(AnimationTimer < 0){
+				ExplodeTimer -= (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+				if(ExplodeTimer < 0){
 					IsExplode = false;
-					AnimationTimer = 0.4f;
+					ExplodeTimer = 0.4f;
 				}
 			}
 			if(IsFlying){
@@ -58,6 +63,15 @@ namespace ChickenUnknown.GameObjects {
 				DetectCollision();
 			}
 			if(IsWalking){
+				AnimationTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
+				if(AnimationTimer > AnimationPerFrame){
+					if(TextureIndex != ChickenWalkTexture.Count - 1){
+						TextureIndex += 1;
+					} else {
+						TextureIndex = 0;
+					}
+					AnimationTimer = 0f;
+				}
 				// ChickenWalk to home
 				_pos.X -= Player.Instance.ChickenSpeed;
 				if(_pos.X < UI.BARRICADE_X){
@@ -66,6 +80,7 @@ namespace ChickenUnknown.GameObjects {
 					Swing.NumOfChicken += 1;
 				}
 			}
+			
 		}
 
 		private void DetectCollision(){
@@ -207,12 +222,12 @@ namespace ChickenUnknown.GameObjects {
 		
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
 			if(IsWalking){
-				_spriteBatch.Draw(ChickenWalkTexture, _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f + Player.Instance.Scale, SpriteEffects.FlipHorizontally, 0);
+				_spriteBatch.Draw(ChickenWalkTexture[TextureIndex], _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f + Player.Instance.Scale, SpriteEffects.FlipHorizontally, 0);
 				
 			} else {
 				_spriteBatch.Draw(ChickenFlyTexture, _pos ,null, Color.White, FlyingRotation + MathHelper.Pi, GetCenterOrigin(_texture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
 			}
-			if(IsExplode && AnimationTimer > 0){
+			if(IsExplode && ExplodeTimer > 0){
 				_spriteBatch.Draw(ExplopsionEffect, ExplosionPos ,null, Color.White, 0f, GetCenterOrigin(ExplopsionEffect), 1f , SpriteEffects.None, 0);
 			}
 		}

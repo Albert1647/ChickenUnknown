@@ -16,7 +16,7 @@ namespace ChickenUnknown.Screen {
         public Texture2D ExpBarRectangle, SwingTexture, 
                         NormalChickenTexture, SpecialChickenTexture, 
                         NormalFlyChickenTexture, SpecialFlyChickenTexture, 
-                        NormalWalkChickenTexture, SpecialWalkChickenTexture, 
+                        NormalWalkChickenTexture,NormalWalkChickenTexture2, SpecialWalkChickenTexture,
                         AmountTexture, LuckTexture, ATKTexture, PenTexture, ScaleTexture, SpeedTexture, 
                         ExplosionEffect, AbilityButton, AbilityButtonInactive, 
                         StretchAreaTexture,Village,
@@ -138,6 +138,7 @@ namespace ChickenUnknown.Screen {
             NormalChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_on_sling");
             NormalFlyChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_on_air");
             NormalWalkChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_run");
+            NormalWalkChickenTexture2 = Content.Load<Texture2D>("PlayScreen/chicken_run2");
             SpecialChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_Boom_on_sling");
             SpecialFlyChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_Boom_on_air");
             SpecialWalkChickenTexture = Content.Load<Texture2D>("PlayScreen/chicken_Boom_run");
@@ -145,6 +146,7 @@ namespace ChickenUnknown.Screen {
                 NormalChickenTexture,
                 NormalFlyChickenTexture,
                 NormalWalkChickenTexture,
+                NormalWalkChickenTexture2,
                 SpecialChickenTexture,
                 SpecialFlyChickenTexture,
                 SpecialWalkChickenTexture
@@ -228,7 +230,7 @@ namespace ChickenUnknown.Screen {
                 case GameState.PLAYING:
                     switch(_playState){
                         case PlayState.PLAYING:
-                            Cheater();
+                            // Cheater();
                             LevelUping=true;
                             SpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
                             ZombieSpawnTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
@@ -688,11 +690,11 @@ namespace ChickenUnknown.Screen {
                     break;
             }
         }
-        public void Cheater(){
-            if (Singleton.Instance.currentKB.IsKeyUp(Keys.Q) && Singleton.Instance.previousKB.IsKeyDown(Keys.Q)) {                
-                Player.Instance.Exp += 100; 
-            }
-        }
+        // public void Cheater(){
+        //     if (Singleton.Instance.currentKB.IsKeyUp(Keys.Q) && Singleton.Instance.previousKB.IsKeyDown(Keys.Q)) {                
+        //         Player.Instance.Exp += 100; 
+        //     }
+        // }
         public void AddSpawnQueueZombie(Zombie.ZombieType type, int amount){
             // Spawn Factory
             switch(type){

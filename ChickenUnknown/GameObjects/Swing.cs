@@ -12,7 +12,7 @@ namespace ChickenUnknown.GameObjects {
         private Texture2D StretchAreaTexture,
 							NormalChickenTexture,SpecialChickenTexture,
 							NormalFlyChickenTexture,SpecialFlyChickenTexture,
-							NormalWalkChickenTexture,SpecialWalkChickenTexture,
+							NormalWalkChickenTexture,NormalWalkChickenTexture2,SpecialWalkChickenTexture,
 							ExplosionEffect;
 
 		public SoundEffect ChickenBomb,ChickenSFX,Stretch,Hitting,ZombieBiting,ZombieDie,ZombieSpawn;
@@ -32,9 +32,10 @@ namespace ChickenUnknown.GameObjects {
 			NormalChickenTexture = ChickenTextureList[0];
 			NormalFlyChickenTexture = ChickenTextureList[1];
 			NormalWalkChickenTexture = ChickenTextureList[2];
-			SpecialChickenTexture = ChickenTextureList[3];
-			SpecialFlyChickenTexture = ChickenTextureList[4];
-			SpecialWalkChickenTexture = ChickenTextureList[5];
+			NormalWalkChickenTexture2 = ChickenTextureList[3];
+			SpecialChickenTexture = ChickenTextureList[4];
+			SpecialFlyChickenTexture = ChickenTextureList[5];
+			SpecialWalkChickenTexture = ChickenTextureList[6];
 			ExplosionEffect = explosionEffect;
 			NumOfChicken = Player.Instance.StartQuantity; // initial Start quantity
 			Stretch = stretch;
@@ -56,8 +57,13 @@ namespace ChickenUnknown.GameObjects {
 						ChickenSFX.Play();
 						Singleton.Instance.IsAiming = false;
 						Chicken chicken;
+						
 						if(Player.Instance.IsUsingSpecialAbility){
-							chicken = new Chicken(SpecialChickenTexture, SpecialWalkChickenTexture, SpecialFlyChickenTexture, ExplosionEffect, SFXChicken) {
+							List<Texture2D> WalkTexture = new List<Texture2D>(){
+								NormalWalkChickenTexture,
+								NormalWalkChickenTexture2
+							};
+							chicken = new Chicken(SpecialChickenTexture, WalkTexture, SpecialFlyChickenTexture, ExplosionEffect, SFXChicken) {
 								_pos = new Vector2(OldChickenPos.X, OldChickenPos.Y),
 								Angle = OldAimAngle + MathHelper.Pi,
 								FlyingRotation = OldAimAngle,
@@ -70,7 +76,11 @@ namespace ChickenUnknown.GameObjects {
 							Player.Instance.IsUsingSpecialAbility = false;
 							Player.Instance.SpecailAbiltyCooldown = Player.Instance.SpecailAbiltyMaxCooldown;
 						} else {
-							chicken = new Chicken(NormalChickenTexture, NormalWalkChickenTexture, NormalFlyChickenTexture, ExplosionEffect, SFXChicken) {
+							List<Texture2D> WalkTexture = new List<Texture2D>(){
+								NormalWalkChickenTexture,
+								NormalWalkChickenTexture2
+							};
+							chicken = new Chicken(NormalChickenTexture, WalkTexture, NormalFlyChickenTexture, ExplosionEffect, SFXChicken) {
 								_pos = new Vector2(OldChickenPos.X, OldChickenPos.Y),
 								Angle = OldAimAngle + MathHelper.Pi,
 								FlyingRotation = OldAimAngle,
@@ -105,7 +115,7 @@ namespace ChickenUnknown.GameObjects {
 			for(int i = 0; i < NumOfChicken - 1 && i < 5; i++){
 				_spriteBatch.Draw(NormalChickenTexture, new Vector2(130,650+(i * ChickenTexture.Height + 20)) ,null, Color.White, 0f, GetCenterOrigin(ChickenTexture), 1f + Player.Instance.Scale, SpriteEffects.None, 0);
 			}
-	
+
 		}
 		public bool IsMouseDown(){
             return Singleton.Instance.MouseCurrent.LeftButton == ButtonState.Pressed;

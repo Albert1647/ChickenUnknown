@@ -24,7 +24,7 @@ namespace ChickenUnknown.GameObjects {
 		public float AttackCooldown;
 		public float AnimationTimer = 0f;
 		public float AnimationPerFrame = 0.48f;
-		public bool SwitchAnimation;
+		public int TextureIndex;
 		private int hpYDiff;
 		public ZombieType Type;
 		List<Texture2D> ZombieTextureList;
@@ -74,7 +74,11 @@ namespace ChickenUnknown.GameObjects {
 			}
 			AnimationTimer += (float)gameTime.ElapsedGameTime.Ticks / TimeSpan.TicksPerSecond;
 			if(AnimationTimer > AnimationPerFrame){
-				SwitchAnimation = !SwitchAnimation;
+				if(TextureIndex != ZombieTextureList.Count - 1){
+						TextureIndex += 1;
+					} else {
+						TextureIndex = 0;
+					}
 				AnimationTimer = 0f;
 			}
 			UpdateHpBar();
@@ -92,10 +96,7 @@ namespace ChickenUnknown.GameObjects {
 			}
 		}
 		public override void Draw(SpriteBatch _spriteBatch, SpriteFont font) {
-			if(!SwitchAnimation)
-				_spriteBatch.Draw(ZombieTextureList[0], _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
-				else
-				_spriteBatch.Draw(ZombieTextureList[1], _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
+			_spriteBatch.Draw(ZombieTextureList[TextureIndex], _pos ,null, Color.White, 0f, GetCenterOrigin(_texture), 1f, SpriteEffects.None, 0);
 			Random rand = new Random();
 			_spriteBatch.Draw(HpTexture, new Vector2(_pos.X-_texture.Width / 2, _pos.Y-120-hpYDiff), HpBarRect , Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);  
 		}
